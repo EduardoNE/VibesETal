@@ -1,0 +1,52 @@
+<ion-view view-title="<img src='img/topo.png'>">
+
+<ion-nav-buttons side="right">
+    <div class="login-avatar">
+        <img class="full-image" ng-click="login()" src="{{User.picture.data.url}}">
+     </div>
+</ion-nav-buttons>
+
+  <ion-content id="time-line" class="has-footer ">
+  <ion-refresher pulling-text="Pull to refresh" on-refresh="refresh()">
+  </ion-refresher>
+
+    <div class="list card" ng-repeat="item in list">
+
+      <div class="item item-avatar">
+        <img src="{{item.user_image}}">
+        <h2>{{item.user_name}}</h2>
+        <p>{{item.post_time}}</p>
+      </div>
+      <div>
+        <video ng-if="item.post_type == 'video' " controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer eduardinho">
+          <source ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" type="{{item.post_enctype}}">
+        </video>
+        <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho'>
+      </div>
+      <div class="row">
+        <div class="col col-100" ng-bind-html="item.post_description">
+        </div>
+        <div class="col col-40">
+           <a class="item item-icon-left assertive foto-icon" href="#">
+        <i class="icon ion-ios-heart-outline"></i>{{item.likes}} </a> 
+        </div>
+        <div class="col col-40">
+           <a class="item item-icon-left assertive foto-icon" href="#">
+        <i class="icon ion-ios-chatbubble-outline"></i>{{item.comments}} </a> 
+        </div>
+        <div class="col col-20">
+          <button class="button button-balanced icon ion-share" ng-click='share("{{item.post_description}}","http://bastidor.com.br/vibesetal/content/{{item.post_file}}")'></button>
+        </div>
+      </div>  
+    </div>   
+  </ion-content>
+
+
+  <div class="bar bar-footer footer-home">
+  <button class="button button-balanced icon ion-ios-photos home-btns sec-btn" ng-click="getRoll()"></button>
+  <div class="title">
+    <button class="button button-balanced icon ion-ios-camera principal-btn home-btns" ng-click="captureImage()"></button>
+    <button class="button button-balanced icon ion-ios-videocam principal-btn home-btns" ng-click="captureVideo()"></button></div>
+  <button class="button button-balanced icon ion-ios-film  home-btns sec-btn" ng-click="getVidRoll()"></button>
+  </div>
+</ion-view>

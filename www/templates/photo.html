@@ -1,0 +1,32 @@
+<ion-modal-view id="login">
+  <ion-header-bar>
+    <h1 class="title">Login</h1>
+    
+          <button ng-if="voltar" ng-click="closeUpload()" class="button button-dark">
+            Cancelar
+          </button>
+
+  </ion-header-bar>
+  <ion-content id="login">
+    <div class="row row-center">
+      <div class="col col-center">
+        <video ng-if=" NewFile.post_type == 'video' " controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer eduardinho">
+          <source ng-src="{{NewFile.post_file}}" type="{{NewFile.type}}">
+        </video>
+        <img ng-if=" NewFile.post_type == 'image' " ng-src="{{NewFile.post_file}}" class='eduardinho'>
+          <div class="cadastro">
+            <div class="list list-inset">
+              <label class="item">
+                <textarea placeholder="Descrição"></textarea>
+              </label>
+            </div>
+            <div class="list list-inset botao" >
+              <label class="item">
+                <button class="button button-block button-positive" ng-click="doUpload()" type="submit">Enviar</button>
+              </label>
+            </div>
+          </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-modal-view>

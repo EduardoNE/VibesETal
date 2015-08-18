@@ -1,0 +1,240 @@
+/********  HOME  ********/
+#time-line .item{
+	padding: 5px 16px 5px 72px;
+	border-width: 0; 
+}
+#time-line .item-avatar > img:first-child{
+	top:5px;
+}
+
+#time-line .item-avatar{
+	min-height: 50px;
+}
+#time-line .card{
+    margin: 20px 0;
+    box-shadow: none;
+}
+#time-line .foto-icon{
+	padding: 5px 16px 5px 50px;
+}
+
+/*  Botão de foto  */
+
+.fotografar{
+	background-color: rgba(0, 0, 0, 0);
+	height: 100px;
+}
+.fotografar .icon{
+	color: #fff;	
+	font-size: 55px;
+}
+.fotografar div{
+	background-color: rgba(0, 0, 0, 0.7);
+	width: 80px;
+	height: 80px;
+	padding-top: 10px;
+	border-radius:50%;
+}
+.fotografar div:active{
+	background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Login direito*/
+.login-avatar{
+	max-height: 33px;
+	max-width: 33px;
+}
+.login-avatar img{
+	border-radius:50%;
+}
+
+
+/********  LOGIN  ********/
+
+#login{
+	background: url("../img/bg-login.jpg")center center;
+}
+#login .list-inset{
+	background-color: transparent;
+	border: 0;
+}
+#login .item{
+	background-color: transparent;
+	border: 0;
+	color: #fff;
+}
+#login .campo{
+	border: 1px solid rgba(255, 255, 255, 0.3);;
+	background: rgba(0, 0, 0, 0.7);
+	margin: 10px 10px;
+	border-radius: 5px;
+}
+#login textarea, input[type="text"], input[type="password"],input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"],input[type="search"], input[type="tel"], input[type="color"]{
+	color: #fff;
+}
+#login .botao{
+	margin: 0;
+	padding: 0
+}
+#login .botao .item{
+	padding: 0 10px;
+}
+#login .cadastro{
+	margin: 30px 10px 0;
+	padding-top: 30px;
+	border-top: 1px solid rgba(0, 0, 0, 0.2);;
+}
+#login .bar{
+	background-color: transparent;
+}
+#login .bar h1{
+	color: #fff;
+}
+
+
+/********  CAMERA ********/
+#foto{
+	background: #222;
+}
+
+/*  controle footer  */
+.controle-camera{
+	background: #222;
+	height: 100px;
+}
+#foto .tabs{
+	color: #fff;
+}
+.icon-small .icon{
+	margin-top: 15px;
+	font-size: 40px !important;
+}
+.icon-destaque .icon{
+	font-size: 60px !important;	
+	margin-top: 7px;
+}
+.icon-destaque{
+	border: 2px solid #fff;
+	border-radius:50%;
+	max-height: 80px;
+	max-width: 80px; 
+}
+
+/*  controle header  */
+.controle-header{
+	position: absolute;
+	top: 0;
+	padding: 5px 15px;
+	font-size: 40px;
+	color: #fff;	
+}
+.controle-header i{
+	text-shadow: 1px 1px 1px #999;
+}
+.f-right{
+	right:0;
+}
+.f-right i{
+	padding-right: 10px;
+}
+
+/********  PBLICAR  ********/
+
+#postar .item{
+	padding: 0;
+}
+#postar .card .item.item-input textarea{
+	padding: 10px 15px; 
+}
+#postar a{
+	text-decoration: none;
+	color: #fff;
+	text-align: center;
+}
+
+
+
+
+/******* EDUARDINHO ~ revisar ******/
+
+.right{
+	position: absolute;
+	right:0;
+	bottom: 0px;
+}
+
+.left{
+	position: absolute ;
+	left:0 ;
+	bottom: 0px;
+}
+
+.footer-home{
+	height: 75px;
+}
+.footer-home .title{
+	height: 75px;
+}
+
+.principal-btn{
+	width: 75px;
+	height: 75px;
+}
+.home-btns{
+	border-radius: 50%;
+}
+
+.eduardinho{
+	width: 100%;
+}
+.bar.bar-stable{
+	background-color: #662d91;
+	color:#ffcc33;
+}
+
+.header-item img{
+	height:80%;
+}
+
+.sec-btn{
+	width:50px;
+	height: 50px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

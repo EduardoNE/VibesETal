@@ -1,0 +1,32 @@
+<ion-modal-view id="login">
+  <ion-header-bar>
+    <h1 class="title">Login</h1>
+    
+          <button ng-if="voltar" ng-click="closeLogin()" class="button button-dark">
+            Voltar
+          </button>
+
+  </ion-header-bar>
+  <ion-content id="login">
+    <div class="row row-center">
+      <div class="col col-center">
+
+          <img ng-src="{{User.picture.data.url}}"> {{User.name}}
+          <div class="cadastro">
+            <div class="list list-inset botao" ng-if="!voltar">
+              <label class="item">
+                <button class="button button-block button-positive" ng-click="doLogin()" type="submit">Entrar com Facebook</button>
+              </label>
+            </div>
+     
+            <div class="list list-inset botao" ng-if="voltar">
+              <label class="item">
+                <button class="button button-block button-assertive" ng-click="logout()" type="submit">Logout</button>
+              </label>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  </ion-content>
+</ion-modal-view>
