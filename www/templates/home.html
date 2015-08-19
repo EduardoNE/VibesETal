@@ -2,7 +2,7 @@
 
 <ion-nav-buttons side="right">
     <div class="login-avatar">
-        <img class="full-image" ng-click="login()" src="{{User.picture.data.url}}">
+        <img class="full-image" ng-click="login()" src="{{User.user_image}}">
      </div>
 </ion-nav-buttons>
 
@@ -27,12 +27,10 @@
         <div class="col col-100" ng-bind-html="item.post_description">
         </div>
         <div class="col col-40">
-           <a class="item item-icon-left assertive foto-icon" href="#">
-        <i class="icon ion-ios-heart-outline"></i>{{item.likes}} </a> 
+           <button class="item item-icon-left assertive foto-icon icon ion-ios-heart-outline" ng-click="likePost('{{item.post_id}}')"> {{item.likes}} </button> 
         </div>
         <div class="col col-40">
-           <a class="item item-icon-left assertive foto-icon" href="#">
-        <i class="icon ion-ios-chatbubble-outline"></i>{{item.comments}} </a> 
+           <button class="item item-icon-left assertive foto-icon icon ion-ios-chatbubble-outline" ng-click="commentPost('{{item.post_id}}')">{{item.comments}}</button> 
         </div>
         <div class="col col-20">
           <button class="button button-balanced icon ion-share" ng-click='share("{{item.post_description}}","http://bastidor.com.br/vibesetal/content/{{item.post_file}}")'></button>

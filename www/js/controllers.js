@@ -1,7 +1,5 @@
 angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic.service.push', 'starter.services'])
-	.controller('AppCtrl', function($scope, $ionicModal, $timeout,
-		$rootScope, $ionicUser, $ionicPush, $ionicPlatform,
-		$cordovaFacebook, Memory) {
+	.controller('AppCtrl', function($scope, $ionicModal, $timeout, $rootScope, $ionicUser, $ionicPush, $ionicPlatform, $cordovaFacebook, Memory, JustDo) {
 		$ionicPlatform.ready(function() {
 			$scope.voltar = false;
 			// Form data for the login modal
@@ -64,9 +62,18 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 			};
 			var change = function(data) {
 				$scope.user = data;
-				Memory.set('login', data);
-				identifyUser(pushRegister, data.name);
-				closeLogin();
+				console.log("data",data);
+				JustDo.aPost("http://bastidor.com.br/vibesetal/json/user/login", data,
+						function(user) {
+							console.log(user);
+							Memory.set('login', user[0]);
+							identifyUser(pushRegister, data.name);
+							closeLogin();
+							$scope.User = Memory.get('login');
+						},
+						function(err) {
+
+						});
 			}
 			$scope.closeLogin = closeLogin;
 			// Open the login modal
@@ -76,6 +83,7 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 			$scope.logout = function() {
 				Memory.set('login', "0");
 				$scope.voltar = false;
+				$scope.User = {};
 			};
 
 			// Perform the login action when the user submits the login form
@@ -111,6 +119,51 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 
 					})
 			}
+
+
+			$scope.likePost = function(post_id) {
+				var data = {
+					like_post_id : post_id,
+					like_user_id : $scope.User.user_id
+				};
+				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/like", data,
+						function(likes) {
+							likes = JSON.parse(likes);
+							console.log(likes);
+							for (var i = 0; i < $scope.list.length; i++) {
+								if($scope.list[i].post_id == post_id){
+									$scope.list[i].likes = likes ;
+									break;
+								}
+							}
+						},
+						function(err) {
+
+				});
+			}
+
+			$scope.sharePost = function(post_id) {
+				var data = {
+					like_post_id : post_id,
+					like_user_id : $scope.User.user_id
+				};
+				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/share", data,
+						function(likes) {
+							likes = JSON.parse(likes);
+							console.log(likes);
+							for (var i = 0; i < $scope.list.length; i++) {
+								if($scope.list[i].post_id == post_id){
+									$scope.list[i].likes = likes ;
+									break;
+								}
+							}
+						},
+						function(err) {
+
+				});
+			}
+
+
 			$scope.share = function(msg, file) {
 				$cordovaSocialSharing
 					.share(msg, msg, file, "http://linkdoprojeto.com.br") // Share via native share sheet
@@ -124,9 +177,7 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 			};
 			$scope.getFormattedDate = function(timestamp) {
 				var date = new Date(timestamp);
-				var months = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL',
-					'AGO', 'SET', 'OUT', 'NOV', 'DEC'
-				];
+				var months = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEC'];
 				var result = "";
 				if (date.getDay() < 10)
 					result += "0";
@@ -140,36 +191,6 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 				result += date.getMinutes();
 				return result;
 			}
-			var upload = function(address, name, type) {
-				var options = {
-					fileKey: "post",
-					fileName: name,
-					chunkedMode: false,
-					mimeType: type
-				};
-				file.upload(address, options, function(sucesso) {
-					console.log('s', sucesso)
-					var infos = {
-						post: {
-							post_description: "haushuasu uash uashuhaush",
-							post_deleted: 0
-						},
-						where: {
-							post_id: sucesso.response
-						}
-					};
-					JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/post", infos,
-						function(data) {
-							console.log(data);
-							carregar();
-						},
-						function(err) {
-
-						});
-				}, function(err) {
-					console.log('e', err)
-				});
-			}
 			var addToList = function(address, name, template, time, type) {
 				var options = {
 					fileKey: "post",
@@ -181,6 +202,7 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 					console.log('s', sucesso)
 					var infos = {
 						post: {
+							post_user_id: $scope.User.user_id,
 							post_description: "haushuasu uash uashuhaush",
 							post_deleted: 0
 						},
