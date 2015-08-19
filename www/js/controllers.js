@@ -104,7 +104,7 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 			};
 		})
 	})
-	.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, JustDo, file) {
+	.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, JustDo, file, Memory) {
 		$scope.list = [];
 		$ionicPlatform.ready(function() {
 			var carregar = function() {
@@ -120,19 +120,21 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 					})
 			}
 
-
 			$scope.likePost = function(post_id) {
 				var data = {
 					like_post_id : post_id,
 					like_user_id : $scope.User.user_id
 				};
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/like", data,
-						function(likes) {
-							likes = JSON.parse(likes);
-							console.log(likes);
+						function(records) {
+							console.log("str",records);
+							var user = Memory.get('login');
+							user.diamonds = records.diamonds;
+							Memory.set('login',user);
+
 							for (var i = 0; i < $scope.list.length; i++) {
 								if($scope.list[i].post_id == post_id){
-									$scope.list[i].likes = likes ;
+									$scope.list[i].likes = records.like;
 									break;
 								}
 							}
@@ -141,6 +143,29 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 
 				});
 			}
+
+
+
+			var checkVideo = function(imageName){
+				var url = "http://cdn.wall-pix.net/albums/art-space/";
+			    var targetPath = cordova.file.documentsDirectory + "testImage.png";
+			    var trustHosts = true
+			    var options = {};
+
+				$cordovaFileTransfer.download(url, targetPath, options, trustHosts)
+			      .then(function(result) {
+			        // Success!
+			      }, function(err) {
+			        // Error
+				  }, function (progress) {
+			        $timeout(function () {
+			          $scope.downloadProgress = (progress.loaded / progress.total) * 100;
+			        })
+			      });
+			}
+
+
+
 
 			$scope.sharePost = function(post_id) {
 				var data = {
@@ -163,7 +188,6 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 				});
 			}
 
-
 			$scope.share = function(msg, file) {
 				$cordovaSocialSharing
 					.share(msg, msg, file, "http://linkdoprojeto.com.br") // Share via native share sheet
@@ -175,6 +199,8 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 							'center');
 					});
 			};
+
+
 			$scope.getFormattedDate = function(timestamp) {
 				var date = new Date(timestamp);
 				var months = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEC'];
@@ -191,6 +217,8 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 				result += date.getMinutes();
 				return result;
 			}
+
+
 			var addToList = function(address, name, template, time, type) {
 				var options = {
 					fileKey: "post",
@@ -222,6 +250,8 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 					console.log('e', err)
 				});
 			}
+
+
 			$scope.getRoll = function() {
 				var options = {
 					sourceType: 0,
@@ -237,6 +267,8 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 					// error
 				});
 			}
+
+
 			$scope.getVidRoll = function() {
 				var options = {
 					sourceType: 0,
@@ -253,6 +285,8 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 					// error
 				});
 			}
+
+
 			$scope.captureImage = function() {
 				var options = {
 					quality: 0,
@@ -266,6 +300,8 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 					// error
 				});
 			}
+
+
 			$scope.captureVideo = function() {
 				var options = { limit: 3, duration: 15 };
 
