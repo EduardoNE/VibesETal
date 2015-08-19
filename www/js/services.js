@@ -49,14 +49,14 @@ starter.factory('JustDo', function($http){
 starter.factory('file', function($cordovaFileTransfer){
     //var collections = [];
     return{
-        upload: function(filePath,options,success,fail){
+        upload: function(filePath,options,success,fail,progress){
           $cordovaFileTransfer.upload('http://bastidor.com.br/vibesetal/json/upload/post', filePath, options)
             .then(function(result) {
                 success(result);
             }, function(err) {
                 fail(err);
-            }, function (progress) {
-              console.log('progress',progress);
+            }, function (data) {
+              progress(data);
             });
         }
       };

@@ -10,8 +10,11 @@
   <ion-content id="login">
     <div class="row row-center">
       <div class="col col-center">
+          <div ng-if="voltar">
 
-          <img ng-src="{{User.user_image}}"> {{User.user_name}}
+          <img ng-src="{{User.user_image}}"> {{User.user_name}} <br>
+          {{User.user_diamonds}} 
+          </div>
           <div class="cadastro">
             <div class="list list-inset botao" ng-if="!voltar">
               <label class="item">

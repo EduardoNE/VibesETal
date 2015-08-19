@@ -4,6 +4,8 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 			$scope.voltar = false;
 			// Form data for the login modal
 			$scope.loginData = {};
+			$scope.subheader = "";
+			$scope.uploadProgress = 0;
 			// Create the login modal that we will use later
 			$ionicModal.fromTemplateUrl('templates/login.html', {
 				scope: $scope
@@ -81,9 +83,9 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 				$scope.modal.show();
 			};
 			$scope.logout = function() {
+				$scope.User = {};
 				Memory.set('login', "0");
 				$scope.voltar = false;
-				$scope.User = {};
 			};
 
 			// Perform the login action when the user submits the login form
@@ -127,9 +129,8 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 				};
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/like", data,
 						function(records) {
-							console.log("str",records);
 							var user = Memory.get('login');
-							user.diamonds = records.diamonds;
+							user.user_diamonds = records.diamonds;
 							Memory.set('login',user);
 
 							for (var i = 0; i < $scope.list.length; i++) {
@@ -226,8 +227,12 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 					chunkedMode: false,
 					mimeType: type
 				};
+				$scope.subheader = "has-subheader";
 				file.upload(address, options, function(sucesso) {
-					console.log('s', sucesso)
+
+					console.log('s', sucesso);
+					$scope.subheader = "";
+					$scope.uploadProgress = 0;
 					var infos = {
 						post: {
 							post_user_id: $scope.User.user_id,
@@ -248,6 +253,9 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 						});
 				}, function(err) {
 					console.log('e', err)
+				},function(prog){
+					$scope.uploadProgress = ((prog.loaded/prog.total*100));
+					//$scope.uploadProgress = 0;
 				});
 			}
 
