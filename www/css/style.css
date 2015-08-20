@@ -52,16 +52,11 @@
 /********  LOGIN  ********/
 
 #login{
-	background: url("../img/bg-login.jpg")center center;
+	background: #fff;
 }
 #login .list-inset{
 	background-color: transparent;
 	border: 0;
-}
-#login .item{
-	background-color: transparent;
-	border: 0;
-	color: #fff;
 }
 #login .campo{
 	border: 1px solid rgba(255, 255, 255, 0.3);;
@@ -88,7 +83,15 @@
 	background-color: transparent;
 }
 #login .bar h1{
-	color: #fff;
+	color: #000;
+}
+
+#login .bar-vibe{
+	background-color: #662d91;
+}
+
+#login .card{
+	margin: 20px 0px;
 }
 
 

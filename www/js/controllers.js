@@ -155,8 +155,12 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 
 				$cordovaFileTransfer.download(url, targetPath, options, trustHosts)
 			      .then(function(result) {
+
+
 			        // Success!
 			      }, function(err) {
+			      	
+
 			        // Error
 				  }, function (progress) {
 			        $timeout(function () {

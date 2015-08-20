@@ -1,35 +1,52 @@
 <ion-modal-view id="login">
-  <ion-header-bar>
-    <h1 class="title">Login</h1>
-    
-          <button ng-if="voltar" ng-click="closeLogin()" class="button button-dark">
-            Voltar
-          </button>
-
+  <ion-header-bar class="bar-vibe">
+    <div class="title header-item"><img src='img/topo.png'></div>
+    <button ng-if="voltar" ng-click="closeLogin()" class="button button-stable icon-left ion-chevron-left">
+      Voltar
+    </button>
   </ion-header-bar>
   <ion-content id="login">
-    <div class="row row-center">
-      <div class="col col-center">
-          <div ng-if="voltar">
 
-          <img ng-src="{{User.user_image}}"> {{User.user_name}} <br>
-          {{User.user_diamonds}} 
-          </div>
-          <div class="cadastro">
-            <div class="list list-inset botao" ng-if="!voltar">
-              <label class="item">
-                <button class="button button-block button-positive" ng-click="doLogin()" type="submit">Entrar com Facebook</button>
-              </label>
-            </div>
-     
-            <div class="list list-inset botao" ng-if="voltar">
-              <label class="item">
-                <button class="button button-block button-assertive" ng-click="logout()" type="submit">Logout</button>
-              </label>
-            </div>
-          </div>
-        
+    <div ng-if="!voltar">
+
+      <div class="card col">
+        <div class="item item-divider">
+          Autenticação de usuário
+        </div>
+        <div class="item item-text-wrap">
+          <button class="button button-block button-positive icon-left ion-social-facebook" ng-click="doLogin()" type="submit">Entrar com Facebook</button>
+        </div>
       </div>
+
     </div>
+
+    <div ng-if="voltar">
+
+      <div class="list card">
+
+        <div class="item item-avatar">
+          <img ng-src="{{User.user_image}}">
+          <h2>{{User.user_name}}</h2>
+        </div>
+
+        <div class="row text-center">
+          <div class="col-33">
+            <i class="icon ion-thumbsup"></i>
+            {{User.user_diamonds}}
+          </div>
+          <div class="col-33">
+            <i class="icon ion-thumbsup"></i>
+            {{User.user_diamonds}}
+          </div>
+          <div class="col-33">
+            <i class="icon ion-thumbsup"></i>
+            {{User.user_diamonds}}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
   </ion-content>
 </ion-modal-view>
