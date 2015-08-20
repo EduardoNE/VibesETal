@@ -1,7 +1,7 @@
 /********  HOME  ********/
 #time-line .item{
-	padding: 5px 16px 5px 72px;
-	border-width: 0; 
+	padding: 5px 16px 5px 60px;
+	border-width: 0;
 }
 #time-line .item-avatar > img:first-child{
 	top:5px;
@@ -25,7 +25,7 @@
 	height: 100px;
 }
 .fotografar .icon{
-	color: #fff;	
+	color: #fff;
 	font-size: 55px;
 }
 .fotografar div{
@@ -110,14 +110,14 @@
 	font-size: 40px !important;
 }
 .icon-destaque .icon{
-	font-size: 60px !important;	
+	font-size: 60px !important;
 	margin-top: 7px;
 }
 .icon-destaque{
 	border: 2px solid #fff;
 	border-radius:50%;
 	max-height: 80px;
-	max-width: 80px; 
+	max-width: 80px;
 }
 
 /*  controle header  */
@@ -126,7 +126,7 @@
 	top: 0;
 	padding: 5px 15px;
 	font-size: 40px;
-	color: #fff;	
+	color: #fff;
 }
 .controle-header i{
 	text-shadow: 1px 1px 1px #999;
@@ -144,7 +144,7 @@
 	padding: 0;
 }
 #postar .card .item.item-input textarea{
-	padding: 10px 15px; 
+	padding: 10px 15px;
 }
 #postar a{
 	text-decoration: none;
@@ -200,6 +200,27 @@
 	width:50px;
 	height: 50px;
 }
+
+ #open-menu{
+ 	color:#fff;
+ }
+
+ #tab-menu .title{
+ 	color:#fff;
+ }
+
+ .item-avatar > img:first-child, .item-avatar .item-image, .item-avatar .item-content > img:first-child, .item-avatar .item-content .item-image, .item-avatar-left > img:first-child, .item-avatar-left .item-image, .item-avatar-left .item-content > img:first-child, .item-avatar-left .item-content .item-image{
+ 	position: absolute;
+    top: 16px;
+    left: 10px;
+    max-width: 40px;
+    max-height: 40px;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+ }
+
+
 
 
 

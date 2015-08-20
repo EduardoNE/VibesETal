@@ -67,11 +67,12 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 				console.log("data",data);
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/user/login", data,
 						function(user) {
-							console.log(user);
+							console.log(user[0]);
 							Memory.set('login', user[0]);
 							identifyUser(pushRegister, data.name);
 							closeLogin();
 							$scope.User = Memory.get('login');
+							$scope.voltar = true;
 						},
 						function(err) {
 
@@ -131,7 +132,7 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 						function(records) {
 							var user = Memory.get('login');
 							user.user_diamonds = records.diamonds;
-							Memory.set('login',user);
+							Memory.set('login',user); 
 
 							for (var i = 0; i < $scope.list.length; i++) {
 								if($scope.list[i].post_id == post_id){
@@ -147,9 +148,9 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 
 
 			var checkVideo = function(imageName){
-				var url = "http://cdn.wall-pix.net/albums/art-space/";
-			    var targetPath = cordova.file.documentsDirectory + "testImage.png";
-			    var trustHosts = true
+				var url = "http://bastidor.com.br/vibesetal/content/" + imageName;
+			    var targetPath = cordova.file.tempDirectory + imageName;
+			    var trustHosts = true;
 			    var options = {};
 
 				$cordovaFileTransfer.download(url, targetPath, options, trustHosts)

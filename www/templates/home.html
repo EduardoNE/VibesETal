@@ -1,18 +1,13 @@
 <ion-view view-title="<img src='img/topo.png'>">
 
-<ion-nav-buttons side="right">
-    <div class="login-avatar">
-        <img class="full-image" ng-click="login()" src="{{User.user_image}}">
-     </div>
-</ion-nav-buttons>
+  <div class="bar bar-subheader" ng-if=" subheader!= ''">
+    <progress max="100" value="{{uploadProgress}}"></progress>
+  </div>
 
-<div class="bar bar-subheader" ng-if=" subheader!= ''">
-  <progress max="100" value="{{uploadProgress}}"></progress>
-</div>
+  <ion-content id="time-line" ng-class=" {{ User.user_adm == 1 ? 'has-footer': '' }} {{subheader}}">
 
-  <ion-content id="time-line" class=" has-header {{ User.user_adm == 1 ?'has-footer':'' }} {{subheader}}">
-  <ion-refresher pulling-text="Pull to refresh" on-refresh="refresh()">
-  </ion-refresher>
+    <ion-refresher pulling-text="Pull to refresh" on-refresh="refresh()">
+    </ion-refresher>
 
     <div class="list card" ng-repeat="item in list">
 
@@ -21,26 +16,35 @@
         <h2>{{item.user_name}}</h2>
         <p>{{item.post_time}}</p>
       </div>
+
       <div>
         <video ng-if="item.post_type == 'video' " controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer eduardinho">
           <source ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" type="{{item.post_enctype}}">
         </video>
-        <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho'>
+        <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' />
       </div>
+
+      <div class="descricao padding" ng-bind-html="item.post_description">
+      </div>
+
       <div class="row">
-        <div class="col col-100" ng-bind-html="item.post_description">
+
+        <div class="col col-33">
+           <button class="button button-block button-outline button-royal icon-left ion-ios-heart-outline button-positive" ng-click="likePost('{{item.post_id}}')"> {{item.likes}} </button>
         </div>
-        <div class="col col-40">
-           <button class="item item-icon-left assertive foto-icon icon ion-ios-heart-outline" ng-click="likePost('{{item.post_id}}')"> {{item.likes}} </button> 
+
+        <div class="col col-33">
+           <button class="button button-block button-outline button-royal icon-left ion-ios-chatbubble-outline button-positive" ng-click="commentPost('{{item.post_id}}')">{{item.comments}}</button>
         </div>
-        <div class="col col-40">
-           <button class="item item-icon-left assertive foto-icon icon ion-ios-chatbubble-outline" ng-click="commentPost('{{item.post_id}}')">{{item.comments}}</button> 
+
+        <div class="col col-33">
+          <button class="button button-block button-outline button-royal icon-left ion-share button-positive" ng-click='share("{{item.post_description}}","http://bastidor.com.br/vibesetal/content/{{item.post_file}}")'></button>
         </div>
-        <div class="col col-20">
-          <button class="button button-balanced icon ion-share" ng-click='share("{{item.post_description}}","http://bastidor.com.br/vibesetal/content/{{item.post_file}}")'></button>
-        </div>
-      </div>  
-    </div>   
+
+      </div>
+
+    </div>
+
   </ion-content>
 
 
