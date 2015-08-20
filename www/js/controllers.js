@@ -118,7 +118,7 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 						$scope.$apply()
 					},
 					function(err) {
-
+						
 					})
 			}
 
@@ -141,7 +141,6 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 							}
 						},
 						function(err) {
-
 				});
 			}
 
