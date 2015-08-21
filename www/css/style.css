@@ -172,11 +172,14 @@
 	bottom: 0px;
 }
 
-.footer-home{
-	height: 75px;
+.footer-home .button{
+	padding: 5px 8px;
+	opacity: 1;
+	background: #662d91;
+	border-color: #662d91;
 }
-.footer-home .title{
-	height: 75px;
+.footer-home .tabs{
+	padding-top:0px;
 }
 
 .principal-btn{
