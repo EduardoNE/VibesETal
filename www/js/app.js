@@ -84,6 +84,28 @@ angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.servi
       }
     })
 
+
+    .state('app.TopPost', {
+      url: '/TopPost',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/TopPost.html',
+          controller: 'TopPostCtrl'
+        }
+      }
+    })
+    
+    .state('app.TopUsers', {
+      url: '/TopUsers',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/TopUsers.html',
+          controller: 'TopUsersCtrl'
+        }
+      }
+    })
+
+    
   
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/home');

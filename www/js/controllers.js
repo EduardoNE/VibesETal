@@ -107,12 +107,31 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 			};
 		})
 	})
-	.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, JustDo, file, Memory) {
+	.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, JustDo, file, Memory) {
 		$scope.list = [];
+		var pageforscroll = 0;
+		var hasscroll = true;
 		$ionicPlatform.ready(function() {
 			var carregar = function() {
 				JustDo.ItIf("http://bastidor.com.br/vibesetal/json/posts",
 					function(data) {
+						pageforscroll = 0;
+						var hasscroll = true;
+						$scope.list = checkVideo(data.records);
+						console.log(data.records);
+						$scope.$broadcast('scroll.refreshComplete');
+						$scope.$apply()
+					},
+					function(err) {
+						
+					})
+			}
+
+			var infinitescroll = function() {
+				pageforscroll++;
+				JustDo.ItIf("http://bastidor.com.br/vibesetal/json/posts?p="+pageforscroll,
+					function(data) {
+
 						$scope.list = data.records;
 						console.log(data.records);
 						$scope.$broadcast('scroll.refreshComplete');
@@ -146,28 +165,52 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 			}
 
 
+			var checkVideo = function(data){ 
 
-			var checkVideo = function(imageName){
-				var url = "http://bastidor.com.br/vibesetal/content/" + imageName;
-			    var targetPath = cordova.file.tempDirectory + imageName;
-			    var trustHosts = true;
-			    var options = {};
+				for (var i = 0; i < data.length; i++) {
+					if(data[i].post_type == "video"){
+						//data[i].likes = records.like;
+						var url = "http://bastidor.com.br/vibesetal/content/" + data[i].post_file;
+					    var targetPath = cordova.file.tempDirectory + data[i].post_file;
+					    var trustHosts = true;
+					    var options = {};
+					     $cordovaFile.checkFile(cordova.file.tempDirectory, data[i].post_file)
+					      .then(function (success) {
+					      	console.log("checkfile S",success)
 
-				$cordovaFileTransfer.download(url, targetPath, options, trustHosts)
-			      .then(function(result) {
+					      	data[i].post_file = targetPath;
 
+					        // success
+					      }, function (error) {
+					      	console.log("checkfile E",error)
 
-			        // Success!
-			      }, function(err) {
-			      	
+					        // error
+							$cordovaFileTransfer.download(url, targetPath, options, trustHosts)
+						      .then(function(result) {
+						      	console.log(result);
+						      	data[i].post_file = targetPath;
 
-			        // Error
-				  }, function (progress) {
-			        $timeout(function () {
-			          $scope.downloadProgress = (progress.loaded / progress.total) * 100;
-			        })
-			      });
+						      	
+						        // Success!
+						      }, function(err) {
+						      	console.error(err);
+
+								data[i].post_file = targetPath;
+
+						        // Error
+							  }, function (progress) {
+						        
+						          $scope.downloadProgress[i] = (progress.loaded / progress.total) * 100;
+						        
+						      });
+					      });
+
+					}
+				}
+				return data;
 			}
+
+
 
 
 
@@ -333,7 +376,9 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 
 	.controller('VideoCtrl', function($scope, $stateParams) {})
 
-	.controller('PostarCtrl', function($scope, $stateParams) {})
+	.controller('TopPostCtrl', function($scope, $stateParams) {})
+
+	.controller('TopUserCtrl', function($scope, $stateParams) {})
 
 
 
