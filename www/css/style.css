@@ -172,6 +172,12 @@
 	bottom: 0px;
 }
 
+#time-line .button-royal{
+	border-color: #662d91;
+    background: transparent;
+    color: #886aea;
+}
+
 .footer-home .button{
 	padding: 5px 8px;
 	opacity: 1;
