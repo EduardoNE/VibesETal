@@ -22,7 +22,8 @@ angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.servi
     }
   });
 })
-.config(['$ionicAppProvider', function($ionicAppProvider) {
+.config(function($ionicAppProvider,$sceProvider) {
+  $sceProvider.enabled(false);
   // Identify app
   $ionicAppProvider.identify({
     // The App ID (from apps.ionic.io) for the server
@@ -32,7 +33,7 @@ angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.servi
     // If true, will attempt to send development pushes
     dev_push: true
   });
-}])
+})
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
@@ -94,7 +95,7 @@ angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.servi
         }
       }
     })
-    
+
     .state('app.TopUsers', {
       url: '/TopUsers',
       views: {

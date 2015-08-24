@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic.service.push', 'starter.services'])
+angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.core', 'ionic.service.push', 'starter.services'])
 	.controller('AppCtrl', function($scope, $ionicModal, $timeout, $rootScope, $ionicUser, $ionicPush, $ionicPlatform, $cordovaFacebook, Memory, JustDo) {
 		$ionicPlatform.ready(function() {
 			$scope.voltar = false;
@@ -64,19 +64,19 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 			};
 			var change = function(data) {
 				$scope.user = data;
-				console.log("data",data);
+				console.log("data", data);
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/user/login", data,
-						function(user) {
-							console.log(user[0]);
-							Memory.set('login', user[0]);
-							identifyUser(pushRegister, data.name);
-							closeLogin();
-							$scope.User = Memory.get('login');
-							$scope.voltar = true;
-						},
-						function(err) {
+					function(user) {
+						console.log(user[0]);
+						Memory.set('login', user[0]);
+						identifyUser(pushRegister, data.name);
+						closeLogin();
+						$scope.User = Memory.get('login');
+						$scope.voltar = true;
+					},
+					function(err) {
 
-						});
+					});
 			}
 			$scope.closeLogin = closeLogin;
 			// Open the login modal
@@ -107,7 +107,7 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 			};
 		})
 	})
-	.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, JustDo, file, Memory) {
+	.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory) {
 		$scope.list = [];
 		var pageforscroll = 0;
 		var hasscroll = true;
@@ -123,62 +123,65 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 						$scope.$apply()
 					},
 					function(err) {
-						
+
 					})
 			}
 
-			var infinitescroll = function() {
+			$scope.infinitescroll = function() {
 				pageforscroll++;
-				JustDo.ItIf("http://bastidor.com.br/vibesetal/json/posts?p="+pageforscroll,
+
+				JustDo.ItIf("http://bastidor.com.br/vibesetal/json/posts?p=" + pageforscroll,
 					function(data) {
 
-						$scope.list = data.records;
+						$scope.list.concat(checkVideo(data.records));
 						console.log(data.records);
 						$scope.$broadcast('scroll.refreshComplete');
 						$scope.$apply()
 					},
 					function(err) {
-						
+
 					})
 			}
 
 			$scope.likePost = function(post_id) {
 				var data = {
-					like_post_id : post_id,
-					like_user_id : $scope.User.user_id
+					like_post_id: post_id,
+					like_user_id: $scope.User.user_id
 				};
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/like", data,
-						function(records) {
-							var user = Memory.get('login');
-							user.user_diamonds = records.diamonds;
-							Memory.set('login',user); 
+					function(records) {
+						var user = Memory.get('login');
+						user.user_diamonds = records.diamonds;
+						Memory.set('login', user);
 
-							for (var i = 0; i < $scope.list.length; i++) {
-								if($scope.list[i].post_id == post_id){
-									$scope.list[i].likes = records.like;
-									break;
-								}
+						for (var i = 0; i < $scope.list.length; i++) {
+							if ($scope.list[i].post_id == post_id) {
+								$scope.list[i].likes = records.like;
+								break;
 							}
-						},
-						function(err) {
-				});
+						}
+					},
+					function(err) {});
+			}
+			$scope.caninfinitescroll = function() {
+				return true
 			}
 
-
-			var checkVideo = function(data){ 
+			var checkVideo = function(data) {
 
 				for (var i = 0; i < data.length; i++) {
-					if(data[i].post_type == "video"){
-						//data[i].likes = records.like;
+					if (data[i].post_type == "video") {
 						var url = "http://bastidor.com.br/vibesetal/content/" + data[i].post_file;
-					    var targetPath = cordova.file.tempDirectory + data[i].post_file;
-					    var trustHosts = true;
-					    var options = {};
+						$sce.trustAsResourceUrl(url);
+						var targetPath = cordova.file.tempDirectory + data[i].post_file;
+						var trustHosts = true;
+						var options = {};
+						data[i].post_file = url;
+						/*
+					    console.log("video found",data[i].post_file);
 					     $cordovaFile.checkFile(cordova.file.tempDirectory, data[i].post_file)
 					      .then(function (success) {
 					      	console.log("checkfile S",success)
-
-					      	data[i].post_file = targetPath;
 
 					        // success
 					      }, function (error) {
@@ -188,14 +191,13 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 							$cordovaFileTransfer.download(url, targetPath, options, trustHosts)
 						      .then(function(result) {
 						      	console.log(result);
-						      	data[i].post_file = targetPath;
 
 						      	
 						        // Success!
 						      }, function(err) {
 						      	console.error(err);
 
-								data[i].post_file = targetPath;
+								
 
 						        // Error
 							  }, function (progress) {
@@ -204,36 +206,31 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 						        
 						      });
 					      });
-
+						*/
 					}
 				}
 				return data;
 			}
 
-
-
-
-
-
 			$scope.sharePost = function(post_id) {
 				var data = {
-					like_post_id : post_id,
-					like_user_id : $scope.User.user_id
+					like_post_id: post_id,
+					like_user_id: $scope.User.user_id
 				};
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/share", data,
-						function(likes) {
-							likes = JSON.parse(likes);
-							console.log(likes);
-							for (var i = 0; i < $scope.list.length; i++) {
-								if($scope.list[i].post_id == post_id){
-									$scope.list[i].likes = likes ;
-									break;
-								}
+					function(likes) {
+						likes = JSON.parse(likes);
+						console.log(likes);
+						for (var i = 0; i < $scope.list.length; i++) {
+							if ($scope.list[i].post_id == post_id) {
+								$scope.list[i].likes = likes;
+								break;
 							}
-						},
-						function(err) {
+						}
+					},
+					function(err) {
 
-				});
+					});
 			}
 
 			$scope.share = function(msg, file) {
@@ -247,7 +244,6 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 							'center');
 					});
 			};
-
 
 			$scope.getFormattedDate = function(timestamp) {
 				var date = new Date(timestamp);
@@ -265,7 +261,6 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 				result += date.getMinutes();
 				return result;
 			}
-
 
 			var addToList = function(address, name, template, time, type) {
 				var options = {
@@ -300,12 +295,11 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 						});
 				}, function(err) {
 					console.log('e', err)
-				},function(prog){
-					$scope.uploadProgress = ((prog.loaded/prog.total*100));
+				}, function(prog) {
+					$scope.uploadProgress = ((prog.loaded / prog.total * 100));
 					//$scope.uploadProgress = 0;
 				});
 			}
-
 
 			$scope.getRoll = function() {
 				var options = {
@@ -322,7 +316,6 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 					// error
 				});
 			}
-
 
 			$scope.getVidRoll = function() {
 				var options = {
@@ -341,7 +334,6 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 				});
 			}
 
-
 			$scope.captureImage = function() {
 				var options = {
 					quality: 0,
@@ -356,9 +348,11 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 				});
 			}
 
-
 			$scope.captureVideo = function() {
-				var options = { limit: 3, duration: 15 };
+				var options = {
+					limit: 3,
+					duration: 15
+				};
 
 				$cordovaCapture.captureVideo(options).then(function(data) {
 					console.log("Video", data);
@@ -372,16 +366,10 @@ angular.module('starter.controllers', ['ngCordova', 'ionic.service.core', 'ionic
 		});
 	})
 
-	.controller('FotoCtrl', function($scope, $stateParams) {})
+.controller('FotoCtrl', function($scope, $stateParams) {})
 
-	.controller('VideoCtrl', function($scope, $stateParams) {})
+.controller('VideoCtrl', function($scope, $stateParams) {})
 
-	.controller('TopPostCtrl', function($scope, $stateParams) {})
+.controller('TopPostCtrl', function($scope, $stateParams) {})
 
-	.controller('TopUserCtrl', function($scope, $stateParams) {})
-
-
-
-
-
-	
+.controller('TopUserCtrl', function($scope, $stateParams) {})

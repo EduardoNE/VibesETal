@@ -12,15 +12,24 @@
     <div class="list card" ng-repeat="item in list">
 
       <div class="item item-avatar">
-        <img src="{{item.user_image}}">
+        <img ng-src="{{item.user_image}}">
         <h2>{{item.user_name}}</h2>
         <p>{{item.post_time}}</p>
       </div>
 
       <div>
+      <!--
         <video ng-if="item.post_type == 'video' " controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer eduardinho">
           <source ng-src="{{item.post_file}}" type="{{item.post_enctype}}">
         </video>
+
+        -->
+        <object ng-if="item.post_type == 'video' " width="100%" height="150">
+                    <param name="movie" value="{{item.post_file}}"></param>
+                    <param name="allowFullScreen" value="true"></param>
+                    <param name="allowscriptaccess" value="always"></param>
+                    <embed src="{{item.post_file}}" type="{{item.post_enctype}}" width="100%" height="150" allowscriptaccess="always" allowfullscreen="true"></embed>
+        </object>
         <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' />
       </div>
 
@@ -44,8 +53,8 @@
       </div>
 
     </div>
+
     <ion-infinite-scroll
-      ng-if="caninfinitescroll()"
       icon="ion-loading-c"
       on-infinite="infinitescroll()">
     </ion-infinite-scroll>
