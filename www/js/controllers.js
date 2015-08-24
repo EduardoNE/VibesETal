@@ -118,8 +118,8 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 					function(data) {
 						pageforscroll = 0;
 						var hasscroll = true;
-						//$scope.list = checkVideo(data.records);
-						$scope.list = data.records;
+						$scope.list = checkVideo(data.records);
+						//$scope.list = data.records;
 						console.log(data.records);
 						$scope.$broadcast('scroll.refreshComplete');
 						$scope.$apply()
@@ -136,8 +136,8 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 				JustDo.ItIf("http://bastidor.com.br/vibesetal/json/posts?p=" + pageforscroll,
 					function(data) {
 
-						//$scope.list.concat(checkVideo(data.records));
-						$scope.list.concat(data.records);
+						$scope.list.concat(checkVideo(data.records));
+						//$scope.list.concat(data.records);
 						console.log(data.records);
 						$scope.$broadcast('scroll.refreshComplete');
 						$scope.$apply()
@@ -171,7 +171,7 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 				return true
 			}
 
-			/*var checkVideo = function(data){
+			/**/var checkVideo = function(data){
 
 				for (var i = 0; i < data.length; i++) {
 					if (data[i].post_type == "video") {
@@ -180,12 +180,13 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 						else
 							var url = data[i].post_file;
 						$sce.trustAsResourceUrl(url);
-						var targetPath = cordova.file.tempDirectory + data[i].post_file;
-						var trustHosts = true;
-						var options = {};
+						//var targetPath = cordova.file.tempDirectory + data[i].post_file;
+						//var trustHosts = true;
+						//var options = {};
 						data[i].post_file = url;
-						/*
-					    console.log("video found",data[i].post_file);
+						console.log("video found",data[i].post_file);
+						/**
+
 					     $cordovaFile.checkFile(cordova.file.tempDirectory, data[i].post_file)
 					      .then(function (success) {
 					      	console.log("checkfile S",success)
@@ -212,12 +213,13 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 						          $scope.downloadProgress[i] = (progress.loaded / progress.total) * 100;
 
 						      });
-					      });
+					      });/**/
 
 					}
 				}
+				console.log("tudo", data);
 				return data;
-			}*/
+			}
 
 			$scope.sharePost = function(post_id) {
 				var data = {

@@ -22,27 +22,32 @@
 
     <div ng-if="voltar">
 
-      <div class="list card">
+      <div class="list">
 
-        <div class="item item-avatar">
-          <img ng-src="{{User.user_image}}">
-          <h2>{{User.user_name}}</h2>
+
+        <div class="row">
+
+           <div class="col col-center">
+              <img src="{{User.user_image}}" class="text-center">
+           </div>
+        </div>
+        <div>
+          <h2 class="text-center">{{User.user_name}}</h2>
         </div>
 
         <div class="row text-center">
-          <div class="col-50">
-            <i class="icon ion-android-star"></i>
-            {{User.user_diamonds}}
-          </div>
-          <div class="col-50">
-            <i class="icon ion-thumbsup"></i>
-            {{User.user_diamonds}}
+          <div class="col">
+            <h3>
+              <i class="fa fa-diamond"></i> {{User.user_diamonds}}
+            </h3>
           </div>
         </div>
-
       </div>
 
     </div>
 
   </ion-content>
+<div class="bar bar-footer bar-footer" ng-if="voltar">
+  <button class="button button-full button-assertive" ng-click="logout()">Sair</button>
+</div>
 </ion-modal-view>
