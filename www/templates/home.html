@@ -29,15 +29,15 @@
       <div class="row">
 
         <div class="col col-33">
-           <button class="button button-block button-outline button-royal icon-left ion-ios-heart-outline button-positive" ng-click="likePost('{{item.post_id}}')"> {{item.likes}} </button>
+           <button class="button button-block button-royal" ng-click="likePost('{{item.post_id}}')"><i class="fa fa-diamond"></i> {{item.likes}} </button>
         </div>
 
         <div class="col col-33">
-           <button class="button button-block button-outline button-royal icon-left ion-ios-chatbubble-outline button-positive" ng-click="commentPost('{{item.post_id}}')">{{item.comments}}</button>
+           <button class="button button-block button-royal" ng-click="commentPost('{{item.post_id}}')"><i class="fa fa-comment"></i> {{item.comments}}</button>
         </div>
 
         <div class="col col-33">
-          <button class="button button-block button-outline button-royal icon-left ion-share button-positive" ng-click='share("{{item.post_description}}","http://bastidor.com.br/vibesetal/content/{{item.post_file}}")'></button>
+          <button class="button button-block button-royal" ng-click='share("{{item.post_description}}","http://bastidor.com.br/vibesetal/content/{{item.post_file}}")'><i class="fa fa-share-square"></i> </button>
         </div>
 
       </div>
