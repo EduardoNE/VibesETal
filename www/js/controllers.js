@@ -171,7 +171,10 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 
 				for (var i = 0; i < data.length; i++) {
 					if (data[i].post_type == "video") {
-						var url = "http://bastidor.com.br/vibesetal/content/" + data[i].post_file;
+						if(data[i].post_file.indexOf("https://") == -1 && data[i].post_file.indexOf("http://") == -1)
+							var url = "http://bastidor.com.br/vibesetal/content/" + data[i].post_file;
+						else
+							var url = data[i].post_file;
 						$sce.trustAsResourceUrl(url);
 						var targetPath = cordova.file.tempDirectory + data[i].post_file;
 						var trustHosts = true;
