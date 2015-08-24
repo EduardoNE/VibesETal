@@ -155,7 +155,14 @@
 	text-align: center;
 }
 
+/******* Lista postagens ******/
 
+.post-pos{
+	padding: 5px 10px;
+	background: #662d91;
+	border-radius: 50%;
+	color:#fff;
+}
 
 
 /******* EDUARDINHO ~ revisar ******/

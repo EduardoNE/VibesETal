@@ -23,14 +23,14 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
-      <ion-item menu-close href="#/app/home">
-          Timeline
+      <ion-item menu-close ng-class="{'active':selectedTab === 'timeline'}" href="#/app/home">
+          <i class="ion-android-globe"></i> Linha do tempo
         </ion-item>
-        <ion-item menu-close href="#/app/TopPost">
-          Top 10 Posts
+        <ion-item menu-close ng-class="{'active':selectedTab === 'posts'}" href="#/app/TopPost">
+          <i class="ion-social-buffer"></i> Top 10 Posts
         </ion-item>
-        <ion-item menu-close href="#/app/TopUsers">
-          Top 10 Usuários
+        <ion-item menu-close ng-class="{'active':selectedTab === 'users'}" href="#/app/TopUsers">
+          <i class="ion-person-stalker"></i> Top 10 Usuários
         </ion-item>
       </ion-list>
     </ion-content>

@@ -13,7 +13,8 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 				$scope.modal = modal;
 				console.log(Memory.get('login'));
 				if (Memory.get('login') == "0")
-					modal.show();
+					//modal.show();
+				console.log("modal")
 				else {
 					$scope.User = Memory.get('login');
 					$scope.voltar = true;
@@ -117,7 +118,8 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 					function(data) {
 						pageforscroll = 0;
 						var hasscroll = true;
-						$scope.list = checkVideo(data.records);
+						//$scope.list = checkVideo(data.records);
+						$scope.list = data.records;
 						console.log(data.records);
 						$scope.$broadcast('scroll.refreshComplete');
 						$scope.$apply()
@@ -125,6 +127,7 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 					function(err) {
 
 					})
+
 			}
 
 			$scope.infinitescroll = function() {
@@ -133,7 +136,8 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 				JustDo.ItIf("http://bastidor.com.br/vibesetal/json/posts?p=" + pageforscroll,
 					function(data) {
 
-						$scope.list.concat(checkVideo(data.records));
+						//$scope.list.concat(checkVideo(data.records));
+						$scope.list.concat(data.records);
 						console.log(data.records);
 						$scope.$broadcast('scroll.refreshComplete');
 						$scope.$apply()
@@ -167,7 +171,7 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 				return true
 			}
 
-			var checkVideo = function(data) {
+			/*var checkVideo = function(data){
 
 				for (var i = 0; i < data.length; i++) {
 					if (data[i].post_type == "video") {
@@ -195,25 +199,25 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 						      .then(function(result) {
 						      	console.log(result);
 
-						      	
+
 						        // Success!
 						      }, function(err) {
 						      	console.error(err);
 
-								
+
 
 						        // Error
 							  }, function (progress) {
-						        
+
 						          $scope.downloadProgress[i] = (progress.loaded / progress.total) * 100;
-						        
+
 						      });
 					      });
-						*/
+
 					}
 				}
 				return data;
-			}
+			}*/
 
 			$scope.sharePost = function(post_id) {
 				var data = {
@@ -365,14 +369,49 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 				});
 			}
 			$scope.refresh = carregar;
+			$scope.selectedTab = "timeline";
 			carregar();
 		});
 	})
 
-.controller('FotoCtrl', function($scope, $stateParams) {})
+	.controller('FotoCtrl', function($scope, $stateParams) {})
 
-.controller('VideoCtrl', function($scope, $stateParams) {})
+	.controller('VideoCtrl', function($scope, $stateParams) {})
 
-.controller('TopPostCtrl', function($scope, $stateParams) {})
+	.controller('TopPostCtrl', function($scope, $stateParams, $ionicPlatform, JustDo) {
+		$ionicPlatform.ready(function(){
+			var carregar = function(){
+				JustDo.ItIf("http://bastidor.com.br/vibesetal/json/posts/best",
+					function(data){
+						var records = [];
+						for(var i = 0; i < data.records.length; i++){
+							records[i] = data.records[i];
+							records[i]['position'] = i;
+							records[i]['time'] = moment(data.records[i].post_time).fromNow();
+						}
+						$scope.list = records;
+					},
+					function(err){
 
-.controller('TopUserCtrl', function($scope, $stateParams) {})
+					})
+			}
+			$scope.selectedTab = "posts";
+			carregar();
+		})
+	})
+
+	.controller('TopUsersCtrl', function($scope, $stateParams, $ionicPlatform, JustDo) {
+		$ionicPlatform.ready(function(){
+			var carregar = function() {
+				JustDo.ItIf("http://bastidor.com.br/vibesetal/json/user/best",
+					function(data) {
+						$scope.list = data.records;
+					},
+					function(err) {
+
+					})
+			}
+			$scope.selectedTab = "users";
+			carregar();
+		})
+	})

@@ -1,0 +1,33 @@
+<ion-view view-title="<img src='img/topo.png'>">
+
+	<ion-content id="time-line">
+
+	<div class="list card" ng-repeat="item in list">
+
+		<div class="item item-avatar">
+	        <img ng-src="{{item.user_image}}">
+	        <h2 class="pull-right post-pos">
+				{{item.position + 1}}
+	        </h2>
+	        <h2>{{item.user_name}}</h2>
+	        <p>{{item.time}}</p>
+
+      	</div>
+
+      	<div class="item item-body">
+	      	<object ng-if="item.post_type == 'video' " width="100%" height="150">
+	                    <param name="movie" value="{{item.post_file}}"></param>
+	                    <param name="allowFullScreen" value="true"></param>
+	                    <param name="allowscriptaccess" value="always"></param>
+	                    <embed src="{{item.post_file}}" type="{{item.post_enctype}}" width="100%" height="150" allowscriptaccess="always" allowfullscreen="true"></embed>
+	        </object>
+	        <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' />
+	        <div class="descricao padding" ng-bind-html="item.post_description"></div>
+        </div>
+
+	</div>
+
+	</ion-content>
+
+
+</ion-view>

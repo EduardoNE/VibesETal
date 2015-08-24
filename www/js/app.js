@@ -74,7 +74,7 @@ angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.servi
     }
   })
 
- 
+
     .state('app.home', {
       url: '/home',
       views: {
@@ -106,8 +106,7 @@ angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.servi
       }
     })
 
-    
-  
+
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/home');
 });
