@@ -48,6 +48,7 @@ angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.servi
     url: '/upload',
     views: {
       'menuContent': {
+        cache: false,
         templateUrl: 'templates/photo.html',
         controller: 'UploadCtrl'
       }

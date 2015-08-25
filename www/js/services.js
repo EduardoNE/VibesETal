@@ -45,10 +45,9 @@ starter.factory('JustDo', function($http){
         aPost: function(url,data,success,fail){
             $http.post(url,data)
                 .then(function(resp){
-                    if(resp.data)
+
                         success(resp.data);
-                    else
-                        fail(resp);
+                    
                 }, function(err) {
                     fail(err);
                 });

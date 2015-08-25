@@ -304,8 +304,8 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 				};
 				$cordovaCamera.getPicture(options).then(function(data) {
 					console.log("getRoll", data);
-					//$state.go("Upload",{'data': data[0], 'type': "image"});
-					//addToList(data, data, "image", new Date().getTime(), '');
+					RAM.set({'data': data, 'type': 'image'});
+					$state.go("app.upload");
 				}, function(err) {
 					// error
 				});
@@ -322,8 +322,8 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 
 				$cordovaCamera.getPicture(options).then(function(data) {
 					console.log("getRoll", data);
-					//$state.go("Upload",{'data': data[0], 'type': "video"});
-					//addToList(data, data, "video", new Date().getTime(), '');
+					RAM.set({'data': data, 'type': 'video'});
+					$state.go("app.upload");
 				}, function(err) {
 					// error
 				});
@@ -353,7 +353,8 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 
 				$cordovaCapture.captureVideo(options).then(function(data) {
 					console.log("Video", data);
-					//$state.go("Upload",{'data': data[0], 'type': "video"});
+					RAM.set({'data': data[0].fullPath, 'type': 'video'});
+					$state.go("app.upload");
 					//addToList(data[0].fullPath, data[0].name, "video", new Date().getTime(), data[0].type);
 				}, function(err) {
 					// error
@@ -365,17 +366,18 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 		});
 	})
 
-	.controller('UploadCtrl', function($scope, $stateParams, RAM,file,JustDo, $cordovaToast) {
-
-		var image = (RAM.get());
-		RAM.set([]);
-		$scope.desc = {};
-		$scope.desc.str = "";
-		$scope.image = image;
-		$scope.$apply()
-
+	.controller('UploadCtrl', function($scope, $stateParams, RAM, file, JustDo, $state, $cordovaToast, $ionicLoading) {
+		var image = null;
+		var start = function(){
+			image = (RAM.get());
+			RAM.set([]);
+			$scope.desc = {};
+			$scope.desc.str = "";
+			$scope.image = image;
+		}
 		var carregar =  function(){
-			$cordovaToast.showLongBottom('Enviado com Sucesso!')
+			$ionicLoading.hide();
+			$cordovaToast.showShortCenter('Enviado com Sucesso!')
 			.then(function(success) {
 
 				$state.go("app.home");
@@ -386,6 +388,9 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 		}
 
 		$scope.addToList = function() {
+			$ionicLoading.show({
+		      template: 'Enviando...'
+		    });
 				var options = {
 					fileKey: "post",
 					fileName: image.data,
@@ -414,6 +419,7 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 							carregar();
 						},
 						function(err) {
+							console.error(err);
 
 						});
 				}, function(err) {
@@ -422,6 +428,7 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 					$scope.uploadProgress = ((prog.loaded / prog.total * 100));
 				});
 			}
+			start();
 
 	})
 
