@@ -29,7 +29,8 @@
       <div class="row">
 
         <div class="col col-33">
-           <button class="button button-block button-royal" ng-click="likePost('{{item.post_id}}')"><i class="fa fa-diamond"></i> {{item.likes}} </button>
+           <button class="button button-block button-royal" ng-if="!item.liked" ng-click="likePost('{{item.post_id}}')"><i class="fa fa-diamond"></i> {{item.likes}} </button>
+           <button class="button button-block button-positive" ng-if="item.liked"><i class="fa fa-diamond"></i> {{item.likes}} </button>
         </div>
 
         <div class="col col-33">
@@ -51,8 +52,7 @@
   </ion-content>
 
 
-  <!--<div class="bar bar-footer footer-home" ng-if="User.user_adm == 1">-->
-  <div class="footer-home">
+  <div class="bar bar-footer footer-home" ng-if="User.user_adm == 1">
     <div class="tabs tabs-dark tabs-icon-only">
       <button class="tab-item button button-royal icon ion-ios-photos" ng-click="getRoll()">
         <i class="icon ion-home"></i>
@@ -68,5 +68,4 @@
       </button>
     </div>
   </div>
-
 </ion-view>

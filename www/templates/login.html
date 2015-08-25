@@ -27,8 +27,8 @@
 
         <div class="row">
 
-           <div class="col col-center">
-              <img src="{{User.user_image}}" class="text-center">
+           <div class="col col-center text-center">
+              <img ng-src="http://graph.facebook.com/{{User.user_slug}}/picture?width=200&height=200" style="border-radius:50%;">
            </div>
         </div>
         <div>
@@ -48,6 +48,6 @@
 
   </ion-content>
 <div class="bar bar-footer bar-footer" ng-if="voltar">
-  <button class="button button-full button-assertive" ng-click="logout()">Sair</button>
+  <button class="button button-full button-assertive" ng-click="logout()">Logout</button>
 </div>
 </ion-modal-view>

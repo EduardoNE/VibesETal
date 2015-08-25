@@ -13,8 +13,7 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 				$scope.modal = modal;
 				console.log(Memory.get('login'));
 				if (Memory.get('login') == "0")
-					//modal.show();
-				console.log("modal")
+					modal.show();
 				else {
 					$scope.User = Memory.get('login');
 					$scope.voltar = true;
@@ -33,6 +32,7 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 					name: TheName,
 					bio: '*'
 				});
+
 				// Identify your user with the Ionic User Service
 				$ionicUser.identify(user).then(function() {
 					$scope.identified = true;
@@ -119,7 +119,6 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 						pageforscroll = 0;
 						var hasscroll = true;
 						$scope.list = checkVideo(data.records);
-						//$scope.list = data.records;
 						console.log(data.records);
 						$scope.$broadcast('scroll.refreshComplete');
 						$scope.$apply()
@@ -127,7 +126,6 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 					function(err) {
 
 					})
-
 			}
 
 			$scope.infinitescroll = function() {
@@ -137,7 +135,6 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 					function(data) {
 
 						$scope.list.concat(checkVideo(data.records));
-						//$scope.list.concat(data.records);
 						console.log(data.records);
 						$scope.$broadcast('scroll.refreshComplete');
 						$scope.$apply()
@@ -158,63 +155,47 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 						user.user_diamonds = records.diamonds;
 						Memory.set('login', user);
 
+						var likes = Memory.get('likes');
+						likes.push(post_id);
+						Memory.set('likes', likes);
+
 						for (var i = 0; i < $scope.list.length; i++) {
 							if ($scope.list[i].post_id == post_id) {
 								$scope.list[i].likes = records.like;
+								$scope.list[i].liked = true;
 								break;
 							}
 						}
 					},
 					function(err) {});
 			}
+
 			$scope.caninfinitescroll = function() {
 				return true
 			}
 
-			/**/var checkVideo = function(data){
+			var checkVideo = function(data){
+				var likes = Memory.get('likes');
+				if(likes == 0){
+					likes = [];
+					Memory.set('likes',likes);
+				}
 
 				for (var i = 0; i < data.length; i++) {
+
+					if(likes.indexOf(data[i].post_id) > -1)
+						data[i].liked = true;
+					else
+						data[i].liked = false;
+
 					if (data[i].post_type == "video") {
 						if(data[i].post_file.indexOf("https://") == -1 && data[i].post_file.indexOf("http://") == -1)
 							var url = "http://bastidor.com.br/vibesetal/content/" + data[i].post_file;
 						else
 							var url = data[i].post_file;
 						$sce.trustAsResourceUrl(url);
-						//var targetPath = cordova.file.tempDirectory + data[i].post_file;
-						//var trustHosts = true;
-						//var options = {};
 						data[i].post_file = url;
 						console.log("video found",data[i].post_file);
-						/**
-
-					     $cordovaFile.checkFile(cordova.file.tempDirectory, data[i].post_file)
-					      .then(function (success) {
-					      	console.log("checkfile S",success)
-
-					        // success
-					      }, function (error) {
-					      	console.log("checkfile E",error)
-
-					        // error
-							$cordovaFileTransfer.download(url, targetPath, options, trustHosts)
-						      .then(function(result) {
-						      	console.log(result);
-
-
-						        // Success!
-						      }, function(err) {
-						      	console.error(err);
-
-
-
-						        // Error
-							  }, function (progress) {
-
-						          $scope.downloadProgress[i] = (progress.loaded / progress.total) * 100;
-
-						      });
-					      });/**/
-
 					}
 				}
 				console.log("tudo", data);
@@ -249,8 +230,7 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 						console.log(result);
 						$cordovaToast.show('Feito!', 'short', 'center');
 					}, function(err) {
-						$cordovaToast.show('Erro ao compartilhar...', 'short',
-							'center');
+						$cordovaToast.show('Erro ao compartilhar...', 'short', 'center');
 					});
 			};
 
@@ -376,7 +356,11 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 		});
 	})
 
-	.controller('FotoCtrl', function($scope, $stateParams) {})
+	.controller('FotoCtrl', function($scope, $stateParams) {
+
+
+
+	})
 
 	.controller('VideoCtrl', function($scope, $stateParams) {})
 
