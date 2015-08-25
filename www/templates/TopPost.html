@@ -15,12 +15,7 @@
       	</div>
 
       	<div class="item item-body">
-	      	<object ng-if="item.post_type == 'video' " width="100%" height="150">
-	                    <param name="movie" value="{{item.post_file}}"></param>
-	                    <param name="allowFullScreen" value="true"></param>
-	                    <param name="allowscriptaccess" value="always"></param>
-	                    <embed src="{{item.post_file}}" type="{{item.post_enctype}}" width="100%" height="150" allowscriptaccess="always" allowfullscreen="true"></embed>
-	        </object>
+	        <video ng-if="item.post_type == 'video' " ng-src="{{item.post_file}}" class="centerme" controls="controls" style="width:100%"></video>
 	        <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' />
 	        <div class="descricao padding" ng-bind-html="item.post_description"></div>
         </div>

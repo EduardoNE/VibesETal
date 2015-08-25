@@ -105,6 +105,15 @@ angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.servi
         }
       }
     })
+    .state('app.sobre', {
+      url: '/sobre',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/sobre.html',
+          controller: 'SobreCtrl'
+        }
+      }
+    })
 
 
   // if none of the above states are matched, use this as the fallback
