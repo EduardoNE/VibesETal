@@ -10,19 +10,17 @@
   <ion-content id="login">
     <div class="row row-center">
       <div class="col col-center">
-        <video ng-if=" NewFile.post_type == 'video' " controls="controls" preload="metadata" webkit-playsinline="webkit-playsinline" class="videoPlayer eduardinho">
-          <source ng-src="{{NewFile.post_file}}" type="{{NewFile.type}}">
-        </video>
-        <img ng-if=" NewFile.post_type == 'image' " ng-src="{{NewFile.post_file}}" class='eduardinho'>
+        <video ng-if="image.type == 'video' " ng-src="{{image.data}}" class="centerme" controls="controls" style="width:100%"></video>
+        <img   ng-if="image.type == 'image' " ng-src="{{image.data}}" class='eduardinho'>
           <div class="cadastro">
             <div class="list list-inset">
               <label class="item">
-                <textarea placeholder="Descrição"></textarea>
+                <textarea ng-model="desc.str" placeholder="Descrição" class="color:#000000"></textarea>
               </label>
             </div>
             <div class="list list-inset botao" >
               <label class="item">
-                <button class="button button-block button-positive" ng-click="doUpload()" type="submit">Enviar</button>
+                <button class="button button-block button-positive" ng-click="addToList()" type="submit">Enviar</button>
               </label>
             </div>
           </div>

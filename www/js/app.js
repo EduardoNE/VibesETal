@@ -44,22 +44,12 @@ angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.servi
     controller: 'AppCtrl'
   })
 
-  .state('app.foto', {
-    url: '/foto',
+  .state('app.upload', {
+    url: '/upload',
     views: {
       'menuContent': {
-        templateUrl: 'templates/foto.html',
-          controller: 'FotoCtrl'
-      }
-    }
-  })
-
-  .state('app.video', {
-    url: '/video',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/video.html',
-          controller: 'VideoCtrl'
+        templateUrl: 'templates/photo.html',
+        controller: 'UploadCtrl'
       }
     }
   })

@@ -10,6 +10,17 @@ starter.factory('Memory', ['$window', function($window) {
     }
   }
 }]);
+starter.factory('RAM', function(){
+    var RAM = null;
+    return{
+        get: function(){
+            return RAM;
+        },
+        set: function(data){ 
+            RAM  = data;
+        }
+    };
+});
 
 starter.factory('JustDo', function($http){
     //var collections = [];

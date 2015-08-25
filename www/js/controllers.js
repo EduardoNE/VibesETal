@@ -108,7 +108,7 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 			};
 		})
 	})
-	.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, $timeout) {
+	.controller('HomeCtrl', function($scope,$state, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $timeout) {
 		$scope.list = [];
 		var pageforscroll = 0;
 		var hasscroll = true;
@@ -304,7 +304,8 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 				};
 				$cordovaCamera.getPicture(options).then(function(data) {
 					console.log("getRoll", data);
-					addToList(data, data, "image", new Date().getTime(), '');
+					//$state.go("Upload",{'data': data[0], 'type': "image"});
+					//addToList(data, data, "image", new Date().getTime(), '');
 				}, function(err) {
 					// error
 				});
@@ -321,7 +322,8 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 
 				$cordovaCamera.getPicture(options).then(function(data) {
 					console.log("getRoll", data);
-					addToList(data, data, "video", new Date().getTime(), '');
+					//$state.go("Upload",{'data': data[0], 'type': "video"});
+					//addToList(data, data, "video", new Date().getTime(), '');
 				}, function(err) {
 					// error
 				});
@@ -335,7 +337,9 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 
 				$cordovaCapture.captureImage(options).then(function(data) {
 					console.log("getRoll", data);
-					addToList(data[0].fullPath, data[0].name, "image", new Date().getTime(), data[0].type);
+					RAM.set({'data': data[0].fullPath, 'type': 'image'});
+					$state.go("app.upload");
+					//addToList(data[0].fullPath, data[0].name, "image", new Date().getTime(), data[0].type);
 				}, function(err) {
 					// error
 				});
@@ -349,7 +353,8 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 
 				$cordovaCapture.captureVideo(options).then(function(data) {
 					console.log("Video", data);
-					addToList(data[0].fullPath, data[0].name, "video", new Date().getTime(), data[0].type);
+					//$state.go("Upload",{'data': data[0], 'type': "video"});
+					//addToList(data[0].fullPath, data[0].name, "video", new Date().getTime(), data[0].type);
 				}, function(err) {
 					// error
 				});
@@ -360,13 +365,71 @@ angular.module('starter.controllers', ['ngCordova','ngSanitize', 'ionic.service.
 		});
 	})
 
-	.controller('FotoCtrl', function($scope, $stateParams) {
+	.controller('UploadCtrl', function($scope, $stateParams, RAM,file,JustDo, $cordovaToast) {
+
+		var image = (RAM.get());
+		RAM.set([]);
+		$scope.desc = {};
+		$scope.desc.str = "";
+		$scope.image = image;
+		$scope.$apply()
+
+		var carregar =  function(){
+			$cordovaToast.showLongBottom('Enviado com Sucesso!')
+			.then(function(success) {
+
+				$state.go("app.home");
+
+			  }, function (error) {
+			    // error
+			  });
+		}
+
+		$scope.addToList = function() {
+				var options = {
+					fileKey: "post",
+					fileName: image.data,
+					chunkedMode: false,
+					mimeType: null
+				};
+				$scope.subheader = "has-subheader";
+				file.upload(image.data, options, function(sucesso) {
+
+					console.log('s', sucesso);
+					$scope.subheader = "";
+					$scope.uploadProgress = 0;
+					var infos = {
+						post: {
+							post_user_id: $scope.User.user_id,
+							post_description: $scope.desc.str,
+							post_deleted: 0
+						},
+						where: {
+							post_id: sucesso.response
+						}
+					};
+					JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/post", infos,
+						function(data) {
+							console.log(data);
+							carregar();
+						},
+						function(err) {
+
+						});
+				}, function(err) {
+					console.log('e', err)
+				}, function(prog) {
+					$scope.uploadProgress = ((prog.loaded / prog.total * 100));
+				});
+			}
+
+	})
+
+	.controller('VideoCtrl', function($scope, $stateParams) {
 
 
 
 	})
-
-	.controller('VideoCtrl', function($scope, $stateParams) {})
 
 	.controller('TopPostCtrl', function($scope, $stateParams, $ionicPlatform, JustDo, $sce) {
 		$ionicPlatform.ready(function(){
