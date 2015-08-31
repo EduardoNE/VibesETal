@@ -11,10 +11,11 @@
 
     <div class="list card" ng-repeat="item in list">
 
-      <div class="item item-avatar">
+      <div class="item item-avatar item-button-right">
         <img ng-src="{{item.user_image}}">
         <h2>{{item.user_name}}</h2>
         <p>{{item.post_time}}</p>
+        <a class="button button-icon icon ion-ios-arrow-down button-royal" ng-click="options(item);"></a>
       </div>
 
       <div>

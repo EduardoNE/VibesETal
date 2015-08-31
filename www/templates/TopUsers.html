@@ -1,7 +1,6 @@
 <ion-view view-title="<img src='img/topo.png'>">
-
   <ion-content id="time-line">
-
+  	<div ng-if="list.length == 0">Sem resultados para exibir.</div>
 	<div class="list" ng-repeat="item in list">
 
 	    <div class="item item-avatar">
@@ -9,13 +8,10 @@
 	      <h2>{{item.user_name}}</h2>
 	      <p>
 	      	<strong>
-	      		<i class="fa fa-diamond"></i> Diamonds: {{item.points}}
+	      		<i class="fa fa-diamond"></i> Pontos: {{item.points}}
 	      	</strong>
 	      </p>
 	    </div>
-
 	</div>
-
-	</ion-content>
-
+  </ion-content>
 </ion-view>
