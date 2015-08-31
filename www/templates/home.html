@@ -1,21 +1,23 @@
 <ion-view view-title="<img src='img/topo.png'>">
-
+<!--
   <div class="bar bar-subheader" ng-if=" subheader!= ''">
     <progress max="100" value="{{uploadProgress}}"></progress>
   </div>
-
+-->
   <ion-content id="time-line" ng-class=" {{ User.user_adm == 1 ? 'has-footer': '' }} {{subheader}}">
 
     <ion-refresher pulling-text="Pull to refresh" on-refresh="refresh()">
     </ion-refresher>
 
-    <div class="list card" ng-repeat="item in list">
+    <ion-list>
+      <ion-item class="list card" ng-repeat="item in list">
 
       <div class="item item-avatar item-button-right">
         <img ng-src="{{item.user_image}}">
+        <a class="button button-icon icon ion-ios-arrow-down" style="color:#886aea" ng-click="options(item);"></a>
         <h2>{{item.user_name}}</h2>
         <p>{{item.post_time}}</p>
-        <a class="button button-icon icon ion-ios-arrow-down button-royal" ng-click="options(item);"></a>
+        
       </div>
 
       <div>
@@ -27,7 +29,6 @@
       </div>
 
       <div class="row">
-
         <div class="col col-33">
            <button class="button button-block button-royal" ng-if="!item.liked" ng-click="likePost('{{item.post_id}}')">
             <i class="fa fa-diamond"></i> {{item.likes}} 
@@ -49,29 +50,28 @@
 
       </div>
 
-    </div>
+    </ion-item>
+    </ion-list>
 
     <ion-infinite-scroll
-      icon="ion-loading-c"
-      on-infinite="infinitescroll()">
+      on-infinite="loadMore()"
+      distance="1%">
     </ion-infinite-scroll>
   </ion-content>
 
 
-  <div class="bar bar-footer footer-home" ng-if="User.user_adm == 1">
-    <div class="tabs tabs-dark tabs-icon-only">
-      <button class="tab-item button button-royal icon ion-ios-photos" ng-click="getRoll()">
-        <i class="icon ion-home"></i>
-      </button>
-      <button class="tab-item button button-royal icon ion-ios-camera" ng-click="captureImage()">
-        <i class="icon ion-star"></i>
-      </button>
-      <button class="tab-item button button-royal icon ion-ios-videocam" ng-click="captureVideo()">
-        <i class="icon ion-gear-a"></i>
-      </button>
-      <button class="tab-item button button-royal icon ion-ios-film" ng-click="getVidRoll()">
-        <i class="icon ion-gear-a"></i>
-      </button>
+    <div class="tabs tabs-icon-only tabs-background-royal" ng-if="User.user_adm == 1">
+      <a class="tab-item" ng-click="getRoll()">
+        <i class="icon ion-ios-photos"></i>
+      </a>
+      <a class="tab-item" ng-click="captureImage()">
+        <i class="icon ion-ios-camera"></i>
+      </a>
+      <a class="tab-item" ng-click="captureVideo()">
+        <i class="icon ion-ios-videocam"></i>
+      </a>
+      <a class="tab-item" ng-click="getVidRoll()">
+        <i class="icon ion-ios-film"></i>
+      </a>
     </div>
-  </div>
 </ion-view>

@@ -111,38 +111,41 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 	.controller('HomeCtrl', function($scope, $state, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $ionicActionSheet, $timeout) {
 
 		$scope.list = [];
-		var pageforscroll = 0;
+		var pageforscroll = 1;
 		var hasscroll = true;
 		$ionicPlatform.ready(function() {
 			var carregar = function() {
 				JustDo.ItIf("http://bastidor.com.br/vibesetal/json/posts",
 					function(data) {
 						$timeout(function() {
-							pageforscroll = 0;
+							pageforscroll = 1;
 							var hasscroll = true;
 							$scope.list = checkVideo(data.records);
 							console.log(data.records);
 							$scope.$broadcast('scroll.refreshComplete');
 							//$scope.$apply()
 						})
-
 					},
 					function(err) {
 
 					})
 			}
 
-			$scope.infinitescroll = function() {
-				pageforscroll++;
+			$scope.loadMore = function() { 
+
+				//console.log("scroll infinito foi chamado");
+
+				pageforscroll = pageforscroll + 1;
+
+				console.log("http://bastidor.com.br/vibesetal/json/posts?p=" + pageforscroll);
 
 				JustDo.ItIf("http://bastidor.com.br/vibesetal/json/posts?p=" + pageforscroll,
 					function(data) {
-						$timeout(function() {
-							$scope.list.concat(checkVideo(data.records));
-							console.log(data.records);
+							console.log( $scope.list.length, "antes");
+							$scope.list = $scope.list.concat(checkVideo(data.records));
+							console.log( $scope.list.length, "depois");
 							$scope.$broadcast('scroll.refreshComplete');
 							//$scope.$apply()
-						})
 					},
 					function(err) {
 
@@ -388,7 +391,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						return true;
 					},
 					destructiveButtonClicked: function() {
-						
+
 						console.log("destructiveButtonClicked", item);
 						var infos = {
 							post: {
