@@ -493,7 +493,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 		$cordovaToast.showShortCenter('Enviado com Sucesso!')
 			.then(function(success) {
 
-				$state.go("app.home");
+				$state.go("app.home", {}, {reload: true});
 
 			}, function(error) {
 				// error
