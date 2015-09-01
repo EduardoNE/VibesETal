@@ -108,7 +108,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			};
 		})
 	})
-	.controller('HomeCtrl', function($scope, $state, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $ionicActionSheet, $timeout, $ionicModal, $ionicScrollDelegate, $ionicLoading) {
+	.controller('HomeCtrl', function($scope, $state, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $ionicActionSheet, $timeout, $ionicModal, $ionicScrollDelegate, $ionicLoading, $ionicPopup) {
 
 		$scope.list = [];
 		var pageforscroll = 1;
@@ -209,16 +209,16 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
 			$scope.sharePost = function(post_id) {
 				var data = {
-					like_post_id: post_id,
-					like_user_id: $scope.User.user_id
+					share_post_id: post_id,
+					share_user_id: $scope.User.user_id
 				};
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/share", data,
-					function(likes) {
-						likes = JSON.parse(likes);
-						console.log(likes);
+					function(share) {
+						likes = JSON.parse(share);
+						console.log(share);
 						for (var i = 0; i < $scope.list.length; i++) {
 							if ($scope.list[i].post_id == post_id) {
-								$scope.list[i].likes = likes;
+								$scope.list[i].share = share;
 								break;
 							}
 						}
@@ -411,16 +411,52 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						return true;
 					},
 					buttonClicked: function(index) {
-						console.log("buttonClicked", item);
+						  $scope.post = {}
+
+						  // An elaborate, custom popup
+						  var myPopup = $ionicPopup.show({
+						    template: '<input type="text" ng-model="post.post_description">',
+						    title: 'Editar descrição',
+						    //subTitle: 'Please use normal things',
+						    scope: $scope,
+						    buttons: [
+						      { text: 'Cancelar' },
+						      {
+						        text: '<b>Save</b>',
+						        type: 'button-positive',
+						        onTap: function(e) {
+						          
+						            return $scope.post.post_description;
+						          
+						        }
+						      }
+						    ]
+						  });
+
+						  myPopup.then(function(description) {
+						  	var infos = {
+								post: {
+									post_description: description
+								},
+								where: {
+									post_id: item.post_id
+								}
+							};
+						    console.log('Tapped!', infos);
+
+						    JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/post", infos,
+							function(data) {
+								console.log(data);
+								$cordovaToast.show('Feito!', 'long', 'center');
+								carregar();
+							},
+							function(err) {
+								console.error(err);
+							});
+						  });
 						return true;
 					}
 				});
-
-				// hide the sheet after 5 seconds
-				$timeout(function() {
-					hideSheet();
-				}, 5000);
-
 			};
 
 			$scope.closeComment = function(){
