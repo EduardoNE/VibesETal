@@ -108,13 +108,15 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			};
 		})
 	})
-	.controller('HomeCtrl', function($scope, $state, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $ionicActionSheet, $timeout, $ionicModal) {
+	.controller('HomeCtrl', function($scope, $state, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $ionicActionSheet, $timeout, $ionicModal, $ionicScrollDelegate, $ionicLoading) {
 
 		$scope.list = [];
 		var pageforscroll = 1;
 		var hasscroll = true;
 		$scope.fields = [];
 		$scope.noMoreItemsAvailable = false;
+		$scope.noMoreCommentsAvailable = true;
+		$scope.commentforscroll = 1;
 		$ionicModal.fromTemplateUrl('templates/comment-m.html', {
 		    scope: $scope,
 		    animation: 'slide-in-up'
@@ -439,14 +441,21 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			  };
 
 			$scope.commentPost = function(post){
+				$ionicLoading.show({
+					template: 'Carregando...'
+				});
 				$scope.comment_post = [];
 				var infos = {comment_post_id: post};
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/open_comment", infos,
 					function(data) {
 						$scope.post = data.post;
 						$scope.comment_post = data.comment;
+						for(var i in $scope.comment_post)
+							$scope.comment_post[i].comment_date = moment($scope.comment_post[i].comment_date).fromNow();
 						$scope.post[0].post_time = moment($scope.post[0].post_time).fromNow();
 						$scope.comment.show();
+						$scope.commentforscroll = 1;
+						$ionicLoading.hide();
 					},
 					function(err) {
 						console.error(err);
@@ -456,21 +465,58 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			}
 
 			$scope.saveComment = function(post){
-				var infos = {
-					comment_post_id: post
+
+				if($scope.fields.insertComment != ""){
+					$ionicLoading.show({
+						template: 'Enviando...'
+					});
+					var data = {
+						comment_post_id: post,
+						comment_user_id: $scope.User.user_id,
+						comment_text: $scope.fields.insertComment
+					};
+					JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/comment", data,
+						function(data) {
+							data.comment[0].comment_date = moment(data.comment[0].comment_date).fromNow();
+							$scope.comment_post.unshift(data.comment[0]);
+							$scope.fields.insertComment = "";
+							$ionicScrollDelegate.$getByHandle("commentMain").scrollTop({
+								shouldAnimate: true
+							});
+							$ionicLoading.hide();
+						},
+						function(err) {
+							console.error(err);
+
+						});
 				}
-				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/open_comment", infos,
+
+			}
+
+			$scope.loadMoreComment = function(post){
+
+				$scope.commentforscroll++;
+				var infos = {comment_post_id: post};
+				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/open_comment?p="+$scope.commentforscroll, infos,
 					function(data) {
-						$scope.post = data.post;
-						$scope.comment_post = data.comment;
-						$scope.post[0].post_time = moment($scope.post[0].post_time).fromNow();
-						$scope.comment.show();
+						$timeout(function() {
+							if(data.comment){
+								for(var i in data.comment){
+									data.comment[i].comment_date = moment(data.comment[i].comment_date).fromNow();
+								}
+								$scope.comment_post = $scope.comment_post.concat(data.comment);
+								$scope.$broadcast('scroll.infiniteScrollComplete');
+							}else{
+								$scope.noMoreCommentsAvailable = false;
+							}
+						})
+
+
 					},
 					function(err) {
 						console.error(err);
 
 					});
-				console.log($scope.fields.insertComment);
 			}
 
 			$scope.refresh = carregar;

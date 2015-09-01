@@ -5,94 +5,40 @@
       Voltar
     </button>
   </ion-header-bar>
-  <ion-content id="login">
+  <ion-content id="login" delegate-handle="commentMain">
 
-    <div class="list card">
+	<ion-list>
 
-		<div class="item item-avatar">
-			<img src="{{ post[0].user_image }}">
-			<h2>{{ post[0].user_name }}</h2>
-			<p>{{ post[0].post_time }}</p>
-		</div>
-		<div ng-if="post[0].post_description != ''" class="item item-body">
-		    <p ng-bind-html="post[0].post_description">
-		    </p>
-	    </div>
-
-	</div>
-	<!--<div class="list" ng-repeat="item in comment_post">
-
-	    <div class="item item-avatar">
-	      <img src="{{ comment.user_image }}">
-	      <h2>{{ comment.user_name }}</h2>
-	      <p>Back off, man. I'm a scientist.</p>
-	    </div>
-
-	</div>-->
-
-		<div class="list">
-
-		    <div class="item item-avatar">
-		      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p50x50/11059846_975166395859903_5377925240729759641_n.jpg?oh=3366aa5b3bfda84b0cab178adee2d2fc&oe=5683600D&__gda__=1449420490_c13bc76ce997fb2166e8c34025eb5edd">
-		      <p class="pull-right">30min</p>
-		      <h2>Eduardo Hillebrand</h2>
-		      <p>Back off, man. I'm a scientist.</p>
+	    <ion-item class="list card">
+			<div class="item item-avatar">
+				<img src="{{ post[0].user_image }}">
+				<h2>{{ post[0].user_name }}</h2>
+				<p>{{ post[0].post_time }}</p>
+			</div>
+			<div ng-if="post[0].post_description != ''" class="item item-body">
+			    <p ng-bind-html="post[0].post_description">
+			    </p>
 		    </div>
-		    <div class="item item-avatar">
-		      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p50x50/11059846_975166395859903_5377925240729759641_n.jpg?oh=3366aa5b3bfda84b0cab178adee2d2fc&oe=5683600D&__gda__=1449420490_c13bc76ce997fb2166e8c34025eb5edd">
-		      <p class="pull-right">30min</p>
-		      <h2>Eduardo Hillebrand</h2>
-		      <p>Back off, man. I'm a scientist.</p>
-		    </div>
-		    <div class="item item-avatar">
-		      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p50x50/11059846_975166395859903_5377925240729759641_n.jpg?oh=3366aa5b3bfda84b0cab178adee2d2fc&oe=5683600D&__gda__=1449420490_c13bc76ce997fb2166e8c34025eb5edd">
-		      <p class="pull-right">30min</p>
-		      <h2>Eduardo Hillebrand</h2>
-		      <p>Back off, man. I'm a scientist.</p>
-		    </div>
-		    <div class="item item-avatar">
-		      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p50x50/11059846_975166395859903_5377925240729759641_n.jpg?oh=3366aa5b3bfda84b0cab178adee2d2fc&oe=5683600D&__gda__=1449420490_c13bc76ce997fb2166e8c34025eb5edd">
-		      <p class="pull-right">30min</p>
-		      <h2>Eduardo Hillebrand</h2>
-		      <p>Back off, man. I'm a scientist.</p>
-		    </div>
-		    <div class="item item-avatar">
-		      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p50x50/11059846_975166395859903_5377925240729759641_n.jpg?oh=3366aa5b3bfda84b0cab178adee2d2fc&oe=5683600D&__gda__=1449420490_c13bc76ce997fb2166e8c34025eb5edd">
-		      <p class="pull-right">30min</p>
-		      <h2>Eduardo Hillebrand</h2>
-		      <p>Back off, man. I'm a scientist.</p>
-		    </div>
-		    <div class="item item-avatar">
-		      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p50x50/11059846_975166395859903_5377925240729759641_n.jpg?oh=3366aa5b3bfda84b0cab178adee2d2fc&oe=5683600D&__gda__=1449420490_c13bc76ce997fb2166e8c34025eb5edd">
-		      <p class="pull-right">30min</p>
-		      <h2>Eduardo Hillebrand</h2>
-		      <p>Back off, man. I'm a scientist.</p>
-		    </div>
-		    <div class="item item-avatar">
-		      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p50x50/11059846_975166395859903_5377925240729759641_n.jpg?oh=3366aa5b3bfda84b0cab178adee2d2fc&oe=5683600D&__gda__=1449420490_c13bc76ce997fb2166e8c34025eb5edd">
-		      <p class="pull-right">30min</p>
-		      <h2>Eduardo Hillebrand</h2>
-		      <p>Back off, man. I'm a scientist.</p>
-		    </div>
-		    <div class="item item-avatar">
-		      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p50x50/11059846_975166395859903_5377925240729759641_n.jpg?oh=3366aa5b3bfda84b0cab178adee2d2fc&oe=5683600D&__gda__=1449420490_c13bc76ce997fb2166e8c34025eb5edd">
-		      <p class="pull-right">30min</p>
-		      <h2>Eduardo Hillebrand</h2>
-		      <p>Back off, man. I'm a scientist.</p>
-		    </div>
+		</ion-item>
 
-		</div>
+		<ion-item class="list card" ng-repeat="item in comment_post">
+		    <div class="item item-avatar">
+		      <img src="{{ item.user_image }}">
+		      <p class="pull-right">{{ item.comment_date }}</p>
+		      <h2>{{ item.user_name }}</h2>
+		      <p>{{ item.comment_text }}</p>
+		    </div>
+	    </ion-item>
 
-
-
-
+    </ion-list>
+	<ion-infinite-scroll ng-if="noMoreCommentsAvailable" immediate-check="false" icon="ion-loading-c" on-infinite="loadMoreComment(post[0].post_id)" distance="10%"></ion-infinite-scroll>
   </ion-content>
   <ion-footer-bar align-title="left" class="item item-input-inset">
 	<label class="item-input-wrapper">
 		<i class="icon ion-ios7-search placeholder-icon"></i>
-		<input type="text" ng-model="fields.insertComment" placeholder="Comentário">
+		<input type="text" ng-model="fields.insertComment" ng-enter="saveComment(post[0].post_id)" placeholder="Comentário">
 	</label>
-	<button class="button button-small button-balanced" ng-click="saveComment({{ post[0].post_id }})">
+	<button class="button button-small button-balanced" ng-click="saveComment(post[0].post_id)">
 		Enviar
 	</button>
 </ion-footer-bar>
