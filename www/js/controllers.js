@@ -149,13 +149,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 					like_user_id: $scope.User.user_id
 				};
 
-				for (var i = 0; i < $scope.list.length; i++) {
-					if ($scope.list[i].post_id == post_id) {
-						$scope.list[i].likes = $scope.list[i].likes +1;
-						$scope.list[i].liked = true;
-						break;
-					}
-				}
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/like", data,
 					function(records) {
 						var user = Memory.get('login');
@@ -178,13 +171,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 					function(err) {
 
 						$cordovaToast.show('Erro ao curtir...', 'short', 'center');
-						for (var i = 0; i < $scope.list.length; i++) {
-							if ($scope.list[i].post_id == post_id) {
-								$scope.list[i].likes = $scope.list[i].likes - 1;
-								$scope.list[i].liked = false;
-								break;
-							}
-						}
 
 					});
 			}

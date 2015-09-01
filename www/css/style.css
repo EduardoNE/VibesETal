@@ -102,6 +102,13 @@
 	background:#fff;
 }
 
+#login ion-footer-bar.bar-assertive{
+	padding: 0px;
+}
+#login ion-footer-bar button{
+	margin: 0px;
+}
+
 
 /********  CAMERA ********/
 #foto{
