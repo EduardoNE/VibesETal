@@ -90,9 +90,9 @@
   <ion-footer-bar align-title="left" class="item item-input-inset">
 	<label class="item-input-wrapper">
 		<i class="icon ion-ios7-search placeholder-icon"></i>
-		<input type="text" ng-model="insertComment" placeholder="Comentário">
+		<input type="text" ng-model="fields.insertComment" placeholder="Comentário">
 	</label>
-	<button class="button button-small button-balanced" ng-click="saveComment()">
+	<button class="button button-small button-balanced" ng-click="saveComment({{ post[0].post_id }})">
 		Enviar
 	</button>
 </ion-footer-bar>

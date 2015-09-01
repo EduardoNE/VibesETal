@@ -113,7 +113,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 		$scope.list = [];
 		var pageforscroll = 1;
 		var hasscroll = true;
-		$scope.insertComment = "";
+		$scope.fields = [];
 		$scope.noMoreItemsAvailable = false;
 		$ionicModal.fromTemplateUrl('templates/comment-m.html', {
 		    scope: $scope,
@@ -455,9 +455,22 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
 			}
 
-			$scope.saveComment = function(){
-				console.log($scope.insertComment);
+			$scope.saveComment = function(post){
+				var infos = {
+					comment_post_id: post
+				}
+				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/open_comment", infos,
+					function(data) {
+						$scope.post = data.post;
+						$scope.comment_post = data.comment;
+						$scope.post[0].post_time = moment($scope.post[0].post_time).fromNow();
+						$scope.comment.show();
+					},
+					function(err) {
+						console.error(err);
 
+					});
+				console.log($scope.fields.insertComment);
 			}
 
 			$scope.refresh = carregar;
