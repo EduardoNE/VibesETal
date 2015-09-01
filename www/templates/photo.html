@@ -1,30 +1,19 @@
-<ion-view cache-view='false' id="login">
-  <ion-header-bar>
-    <h1 class="title">Login</h1>
-    
-          <button ng-if="voltar" ng-click="closeUpload()" class="button button-dark">
-            Cancelar
-          </button>
-
-  </ion-header-bar>
-  <ion-content id="login">
-    <div class="row row-center">
-      <div class="col col-center">
-        <video ng-if="image.type == 'video' " ng-src="{{image.data}}" class="centerme" controls="controls" style="width:100%"></video>
-        <img   ng-if="image.type == 'image' " ng-src="{{image.data}}" class='eduardinho'>
-          <div class="cadastro">
-            <div class="list list-inset">
-              <label class="item">
-                <textarea ng-model="desc.str" placeholder="Descrição" style="color:#000000"></textarea>
-              </label>
-            </div>
-            <div class="list list-inset botao" >
-              <label class="item">
-                <button class="button button-block button-positive" ng-click="addToList()" type="submit">Enviar</button>
-              </label>
-            </div>
-          </div>
-      </div>
+<ion-view cache-view='false' view-title="<img src='img/topo.png'>" id="photo">
+  <ion-content>
+    <div class="list card">
+    	<div class="col col-50 col-offset-25 col-center">
+	        <video ng-if="image.type == 'video' " ng-src="{{image.data}}" class="centerme" controls="controls" style="width:100%"></video>
+	        <img   ng-if="image.type == 'image' " ng-src="{{image.data}}" class='eduardinho'>
+        </div>
     </div>
+    <div class="list">
+    	<label class="item item-input">
+	    	<input type="text" ng-model="desc.str" placeholder="Descrição">
+	  	</label>
+	</div>
+	<div class="padding">
+		<button class="button button-block button-royal" ng-click="addToList()" type="submit">Publicar</button>
+	</div>
+
   </ion-content>
 </ion-view>

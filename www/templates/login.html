@@ -1,8 +1,7 @@
 <ion-modal-view id="login">
   <ion-header-bar class="bar-vibe">
     <div class="title header-item"><img src='img/topo.png'></div>
-    <button ng-if="voltar" ng-click="closeLogin()" class="button button-stable icon-left ion-chevron-left">
-      Voltar
+    <button ng-if="voltar" ng-click="closeLogin()" class="button button-stable icon-left ion-close-circled">
     </button>
   </ion-header-bar>
   <ion-content id="login">
@@ -45,6 +44,6 @@
 
   </ion-content>
 <ion-footer-bar class="bar-assertive" ng-if="voltar">
-    <button class="button button-full button-assertive" ng-click="logout()">Logout</button>
+    <button class="button button-full button-assertive" ng-click="logout()">LOGOUT</button>
 </ion-footer-bar>
 </ion-modal-view>

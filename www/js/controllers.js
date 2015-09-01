@@ -425,9 +425,9 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						        text: '<b>Save</b>',
 						        type: 'button-positive',
 						        onTap: function(e) {
-						          
+
 						            return $scope.post.post_description;
-						          
+
 						        }
 						      }
 						    ]

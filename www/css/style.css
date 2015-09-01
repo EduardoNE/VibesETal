@@ -36,6 +36,16 @@
 	background-color: rgba(0, 0, 0, 0.9);
 }
 
+#photo .card{
+	box-shadow: none
+}
+#photo .button-royal{
+	box-shadow: none;
+	background: #662d91;
+	border-color: #662d91;
+	color:#fff;
+}
+
 /* Login direito*/
 .login-avatar{
 	max-height: 33px;
@@ -43,6 +53,15 @@
 }
 .login-avatar img{
 	border-radius:50%;
+}
+
+#admTabAction{
+	background: #662d91;
+	border-color: #662d91;
+	color:#fff;
+}
+#admTabAction a.tab-item{
+	opacity: 1;
 }
 
 
@@ -62,7 +81,7 @@
 	border-radius: 5px;
 }
 #login textarea, input[type="text"], input[type="password"],input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"],input[type="search"], input[type="tel"], input[type="color"]{
-	color: #fff;
+	color: #000;
 }
 #login .botao{
 	margin: 0;
@@ -105,8 +124,16 @@
 #login ion-footer-bar.bar-assertive{
 	padding: 0px;
 }
-#login ion-footer-bar button{
+#login ion-footer-bar.bar-assertive button{
 	margin: 0px;
+	font-size: 16px
+}
+
+#login .bar-vibe button{
+	background: #662d91;
+	border-color: #662d91;
+	color:#fff;
+	font-size: 36px
 }
 
 
