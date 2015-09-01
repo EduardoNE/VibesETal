@@ -6,58 +6,51 @@
 -->
   <ion-content id="time-line" ng-class=" {{ User.user_adm == 1 ? 'has-footer': '' }} {{subheader}}">
 
-    <ion-refresher pulling-text="Pull to refresh" on-refresh="refresh()">
-    </ion-refresher>
+      <ion-list>
 
-    <ion-list>
-      <ion-item class="list card" ng-repeat="item in list">
+        <ion-item class="list card" ng-repeat="item in list">
+          <div class="item item-avatar item-button-right">
+	        <img ng-src="{{item.user_image}}">
+	        <a class="button button-icon icon ion-ios-arrow-down" style="color:#886aea" ng-click="options(item);"></a>
+	        <h2>{{item.user_name}}</h2>
+	        <p>{{item.post_time}}</p>
+	      </div>
+	      <div>
+	        <video ng-if="item.post_type == 'video' " ng-src="{{item.post_file}}" class="centerme" controls="controls" style="width:100%"></video>
+	        <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' />
+	      </div>
 
-      <div class="item item-avatar item-button-right">
-        <img ng-src="{{item.user_image}}">
-        <a class="button button-icon icon ion-ios-arrow-down" style="color:#886aea" ng-click="options(item);"></a>
-        <h2>{{item.user_name}}</h2>
-        <p>{{item.post_time}}</p>
-        
-      </div>
+	      <div class="descricao padding" ng-bind-html="item.post_description">
+	      </div>
 
-      <div>
-        <video ng-if="item.post_type == 'video' " ng-src="{{item.post_file}}" class="centerme" controls="controls" style="width:100%"></video>
-        <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' />
-      </div>
+	      <div class="row">
+	        <div class="col col-33">
+	           <button class="button button-block button-royal" ng-if="!item.liked" ng-click="likePost('{{item.post_id}}')">
+	            <i class="fa fa-diamond"></i> {{item.likes}}
+	           </button>
+	           <button class="button button-block button-positive" ng-if="item.liked"><i class="fa fa-diamond"></i> {{item.likes}} </button>
+	        </div>
 
-      <div class="descricao padding" ng-bind-html="item.post_description">
-      </div>
+	        <div class="col col-33">
+	           <button class="button button-block button-royal" ng-click="commentPost('{{item.post_id}}')">
+	              <i class="fa fa-comment"></i> {{item.comments}}
+	           </button>
+	        </div>
 
-      <div class="row">
-        <div class="col col-33">
-           <button class="button button-block button-royal" ng-if="!item.liked" ng-click="likePost('{{item.post_id}}')">
-            <i class="fa fa-diamond"></i> {{item.likes}} 
-           </button>
-           <button class="button button-block button-positive" ng-if="item.liked"><i class="fa fa-diamond"></i> {{item.likes}} </button>
-        </div>
+	        <div class="col col-33">
+	          <button class="button button-block button-royal" ng-click='share("{{item.post_description}}","http://bastidor.com.br/vibesetal/content/{{item.post_file}}")'>
+	            <i class="fa fa-share-square"></i> {{item.share}}
+	          </button>
+	        </div>
 
-        <div class="col col-33">
-           <button class="button button-block button-royal" ng-click="commentPost('{{item.post_id}}')">
-              <i class="fa fa-comment"></i> {{item.comments}}
-           </button>
-        </div>
+	      </div>
+        </ion-item>
 
-        <div class="col col-33">
-          <button class="button button-block button-royal" ng-click='share("{{item.post_description}}","http://bastidor.com.br/vibesetal/content/{{item.post_file}}")'>
-            <i class="fa fa-share-square"></i> {{item.share}}
-          </button>
-        </div>
+      </ion-list>
 
-      </div>
+      <ion-infinite-scroll ng-if="noMoreItemsAvailable" immediate-check="false" icon="ion-loading-c" on-infinite="loadMore()" distance="1%"></ion-infinite-scroll>
 
-    </ion-item>
-    </ion-list>
-
-    <ion-infinite-scroll
-      on-infinite="loadMore()"
-      distance="1%">
-    </ion-infinite-scroll>
-  </ion-content>
+    </ion-content>
 
 
     <div class="tabs tabs-icon-only tabs-background-royal" ng-if="User.user_adm == 1">

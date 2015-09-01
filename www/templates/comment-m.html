@@ -1,0 +1,99 @@
+<ion-modal-view id="login" class="comentario">
+  <ion-header-bar class="bar-vibe">
+    <div class="title header-item"><img src='img/topo.png'></div>
+    <button ng-if="voltar" ng-click="closeLogin()" class="button button-stable icon-left ion-chevron-left">
+      Voltar
+    </button>
+  </ion-header-bar>
+  <ion-content id="login">
+
+    <div class="list card">
+
+		<div class="item item-avatar">
+			<img src="{{ post[0].user_image }}">
+			<h2>{{ post[0].user_name }}</h2>
+			<p>{{ post[0].post_time }}</p>
+		</div>
+		<div ng-if="post[0].post_description != ''" class="item item-body">
+		    <p ng-bind-html="post[0].post_description">
+		    </p>
+	    </div>
+
+	</div>
+	<!--<div class="list" ng-repeat="item in comment_post">
+
+	    <div class="item item-avatar">
+	      <img src="{{ comment.user_image }}">
+	      <h2>{{ comment.user_name }}</h2>
+	      <p>Back off, man. I'm a scientist.</p>
+	    </div>
+
+	</div>-->
+
+		<div class="list">
+
+		    <div class="item item-avatar">
+		      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p50x50/11059846_975166395859903_5377925240729759641_n.jpg?oh=3366aa5b3bfda84b0cab178adee2d2fc&oe=5683600D&__gda__=1449420490_c13bc76ce997fb2166e8c34025eb5edd">
+		      <p class="pull-right">30min</p>
+		      <h2>Eduardo Hillebrand</h2>
+		      <p>Back off, man. I'm a scientist.</p>
+		    </div>
+		    <div class="item item-avatar">
+		      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p50x50/11059846_975166395859903_5377925240729759641_n.jpg?oh=3366aa5b3bfda84b0cab178adee2d2fc&oe=5683600D&__gda__=1449420490_c13bc76ce997fb2166e8c34025eb5edd">
+		      <p class="pull-right">30min</p>
+		      <h2>Eduardo Hillebrand</h2>
+		      <p>Back off, man. I'm a scientist.</p>
+		    </div>
+		    <div class="item item-avatar">
+		      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p50x50/11059846_975166395859903_5377925240729759641_n.jpg?oh=3366aa5b3bfda84b0cab178adee2d2fc&oe=5683600D&__gda__=1449420490_c13bc76ce997fb2166e8c34025eb5edd">
+		      <p class="pull-right">30min</p>
+		      <h2>Eduardo Hillebrand</h2>
+		      <p>Back off, man. I'm a scientist.</p>
+		    </div>
+		    <div class="item item-avatar">
+		      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p50x50/11059846_975166395859903_5377925240729759641_n.jpg?oh=3366aa5b3bfda84b0cab178adee2d2fc&oe=5683600D&__gda__=1449420490_c13bc76ce997fb2166e8c34025eb5edd">
+		      <p class="pull-right">30min</p>
+		      <h2>Eduardo Hillebrand</h2>
+		      <p>Back off, man. I'm a scientist.</p>
+		    </div>
+		    <div class="item item-avatar">
+		      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p50x50/11059846_975166395859903_5377925240729759641_n.jpg?oh=3366aa5b3bfda84b0cab178adee2d2fc&oe=5683600D&__gda__=1449420490_c13bc76ce997fb2166e8c34025eb5edd">
+		      <p class="pull-right">30min</p>
+		      <h2>Eduardo Hillebrand</h2>
+		      <p>Back off, man. I'm a scientist.</p>
+		    </div>
+		    <div class="item item-avatar">
+		      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p50x50/11059846_975166395859903_5377925240729759641_n.jpg?oh=3366aa5b3bfda84b0cab178adee2d2fc&oe=5683600D&__gda__=1449420490_c13bc76ce997fb2166e8c34025eb5edd">
+		      <p class="pull-right">30min</p>
+		      <h2>Eduardo Hillebrand</h2>
+		      <p>Back off, man. I'm a scientist.</p>
+		    </div>
+		    <div class="item item-avatar">
+		      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p50x50/11059846_975166395859903_5377925240729759641_n.jpg?oh=3366aa5b3bfda84b0cab178adee2d2fc&oe=5683600D&__gda__=1449420490_c13bc76ce997fb2166e8c34025eb5edd">
+		      <p class="pull-right">30min</p>
+		      <h2>Eduardo Hillebrand</h2>
+		      <p>Back off, man. I'm a scientist.</p>
+		    </div>
+		    <div class="item item-avatar">
+		      <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p50x50/11059846_975166395859903_5377925240729759641_n.jpg?oh=3366aa5b3bfda84b0cab178adee2d2fc&oe=5683600D&__gda__=1449420490_c13bc76ce997fb2166e8c34025eb5edd">
+		      <p class="pull-right">30min</p>
+		      <h2>Eduardo Hillebrand</h2>
+		      <p>Back off, man. I'm a scientist.</p>
+		    </div>
+
+		</div>
+
+
+
+
+  </ion-content>
+  <ion-footer-bar align-title="left" class="item item-input-inset">
+	<label class="item-input-wrapper">
+		<i class="icon ion-ios7-search placeholder-icon"></i>
+		<input type="text" ng-model="insertComment" placeholder="Comentário">
+	</label>
+	<button class="button button-small button-balanced" ng-click="saveComment()">
+		Enviar
+	</button>
+</ion-footer-bar>
+</ion-modal-view>

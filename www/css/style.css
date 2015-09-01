@@ -80,7 +80,7 @@
 	border-top: 1px solid rgba(0, 0, 0, 0.2);;
 }
 #login .bar{
-	background-color: transparent;
+	background-color: #EAEAEA;
 }
 #login .bar h1{
 	color: #000;
@@ -91,7 +91,18 @@
 }
 
 #login .card{
-	margin: 20px 0px;
+	margin: 0px;
+}
+
+#login .item-body p{
+	margin-top:0px;
+}
+#login .item-input-inset input{
+	color:#0D0D0D;
+	background:#fff;
+}
+#login .item-input-inset label{
+	background:#fff;
 }
 
 

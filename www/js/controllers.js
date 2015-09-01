@@ -108,12 +108,21 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			};
 		})
 	})
-	.controller('HomeCtrl', function($scope, $state, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $ionicActionSheet, $timeout) {
+	.controller('HomeCtrl', function($scope, $state, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $ionicActionSheet, $timeout, $ionicModal) {
 
 		$scope.list = [];
 		var pageforscroll = 1;
 		var hasscroll = true;
+		$scope.insertComment = "";
+		$scope.noMoreItemsAvailable = false;
+		$ionicModal.fromTemplateUrl('templates/comment-m.html', {
+		    scope: $scope,
+		    animation: 'slide-in-up'
+		  }).then(function(modal) {
+		    $scope.comment = modal;
+		  });
 		$ionicPlatform.ready(function() {
+
 			var carregar = function() {
 				JustDo.ItIf("http://bastidor.com.br/vibesetal/json/posts",
 					function(data) {
@@ -123,29 +132,9 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 							$scope.list = checkVideo(data.records);
 							console.log(data.records);
 							$scope.$broadcast('scroll.refreshComplete');
+							$scope.noMoreItemsAvailable = true;
 							//$scope.$apply()
 						})
-					},
-					function(err) {
-
-					})
-			}
-
-			$scope.loadMore = function() { 
-
-				//console.log("scroll infinito foi chamado");
-
-				pageforscroll = pageforscroll + 1;
-
-				console.log("http://bastidor.com.br/vibesetal/json/posts?p=" + pageforscroll);
-
-				JustDo.ItIf("http://bastidor.com.br/vibesetal/json/posts?p=" + pageforscroll,
-					function(data) {
-							console.log( $scope.list.length, "antes");
-							$scope.list = $scope.list.concat(checkVideo(data.records));
-							console.log( $scope.list.length, "depois");
-							$scope.$broadcast('scroll.refreshComplete');
-							//$scope.$apply()
 					},
 					function(err) {
 
@@ -425,6 +414,51 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 				}, 5000);
 
 			};
+
+			$scope.loadMore = function() {
+
+			  	pageforscroll = pageforscroll + 1;
+
+			  	console.log("http://bastidor.com.br/vibesetal/json/posts?p=" + pageforscroll);
+				JustDo.ItIf("http://bastidor.com.br/vibesetal/json/posts?p=" + pageforscroll,
+					function(data) {
+						$timeout(function() {
+							if(data.records){
+								console.log("infinite scroll")
+								$scope.list = $scope.list.concat(checkVideo(data.records));
+								$scope.$broadcast('scroll.infiniteScrollComplete');
+							}else{
+								$scope.noMoreItemsAvailable = false;
+							}
+						})
+					},
+					function(err) {
+
+					})
+
+			  };
+
+			$scope.commentPost = function(post){
+				$scope.comment_post = [];
+				var infos = {comment_post_id: post};
+				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/open_comment", infos,
+					function(data) {
+						$scope.post = data.post;
+						$scope.comment_post = data.comment;
+						$scope.post[0].post_time = moment($scope.post[0].post_time).fromNow();
+						$scope.comment.show();
+					},
+					function(err) {
+						console.error(err);
+
+					});
+
+			}
+
+			$scope.saveComment = function(){
+				console.log($scope.insertComment);
+
+			}
 
 			$scope.refresh = carregar;
 			$scope.selectedTab = "timeline";
