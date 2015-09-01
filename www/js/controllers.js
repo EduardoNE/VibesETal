@@ -148,15 +148,19 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 					like_post_id: post_id,
 					like_user_id: $scope.User.user_id
 				};
+
+				for (var i = 0; i < $scope.list.length; i++) {
+					if ($scope.list[i].post_id == post_id) {
+						$scope.list[i].likes = $scope.list[i].likes +1;
+						$scope.list[i].liked = true;
+						break;
+					}
+				}
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/like", data,
 					function(records) {
 						var user = Memory.get('login');
 						user.user_diamonds = records.diamonds;
 						Memory.set('login', user);
-
-						var likes = Memory.get('likes');
-						likes.push(post_id);
-						Memory.set('likes', likes);
 
 						for (var i = 0; i < $scope.list.length; i++) {
 							if ($scope.list[i].post_id == post_id) {
@@ -165,8 +169,24 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 								break;
 							}
 						}
+
+						var likes = Memory.get('likes');
+						likes.push(post_id);
+						Memory.set('likes', likes);
+
 					},
-					function(err) {});
+					function(err) {
+
+						$cordovaToast.show('Erro ao curtir...', 'short', 'center');
+						for (var i = 0; i < $scope.list.length; i++) {
+							if ($scope.list[i].post_id == post_id) {
+								$scope.list[i].likes = $scope.list[i].likes - 1;
+								$scope.list[i].liked = false;
+								break;
+							}
+						}
+
+					});
 			}
 
 			$scope.caninfinitescroll = function() {
@@ -452,17 +472,25 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 				var infos = {comment_post_id: post};
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/open_comment", infos,
 					function(data) {
-						$scope.post = data.post;
-						$scope.comment_post = data.comment;
-						for(var i in $scope.comment_post)
-							$scope.comment_post[i].comment_date = moment($scope.comment_post[i].comment_date).fromNow();
-						$scope.post[0].post_time = moment($scope.post[0].post_time).fromNow();
-						$scope.comment.show();
-						$ionicScrollDelegate.$getByHandle("commentMain").scrollTop({
-							shouldAnimate: true
-						});
-						$scope.commentforscroll = 1;
-						$ionicLoading.hide();
+
+							$scope.post = data.post;
+							$scope.comment_post = data.comment;
+							for(var i in $scope.comment_post)
+								$scope.comment_post[i].comment_date = moment($scope.comment_post[i].comment_date).fromNow();
+							$scope.post[0].post_time = moment($scope.post[0].post_time).fromNow();
+							$scope.comment.show();
+							$ionicScrollDelegate.$getByHandle("commentMain").scrollTop({
+								shouldAnimate: true
+							});
+							$scope.commentforscroll = 1;
+							$ionicLoading.hide();
+
+						if(data.comment.length > 0){
+							$scope.noMoreCommentsAvailable = true;
+						}else{
+							$scope.noMoreCommentsAvailable = false;
+						}
+
 					},
 					function(err) {
 						console.error(err);
@@ -552,12 +580,13 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
 			$scope.loadMoreComment = function(post){
 
+				console.log("infinite scroll", $scope.noMoreCommentsAvailable);
 				$scope.commentforscroll++;
 				var infos = {comment_post_id: post};
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/open_comment?p="+$scope.commentforscroll, infos,
 					function(data) {
 						$timeout(function() {
-							if(data.comment){
+							if(data.comment.length > 0){
 								for(var i in data.comment){
 									data.comment[i].comment_date = moment(data.comment[i].comment_date).fromNow();
 								}
