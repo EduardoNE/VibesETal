@@ -417,6 +417,10 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
 			};
 
+			$scope.closeComment = function(){
+				$scope.comment.hide();
+			}
+
 			$scope.loadMore = function() {
 
 			  	pageforscroll = pageforscroll + 1;
@@ -454,14 +458,64 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 							$scope.comment_post[i].comment_date = moment($scope.comment_post[i].comment_date).fromNow();
 						$scope.post[0].post_time = moment($scope.post[0].post_time).fromNow();
 						$scope.comment.show();
+						$ionicScrollDelegate.$getByHandle("commentMain").scrollTop({
+							shouldAnimate: true
+						});
 						$scope.commentforscroll = 1;
 						$ionicLoading.hide();
 					},
 					function(err) {
 						console.error(err);
-
 					});
 
+			}
+
+			$scope.commentContextual = function(){
+				// Show the action sheet
+				var hideSheet = $ionicActionSheet.show({
+					buttons: [{
+						text: '<b>Editar</b>'
+					}],
+					destructiveText: '<b>Excluir</b>',
+					titleText: 'O que deseja fazer?',
+					cancelText: 'Cancelar',
+					cancel: function() {
+						console.log("cancel", item);
+						return true;
+					},
+					destructiveButtonClicked: function() {
+
+						console.log("destructiveButtonClicked", item);
+						var infos = {
+							post: {
+								post_deleted: 1
+							},
+							where: {
+								post_id: item.post_id
+							}
+						};
+
+						JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/post", infos,
+							function(data) {
+								console.log(data);
+								$cordovaToast.show('Feito!', 'long', 'center');
+								carregar();
+							},
+							function(err) {
+								console.error(err);
+							});
+						return true;
+					},
+					buttonClicked: function(index) {
+						console.log("buttonClicked", item);
+						return true;
+					}
+				});
+
+				// hide the sheet after 5 seconds
+				$timeout(function() {
+					hideSheet();
+				}, 5000);
 			}
 
 			$scope.saveComment = function(post){
@@ -483,6 +537,9 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 							$ionicScrollDelegate.$getByHandle("commentMain").scrollTop({
 								shouldAnimate: true
 							});
+							var user = Memory.get('login');
+							user.user_diamonds = data.diamonds;
+							Memory.set('login', user);
 							$ionicLoading.hide();
 						},
 						function(err) {
@@ -505,12 +562,11 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 									data.comment[i].comment_date = moment(data.comment[i].comment_date).fromNow();
 								}
 								$scope.comment_post = $scope.comment_post.concat(data.comment);
-								$scope.$broadcast('scroll.infiniteScrollComplete');
 							}else{
 								$scope.noMoreCommentsAvailable = false;
 							}
+							$scope.$broadcast('scroll.infiniteScrollComplete');
 						})
-
 
 					},
 					function(err) {

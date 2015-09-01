@@ -1,7 +1,7 @@
 /********  HOME  ********/
 #time-line .item{
-	padding: 5px 16px 5px 60px;
 	border-width: 0;
+	padding-right: 0px;
 }
 #time-line .item-avatar > img:first-child{
 	top:5px;
@@ -10,10 +10,7 @@
 #time-line .item-avatar{
 	min-height: 50px;
 }
-#time-line .card{
-    margin: 20px 0;
-    box-shadow: none;
-}
+
 #time-line .foto-icon{
 	padding: 5px 16px 5px 50px;
 }
