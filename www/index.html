@@ -8,7 +8,7 @@
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
-    
+
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
@@ -34,7 +34,23 @@
     <script src="js/services.js"></script>
     <script src="js/moment.min.js"></script>
     <script type="text/javascript">
-        moment.lang("pt-br")
+        moment.locale("pt-br", {
+		    relativeTime : {
+		        future: "in %s",
+		        past:   "%s",
+		        s:  "segundos atrás",
+		        m:  "1 min",
+		        mm: "%d min",
+		        h:  "1 hora",
+		        hh: "%d horas",
+		        d:  "1 dia",
+		        dd: "%d dias",
+		        M:  "1 mês",
+		        MM: "%d meses",
+		        y:  "1 ano",
+		        yy: "%d anos"
+		    }
+		})
     </script>
   </head>
 

@@ -13,7 +13,8 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 				$scope.modal = modal;
 				console.log(Memory.get('login'));
 				if (Memory.get('login') == "0")
-					modal.show();
+					//modal.show();
+				console.log("");
 				else {
 					$scope.User = Memory.get('login');
 					$scope.voltar = true;
@@ -131,6 +132,9 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						$timeout(function() {
 							pageforscroll = 1;
 							var hasscroll = true;
+							for(var i in data.records){
+								data.records[i].post_time = moment(data.records[i].post_time).fromNow();
+							}
 							$scope.list = checkVideo(data.records);
 							console.log(data.records);
 							$scope.$broadcast('scroll.refreshComplete');
@@ -149,6 +153,10 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 					like_user_id: $scope.User.user_id
 				};
 
+				$("#post_"+post_id+" .btn_like").removeClass('button-royal');
+				$("#post_"+post_id+" .btn_like").addClass('button-positive');
+				var likes = $("#post_"+post_id+" .btn_like span").html();
+				$("#post_"+post_id+" .btn_like span").html(parseInt(likes) + 1);
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/like", data,
 					function(records) {
 						var user = Memory.get('login');
@@ -169,7 +177,10 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
 					},
 					function(err) {
-
+						$("#post_"+post_id+" .btn_like").removeClass('button-positive')
+						$("#post_"+post_id+" .btn_like").addClass('button-royal')
+						var likes = $("#post_"+post+" .btn_like span").html();
+						$("#post_"+post+" .btn_like span").html(parseInt(likes) - 1);
 						$cordovaToast.show('Erro ao curtir...', 'short', 'center');
 
 					});
@@ -508,7 +519,12 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 							$ionicLoading.hide();
 
 						if(data.comment.length > 0){
-							$scope.noMoreCommentsAvailable = true;
+							if(data.comment.length == 9){
+								$scope.noMoreCommentsAvailable = true;
+							}else{
+								$scope.noMoreCommentsAvailable = false;
+							}
+
 						}else{
 							$scope.noMoreCommentsAvailable = false;
 						}
@@ -576,7 +592,8 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 					});
 					var data = {
 						comment_post_id: post,
-						comment_user_id: $scope.User.user_id,
+						//comment_user_id: $scope.User.user_id,
+						comment_user_id: 16,
 						comment_text: $scope.fields.insertComment
 					};
 					JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/comment", data,
@@ -591,6 +608,8 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 							user.user_diamonds = data.diamonds;
 							Memory.set('login', user);
 							$ionicLoading.hide();
+							var comments = $("#post_"+post+" .btn_comment span").html();
+							$("#post_"+post+" .btn_comment span").html(parseInt(comments) + 1);
 						},
 						function(err) {
 							console.error(err);

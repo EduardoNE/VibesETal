@@ -15,7 +15,8 @@
 
           <div class="item item-avatar item-button-right">
 	        <img ng-src="{{item.user_image}}">
-	        <a class="button button-icon icon ion-ios-arrow-down" style="color:#886aea" ng-if="User.user_adm == 1" ng-click="options(item);"></a>
+	        <!--<a class="button button-icon icon ion-ios-arrow-down" style="color:#886aea" ng-if="User.user_adm == 1" ng-click="options(item);"></a>-->
+	        <a class="button button-icon icon ion-ios-arrow-down btn-context" style="color:#886aea" ng-click="options(item);"></a>
 	        <h2>{{item.user_name}}</h2>
 	        <p>{{item.post_time}}</p>
 	      </div>
@@ -30,20 +31,20 @@
 	      <div class="row">
 	        <div class="col col-33">
 	           <button class="button button-block button-royal btn_like" ng-if="!item.liked" ng-click="likePost('{{item.post_id}}')">
-	            <i class="fa fa-diamond"></i> {{item.likes}}
+	            <i class="fa fa-diamond"></i> <span>{{item.likes}}</span>
 	           </button>
 	           <button class="button button-block button-positive btn_like" ng-if="item.liked"><i class="fa fa-diamond"></i> {{item.likes}} </button>
 	        </div>
 
 	        <div class="col col-33">
 	           <button class="button button-block button-royal btn_comment" ng-click="commentPost('{{item.post_id}}')">
-	              <i class="fa fa-comment"></i> {{item.comments}}
+	              <i class="fa fa-comment"></i> <span>{{item.comments}}</span>
 	           </button>
 	        </div>
 
 	        <div class="col col-33">
 	          <button class="button button-block button-royal btn_share" ng-click='share("{{item.post_description}}","http://bastidor.com.br/vibesetal/content/{{item.post_file}}")'>
-	            <i class="fa fa-share-square"></i> {{item.share}}
+	            <i class="fa fa-share"></i> <span>{{item.share}}</span>
 	          </button>
 	        </div>
 

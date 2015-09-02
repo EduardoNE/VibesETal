@@ -3,17 +3,31 @@
 	border-width: 0;
 	padding-right: 0px;
 }
-#time-line .item-avatar > img:first-child{
-	top:5px;
+
+#time-line .descricao{
+	white-space: normal;
 }
 
 #time-line .item-avatar{
 	min-height: 50px;
+	padding-left:60px;
 }
 
 #time-line .foto-icon{
 	padding: 5px 16px 5px 50px;
 }
+
+#time-line .btn-context{
+	right: 10px;
+    min-width: 18px;
+    padding: 0;
+    font-size: 24px
+}
+#time-line .btn-context:before{
+    font-size: 24px
+}
+
+
 
 /*  Botão de foto  */
 
@@ -204,6 +218,27 @@
 	background: #662d91;
 	border-radius: 50%;
 	color:#fff;
+}
+
+/******* Lista comentarios ******/
+.comment-desc .list{
+	padding-top:0px;
+	border-top: 0px;
+	padding-right:0px;
+}
+.comment-desc .list p{
+	white-space: normal;
+}
+.comment-desc .list .item-avatar{
+	border-bottom: none;
+	border-right: none;
+	border-top: none;
+	padding-right:10px;
+	padding-left:60px;
+}
+.comment-desc .list:first-child .item-body{
+	padding-left:60px;
+	padding-top:0px;
 }
 
 
