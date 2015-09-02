@@ -13,8 +13,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 				$scope.modal = modal;
 				console.log(Memory.get('login'));
 				if (Memory.get('login') == "0")
-					//modal.show();
-				console.log("");
+					modal.show();
 				else {
 					$scope.User = Memory.get('login');
 					$scope.voltar = true;

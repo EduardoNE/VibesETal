@@ -15,8 +15,7 @@
 
           <div class="item item-avatar item-button-right">
 	        <img ng-src="{{item.user_image}}">
-	        <!--<a class="button button-icon icon ion-ios-arrow-down" style="color:#886aea" ng-if="User.user_adm == 1" ng-click="options(item);"></a>-->
-	        <a class="button button-icon icon ion-ios-arrow-down btn-context" style="color:#886aea" ng-click="options(item);"></a>
+	        <a class="button button-icon icon ion-ios-arrow-down btn-context" style="color:#886aea" ng-if="User.user_adm == 1" ng-click="options(item);"></a>
 	        <h2>{{item.user_name}}</h2>
 	        <p>{{item.post_time}}</p>
 	      </div>
