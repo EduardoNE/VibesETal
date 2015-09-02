@@ -108,7 +108,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			};
 		})
 	})
-	.controller('HomeCtrl', function($scope, $state, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $ionicActionSheet, $timeout, $ionicModal, $ionicScrollDelegate, $ionicLoading, $ionicPopup) {
+	.controller('HomeCtrl', function($scope, $state, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $ionicActionSheet, $timeout, $ionicModal, $ionicScrollDelegate, $ionicLoading, $ionicPopup, $ionicHistory) {
 
 		$scope.list = [];
 		var pageforscroll = 1;
@@ -135,7 +135,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 								data.records[i].post_time = moment(data.records[i].post_time).fromNow();
 							}
 							$scope.list = checkVideo(data.records);
-							console.log(data.records);
 							$scope.$broadcast('scroll.refreshComplete');
 							$scope.noMoreItemsAvailable = true;
 							//$scope.$apply()
@@ -213,7 +212,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						console.log("video found", data[i].post_file);
 					}
 				}
-				console.log("tudo", data);
 				return data;
 			}
 
@@ -293,6 +291,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						function(data) {
 							console.log(data);
 							carregar();
+
 						},
 						function(err) {
 
@@ -358,6 +357,9 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						'data': data[0].fullPath,
 						'type': 'image'
 					});
+					$ionicHistory.nextViewOptions({
+					    disableBack: true
+					});
 					$state.go("app.upload");
 					//addToList(data[0].fullPath, data[0].name, "image", new Date().getTime(), data[0].type);
 				}, function(err) {
@@ -422,17 +424,17 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 					},
 					buttonClicked: function(index) {
 						  $scope.post = {}
-
+						  $scope.post.post_description = item.post_description;
 						  // An elaborate, custom popup
 						  var myPopup = $ionicPopup.show({
-						    template: '<input type="text" ng-model="post.post_description">',
+						    template: '<input type="text" ng-model="post.post_description" ng-value="'+item.post_description+'">',
 						    title: 'Editar descrição',
 						    //subTitle: 'Please use normal things',
 						    scope: $scope,
 						    buttons: [
 						      { text: 'Cancelar' },
 						      {
-						        text: '<b>Save</b>',
+						        text: '<b>Salvar</b>',
 						        type: 'button-positive',
 						        onTap: function(e) {
 
@@ -476,13 +478,14 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			$scope.loadMore = function() {
 
 			  	pageforscroll = pageforscroll + 1;
-
-			  	console.log("http://bastidor.com.br/vibesetal/json/posts?p=" + pageforscroll);
 				JustDo.ItIf("http://bastidor.com.br/vibesetal/json/posts?p=" + pageforscroll,
 					function(data) {
 						$timeout(function() {
 							if(data.records){
 								console.log("infinite scroll")
+								for(var i in data.records){
+									data.records[i].post_time = moment(data.records[i].post_time).fromNow();
+								}
 								$scope.list = $scope.list.concat(checkVideo(data.records));
 								$scope.$broadcast('scroll.infiniteScrollComplete');
 							}else{
@@ -650,7 +653,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 		});
 	})
 
-.controller('UploadCtrl', function($scope, $stateParams, RAM, file, JustDo, $state, $cordovaToast, $ionicLoading) {
+.controller('UploadCtrl', function($scope, $stateParams, RAM, file, JustDo, $state, $cordovaToast, $ionicLoading, $ionicHistory) {
 	var image = null;
 	var start = function() {
 		image = (RAM.get());
@@ -663,7 +666,9 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 		$ionicLoading.hide();
 		$cordovaToast.showShortCenter('Enviado com Sucesso!')
 			.then(function(success) {
-
+				$ionicHistory.nextViewOptions({
+				    disableBack: true
+				});
 				$state.go("app.home", {}, {reload: true});
 
 			}, function(error) {

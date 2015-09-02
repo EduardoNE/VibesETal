@@ -38,7 +38,7 @@
     </ion-list>
 	<ion-infinite-scroll ng-if="noMoreCommentsAvailable" immediate-check="false" on-infinite="loadMoreComment(post[0].post_id)" distance="1%"></ion-infinite-scroll>
   </ion-content>
-  <ion-footer-bar align-title="left" class="item item-input-inset">
+  <ion-footer-bar align-title="left" keyboard-attach class="item item-input-inset">
 	<label class="item-input-wrapper">
 		<i class="icon ion-ios7-search placeholder-icon"></i>
 		<input type="text" ng-model="fields.insertComment" ng-enter="saveComment(post[0].post_id)" placeholder="Comentário">

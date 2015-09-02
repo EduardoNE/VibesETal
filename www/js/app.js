@@ -70,6 +70,7 @@ angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.servi
       url: '/home',
       views: {
         'menuContent': {
+        	cache: false,
           templateUrl: 'templates/home.html',
           controller: 'HomeCtrl'
         }
