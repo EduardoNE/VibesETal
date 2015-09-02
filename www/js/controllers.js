@@ -215,7 +215,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 				return data;
 			}
 
-			$scope.sharePost = function(post_id) {
+			var sharePost = function(post_id) {
 				var data = {
 					share_post_id: post_id,
 					share_user_id: $scope.User.user_id
@@ -236,14 +236,19 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 					});
 			}
 
-			$scope.share = function(msg, file) {
+			$scope.share = function(msg, file, id) {
 				$cordovaSocialSharing
 					.share(msg, msg, file, "http://linkdoprojeto.com.br") // Share via native share sheet
 					.then(function(result) {
 						console.log(result);
 						$cordovaToast.show('Feito!', 'short', 'center');
+						var shares = $("#post_"+id+" .btn_share span").html();
+						$("#post_"+id+" .btn_share span").html(parseInt(shares) + 1);
+						sharePost(id);
 					}, function(err) {
 						$cordovaToast.show('Erro ao compartilhar...', 'short', 'center');
+						var shares = $("#post_"+id+" .btn_share span").html();
+						$("#post_"+id+" .btn_share span").html(parseInt(shares) - 1);
 					});
 			};
 
