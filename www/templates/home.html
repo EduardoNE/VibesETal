@@ -19,8 +19,8 @@
 	        <h2>{{item.user_name}}</h2>
 	        <p>{{item.post_time}}</p>
 	      </div>
-	      <div>
-	        <video ng-if="item.post_type == 'video' " ng-src="{{item.post_file}}" class="centerme" controls="controls" style="width:100%"></video>
+	      <div class="midia-post">
+	        <img ng-if="item.post_type == 'video' " ng-src="http://traveler.southernhospitalitymagazine.com/include/images/video_play_placeholder.jpg" class='eduardinho' ng-click="openVideoPlayer(item.post_file, item.post_id)" / >
 	        <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' />
 	      </div>
 

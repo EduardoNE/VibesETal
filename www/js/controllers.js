@@ -480,6 +480,10 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 				$scope.comment.hide();
 			}
 
+			$scope.openVideoPlayer = function(video, id){
+				$("#post_"+id+" .midia-post").html("<video style='width:100%;height:100%' autoplay='autoplay' src='"+video+"'></video>");
+			}
+
 			$scope.loadMore = function() {
 
 			  	pageforscroll = pageforscroll + 1;
