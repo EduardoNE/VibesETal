@@ -63,6 +63,20 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			var closeLogin = function() {
 				$scope.modal.hide();
 			};
+			$scope.updateUser = function(){
+				JustDo.aPost("http://bastidor.com.br/vibesetal/json/user", { user_id : $scope.User.user_id },
+					function(user) {
+						console.log(user[0]);
+						Memory.set('login', user[0]);
+						//identifyUser(pushRegister, data.name);
+						closeLogin();
+						$scope.User = Memory.get('login');
+						$scope.voltar = true;
+					},
+					function(err) {
+
+					});
+			};
 			var change = function(data) {
 				$scope.user = data;
 				console.log("data", data);
@@ -97,8 +111,11 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						console.log(success.authResponse.userID);
 						$cordovaFacebook.api(success.authResponse.userID + "/?fields=id,email,name,picture", ["public_profile"])
 							.then(function(userdata) {
+
 								console.log(userdata);
+
 								change(userdata);
+
 							}, function(error) {
 								console.error(error);
 							});
@@ -222,7 +239,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 				};
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/share", data,
 					function(share) {
-						likes = JSON.parse(share);
+						//likes = JSON.parse(share);
 						console.log(share);
 						for (var i = 0; i < $scope.list.length; i++) {
 							if ($scope.list[i].post_id == post_id) {
@@ -237,19 +254,112 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			}
 
 			$scope.share = function(msg, file, id) {
-				$cordovaSocialSharing
-					.share(msg, msg, file, null) // Share via native share sheet
-					.then(function(result) {
-						console.log(result);
-						$cordovaToast.show('Feito!', 'short', 'center');
-						var shares = $("#post_"+id+" .btn_share span").html();
-						$("#post_"+id+" .btn_share span").html(parseInt(shares) + 1);
-						sharePost(id);
-					}, function(err) {
-						$cordovaToast.show('Erro ao compartilhar...', 'short', 'center');
-						var shares = $("#post_"+id+" .btn_share span").html();
-						$("#post_"+id+" .btn_share span").html(parseInt(shares) - 1);
-					});
+			   var link = "http://vibesetal.com.br";
+
+			   // Show the action sheet
+			   var hideSheet = $ionicActionSheet.show({
+			     buttons: [
+			       { text: '<b>Facebook</b>' },
+			       { text: '<b>Twitter</b>' },
+			       { text: '<b>Whatsapp</b>' },
+				   { text: '<b>Email</b>' },
+				   { text: '<b>Outros</b>' }
+			     ],
+			     //destructiveText: 'Deletar',
+			     titleText: 'Compartilhar',
+			     cancelText: 'Cancelar',
+			     cancel: function() {
+			          // add cancel code..
+			        },
+			     buttonClicked: function(index) {
+			     	switch(index) {
+					    case 0:
+					        //Facebook
+					        $cordovaSocialSharing
+							.shareViaFacebook(msg, file, link)
+							.then(function(result) {
+								console.log(result);
+								$cordovaToast.show('Feito!', 'short', 'center');
+								var shares = $("#post_"+id+" .btn_share span").html();
+								$("#post_"+id+" .btn_share span").html(parseInt(shares) + 1);
+								sharePost(id);
+							}, function(err) { console.log(err);
+								$cordovaToast.show('Erro ao compartilhar...', 'short', 'center');
+								var shares = $("#post_"+id+" .btn_share span").html();
+								//$("#post_"+id+" .btn_share span").html(parseInt(shares) - 1);
+							});
+
+					        break;
+					    case 1:
+					        //Twitter
+					        $cordovaSocialSharing
+							.shareViaTwitter(msg, file, link)
+							.then(function(result) {
+								console.log(result);
+								$cordovaToast.show('Feito!', 'short', 'center');
+								var shares = $("#post_"+id+" .btn_share span").html();
+								$("#post_"+id+" .btn_share span").html(parseInt(shares) + 1);
+								sharePost(id);
+							}, function(err) { console.log(err);
+								$cordovaToast.show('Erro ao compartilhar...', 'short', 'center');
+								var shares = $("#post_"+id+" .btn_share span").html();
+								//$("#post_"+id+" .btn_share span").html(parseInt(shares) - 1);
+							});
+
+					        break;
+					    case 2:
+					        //Whatsapp
+					        $cordovaSocialSharing
+							.shareViaWhatsApp(msg, file, link)
+							.then(function(result) {
+								console.log(result);
+								$cordovaToast.show('Feito!', 'short', 'center');
+								var shares = $("#post_"+id+" .btn_share span").html();
+								$("#post_"+id+" .btn_share span").html(parseInt(shares) + 1);
+								sharePost(id);
+							}, function(err) { console.log(err);
+								$cordovaToast.show('Erro ao compartilhar...', 'short', 'center');
+								var shares = $("#post_"+id+" .btn_share span").html();
+								//$("#post_"+id+" .btn_share span").html(parseInt(shares) - 1);
+							});
+
+					        break;
+					    case 3:
+					        //Email
+					        $cordovaSocialSharing
+							.shareViaEmail(msg, "Vibes&Tal", null, null, null, file)
+							.then(function(result) {
+								console.log(result);
+								$cordovaToast.show('Feito!', 'short', 'center');
+								var shares = $("#post_"+id+" .btn_share span").html();
+								$("#post_"+id+" .btn_share span").html(parseInt(shares) + 1);
+								sharePost(id);
+							}, function(err) { console.log(err);
+								$cordovaToast.show('Erro ao compartilhar...', 'short', 'center');
+								var shares = $("#post_"+id+" .btn_share span").html();
+								//$("#post_"+id+" .btn_share span").html(parseInt(shares) - 1);
+							});
+
+					        break;
+					    default:
+					        //default code block
+					        $cordovaSocialSharing
+							.share(msg, msg, file, null) // Share via native share sheet
+							.then(function(result) {
+								console.log(result);
+								$cordovaToast.show('Feito!', 'short', 'center');
+								var shares = $("#post_"+id+" .btn_share span").html();
+								$("#post_"+id+" .btn_share span").html(parseInt(shares) + 1);
+								sharePost(id);
+							}, function(err) { console.log(err);
+								$cordovaToast.show('Erro ao compartilhar...', 'short', 'center');
+								var shares = $("#post_"+id+" .btn_share span").html();
+								//$("#post_"+id+" .btn_share span").html(parseInt(shares) - 1);
+							});
+					}
+			        return true;
+			     }
+			   });
 			};
 
 			$scope.getFormattedDate = function(timestamp) {
