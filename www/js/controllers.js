@@ -626,7 +626,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 				var infos = {comment_post_id: post};
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/open_comment", infos,
 					function(data) {
-
 							$scope.post = data.post;
 							$scope.comment_post = data.comment;
 							for(var i in $scope.comment_post)
