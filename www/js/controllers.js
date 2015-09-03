@@ -238,7 +238,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
 			$scope.share = function(msg, file, id) {
 				$cordovaSocialSharing
-					.share(msg, msg, file, "http://linkdoprojeto.com.br") // Share via native share sheet
+					.share(msg, msg, file, null) // Share via native share sheet
 					.then(function(result) {
 						console.log(result);
 						$cordovaToast.show('Feito!', 'short', 'center');
@@ -544,7 +544,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 					function(err) {
 						console.error(err);
 					});
-
 			}
 
 			$scope.commentContextual = function(){
@@ -603,8 +602,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 					});
 					var data = {
 						comment_post_id: post,
-						//comment_user_id: $scope.User.user_id,
-						comment_user_id: 16,
+						comment_user_id: $scope.User.user_id,
 						comment_text: $scope.fields.insertComment
 					};
 					JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/comment", data,
@@ -713,7 +711,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			};
 			JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/post", infos,
 				function(data) {
-					console.log(data);
 					carregar();
 				},
 				function(err) {
