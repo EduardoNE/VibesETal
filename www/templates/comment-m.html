@@ -21,13 +21,13 @@
 		</ion-item>
 
 		<ion-item class="list" ng-repeat="item in comment_post">
-		    <div class="item item-avatar" ng-if="item.comment_user_id == User.user_id" on-hold="commentContextual()">
+		    <div class="item item-avatar" ng-if="item.comment_user_id == User.user_id || User.user_adm == 1" id="comment_{{ item.comment_id }}" on-hold="commentContextual(item)">
 		      <img src="{{ item.user_image }}">
 		      <p class="pull-right">{{ item.comment_date }}</p>
 		      <h2>{{ item.user_name }}</h2>
-		      <p>{{ item.comment_text }}</p>
+		      <p class="comment_desc">{{ item.comment_text }}</p>
 		    </div>
-		    <div class="item item-avatar" ng-if="item.comment_user_id != User.user_id">
+		    <div class="item item-avatar" ng-if="item.comment_user_id != User.user_id && User.user_adm == 0">
 		      <img src="{{ item.user_image }}">
 		      <p class="pull-right">{{ item.comment_date }}</p>
 		      <h2>{{ item.user_name }}</h2>
