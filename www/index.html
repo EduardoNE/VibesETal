@@ -52,6 +52,15 @@
 		    }
 		})
     </script>
+
+    <script>
+        $(document).ready(function(){
+            $("body").on("click", ".menu-item", function(){
+                $(".menu-item").removeClass('active');
+                $(this).addClass('active');
+            })
+        })
+    </script>
   </head>
 
   <body ng-app="starter">

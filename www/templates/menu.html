@@ -22,17 +22,17 @@
       <h1 class="title">Menu</h1>
     </ion-header-bar>
     <ion-content>
-      <ion-list ng-init="selectedTab = 'timeline'">
-      <ion-item menu-close ng-class="{'active':selectedTab === 'timeline'}" href="#/app/home">
+      <ion-list>
+      <ion-item menu-close class="menu-item active" href="#/app/home">
           <i class="ion-android-globe"></i> Linha do tempo
         </ion-item>
-        <ion-item menu-close ng-class="{'active':selectedTab === 'posts'}" href="#/app/TopPost">
+        <ion-item menu-close class="menu-item" href="#/app/TopPost">
           <i class="ion-social-buffer"></i> Top 10 Posts
         </ion-item>
-        <ion-item menu-close ng-class="{'active':selectedTab === 'users'}" href="#/app/TopUsers">
+        <ion-item menu-close class="menu-item" href="#/app/TopUsers">
           <i class="ion-person-stalker"></i> Top 10 Usuários
         </ion-item>
-        <ion-item menu-close ng-class="{'active':selectedTab === 'sobre'}" href="#/app/sobre">
+        <ion-item menu-close class="menu-item" href="#/app/sobre">
           <i class="icon ion-ios-barcode-outline"></i> Sobre
         </ion-item>
       </ion-list>

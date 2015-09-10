@@ -93,6 +93,15 @@ ion-modal-view#login{
 #login{
 	background: #fff;
 }
+#login .bar-vibe{
+	height: 70px; 
+}								
+#login .bar-vibe .title, #login .bar-vibe .button{
+	margin-top: 20px; 
+}		
+ion-modal-view#login ion-content#login {
+	padding-top: 30px;
+}						
 #login .list-inset{
 	background-color: transparent;
 	border: 0;
