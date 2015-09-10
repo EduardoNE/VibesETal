@@ -158,7 +158,9 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						})
 					},
 					function(err) {
-
+						console.error(err);
+						$cordovaToast.showShortCenter('Sem conexão com a internet.');
+						$scope.$broadcast('scroll.refreshComplete');
 					})
 			}
 
@@ -613,7 +615,9 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						})
 					},
 					function(err) {
-
+						console.error(err);
+						$cordovaToast.showShortCenter('Sem conexão com a internet.');
+						$scope.$broadcast('scroll.infiniteScrollComplete');
 					})
 
 			  };
@@ -652,6 +656,8 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 					},
 					function(err) {
 						console.error(err);
+						$ionicLoading.hide();
+						$cordovaToast.showShortCenter('Sem conexão com a internet.');
 					});
 			}
 
@@ -767,7 +773,8 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						},
 						function(err) {
 							console.error(err);
-
+							$ionicLoading.hide();
+							$cordovaToast.showShortCenter('Sem conexão com a internet.');
 						});
 				}
 
@@ -795,7 +802,8 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 					},
 					function(err) {
 						console.error(err);
-
+						$cordovaToast.showShortCenter('Sem conexão com a internet.');
+						$scope.$broadcast('scroll.infiniteScrollComplete');
 					});
 			}
 
@@ -807,6 +815,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
 .controller('UploadCtrl', function($scope, $stateParams, RAM, file, JustDo, $state, $cordovaToast, $ionicLoading, $ionicHistory) {
 	var image = null;
+
 	var start = function() {
 		image = (RAM.get());
 		RAM.set([]);
@@ -814,6 +823,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 		$scope.desc.str = "";
 		$scope.image = image;
 	}
+
 	var carregar = function() {
 		$ionicLoading.hide();
 		$cordovaToast.showShortCenter('Enviado com Sucesso!')
@@ -860,10 +870,13 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 				},
 				function(err) {
 					console.error(err);
-
+					$ionicLoading.hide();
+					$cordovaToast.showShortCenter('Sem conexão com a internet.');
 				});
 		}, function(err) {
 			console.log('e', err)
+			$ionicLoading.hide();
+			$cordovaToast.showShortCenter('Sem conexão com a internet.');
 		}, function(prog) {
 			$scope.uploadProgress = ((prog.loaded / prog.total * 100));
 		});
@@ -876,7 +889,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
 })
 
-.controller('TopPostCtrl', function($scope, $stateParams, $ionicPlatform, JustDo, $sce) {
+.controller('TopPostCtrl', function($scope, $stateParams, $ionicPlatform, JustDo, $sce, $cordovaToast) {
 	$ionicPlatform.ready(function() {
 		$scope.openVideoPlayer = function(video, id){
 				$("#post_"+id+" .midia-post").html("<video style='width:100%;height:100%' autoplay='autoplay' src='"+video+"'></video>");
@@ -905,7 +918,8 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 					$scope.list = records;
 				},
 				function(err) {
-
+					$cordovaToast.showShortCenter('Sem conexão com a internet.');
+					$scope.$broadcast('scroll.refreshComplete');
 				})
 		}
 		$scope.selectedTab = "posts";
@@ -913,7 +927,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 	})
 })
 
-.controller('TopUsersCtrl', function($scope, $stateParams, $ionicPlatform, JustDo) {
+.controller('TopUsersCtrl', function($scope, $stateParams, $ionicPlatform, JustDo, $cordovaToast) {
 		$ionicPlatform.ready(function() {
 			var carregar = function() {
 				JustDo.ItIf("http://bastidor.com.br/vibesetal/json/user/best",
@@ -921,30 +935,30 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						$scope.list = data.records;
 					},
 					function(err) {
-
+						$cordovaToast.showShortCenter('Sem conexão com a internet.');
+						$scope.$broadcast('scroll.refreshComplete');
 					})
 			}
 			$scope.selectedTab = "users";
 			carregar();
 		})
 	})
-	.controller('SobreCtrl', function($scope, $stateParams, $ionicPlatform, $cordovaInAppBrowser) {
-		$ionicPlatform.ready(function() {
-			$scope.Open = function(url) {;
-				var options = {
-					location: 'no',
-					clearcache: 'yes',
-					toolbar: 'yes'
-				};
-
-				$cordovaInAppBrowser.open(url, '_blank', options)
-					.then(function(event) {
-						// success
-					})
-					.catch(function(event) {
-						// error
-					});
-
+.controller('SobreCtrl', function($scope, $stateParams, $ionicPlatform, $cordovaInAppBrowser) {
+	$ionicPlatform.ready(function() {
+		$scope.Open = function(url) {;
+			var options = {
+				location: 'no',
+				clearcache: 'yes',
+				toolbar: 'yes'
 			};
-		})
+
+			$cordovaInAppBrowser.open(url, '_blank', options)
+				.then(function(event) {
+					// success
+				})
+				.catch(function(event) {
+					// error
+				});
+			};
 	})
+})
