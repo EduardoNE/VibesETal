@@ -1,14 +1,26 @@
-<ion-view view-title="<img src='img/topo.png'>">
+<ion-view  cache-view='false' view-title="<img src='img/topo.png'>">
   <ion-content id="time-line">
   	<div ng-if="list.length == 0">Sem resultados para exibir.</div>
 	<div class="list" ng-repeat="item in list">
 
 	    <div class="item item-avatar">
-	      <img src="{{item.user_image}}">
+	      	<img ng-if="item.post_type == 'video' " ng-src="{{item.videoImage}}" class='eduardinho' ng-click="" / >
+	        <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' />
+	        <h2 class="pull-right post-pos" style="margin-right:10px;">
+				{{item.position + 1}}
+	        </h2>
 	      <h2>{{item.user_name}}</h2>
 	      <p>
 	      	<strong>
-	      		<i class="fa fa-diamond"></i> Pontos: {{item.points}}
+	      		<i class="fa fa-diamond"></i> {{item.likes}} | 
+	      	</strong>
+
+	      	<strong>
+	      		<i class="fa fa-comment"></i> {{item.comments}} | 
+	      	</strong>
+
+	      	<strong>
+	      		<i class="fa fa-share"></i> {{item.shares}}
 	      	</strong>
 	      </p>
 	    </div>

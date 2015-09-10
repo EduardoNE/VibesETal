@@ -1,4 +1,11 @@
 {
   "name": "Vibes e Tal",
-  "app_id": "37e4e273"
+  "app_id": "37e4e273",
+  "browsers": [
+    {
+      "platform": "android",
+      "browser": "crosswalk",
+      "version": "10.39.235.15"
+    }
+  ]
 }

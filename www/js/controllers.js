@@ -878,6 +878,10 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
 .controller('TopPostCtrl', function($scope, $stateParams, $ionicPlatform, JustDo, $sce) {
 	$ionicPlatform.ready(function() {
+		$scope.openVideoPlayer = function(video, id){
+				$("#post_"+id+" .midia-post").html("<video style='width:100%;height:100%' autoplay='autoplay' src='"+video+"'></video>");
+			}
+			
 		var checkVideo = function(data) {
 			if (data.post_type == "video") {
 				if (data.post_file.indexOf("https://") == -1 && data.post_file.indexOf("http://") == -1)
