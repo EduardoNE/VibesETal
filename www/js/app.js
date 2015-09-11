@@ -22,8 +22,10 @@ angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.servi
     }
   });
 })
-.config(function($ionicAppProvider,$sceProvider) {
+.config(function($ionicAppProvider,$sceProvider,$ionicConfigProvider) {
   $sceProvider.enabled(false);
+
+  $ionicConfigProvider.backButton.text('');
   // Identify app
   $ionicAppProvider.identify({
     // The App ID (from apps.ionic.io) for the server
@@ -65,14 +67,24 @@ angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.servi
     }
   })
 
-
     .state('app.home', {
       url: '/home',
       views: {
         'menuContent': {
-        	cache: false,
+          cache: false,
           templateUrl: 'templates/home.html',
           controller: 'HomeCtrl'
+        }
+      }
+    })
+
+    .state('app.UserPosts', {
+      url: '/UserPosts/:id',
+      views: {
+        'menuContent': {
+          cache: false,
+          templateUrl: 'templates/UserPosts.html',
+          controller: 'UserPostsCtrl'
         }
       }
     })
