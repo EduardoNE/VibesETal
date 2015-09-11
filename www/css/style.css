@@ -81,14 +81,14 @@
 
 /********  LOGIN  ********/
 
-/*ion-modal-view#login{
+ion-modal-view#login{
 	width:100%;
 	height:100%;
 	top:0;
 	left:0;
 	right:0;
 	bottom:0
-}*/
+}
 
 #login{
 	background: #fff;
@@ -202,15 +202,8 @@ ion-content#login .scroll{
 	height: 100%;
 }
 ion-content#login .vibes-login button{
-	background: #ad2b61; /* Old browsers */
-	background: -moz-linear-gradient(top,  #ad2b61 0%, #822467 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ad2b61), color-stop(100%,#822467)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  #ad2b61 0%,#822467 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  #ad2b61 0%,#822467 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  #ad2b61 0%,#822467 100%); /* IE10+ */
-	background: linear-gradient(to bottom,  #ad2b61 0%,#822467 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ad2b61', endColorstr='#822467',GradientType=0 ); /* IE6-9 */
-	border-color: #ad2b61;
+	background: #3b5998;
+	border-color: #3b5998;
 	opacity: 1;
 }
 
@@ -377,6 +370,13 @@ ion-content#login .vibes-login button{
 
  #tab-menu .list .item:first-child{
  	text-align: center;
+ }
+ #tab-menu .list .item{
+ 	color:#fff;
+ 	background: #000
+ }
+ #tab-menu .item-content{
+ 	color:#000;
  }
  #tab-menu img{
  	width: 50%;

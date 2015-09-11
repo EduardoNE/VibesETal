@@ -11,7 +11,8 @@
 	  </ion-refresher>
       <ion-list>
 
-        <ion-item class="list card" ng-repeat="item in list" id="post_{{ item.post_id }}">
+        <!--<ion-item class="list card" ng-repeat="item in list" id="post_{{ item.post_id }}">-->
+        <ion-item class="list card" id="post_{{ item.post_id }}">
 
           <div class="item-button-right">
 	        <a class="button button-icon icon ion-ios-arrow-down btn-context" style="color:#886aea" ng-if="User.user_adm == 1" ng-click="options(item);"></a>
