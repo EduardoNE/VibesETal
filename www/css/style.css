@@ -94,14 +94,14 @@ ion-modal-view#login{
 	background: #fff;
 }
 #login .bar-vibe{
-	height: 70px; 
-}								
+	height: 70px;
+}
 #login .bar-vibe .title, #login .bar-vibe .button{
-	margin-top: 20px; 
-}		
+	margin-top: 20px;
+}
 ion-modal-view#login ion-content#login {
 	padding-top: 30px;
-}						
+}
 #login .list-inset{
 	background-color: transparent;
 	border: 0;
@@ -169,6 +169,35 @@ ion-modal-view#login ion-content#login {
 	font-size: 36px
 }
 
+ion-content#login{
+	background: url("../img/bg-vt.jpg") center;
+	background-size: cover;
+}
+ion-content#login .logo-vibes{
+	text-align: center;
+}
+ion-content#login .logo-vibes img{
+	width: 80%;
+	text-align: center
+}
+ion-content#login .logo-vibes img{
+	width: 80%;
+	text-align: center
+}
+ion-content#login .vibes-login{
+	color: #a5a5a5;
+	text-align: center;
+    position: absolute;
+    bottom: 0px;
+}
+ion-content#login .scroll{
+	height: 100%;
+}
+ion-content#login .vibes-login button{
+	background: #3b5998;
+	border-color: #3b5998;
+	opacity: 1;
+}
 
 /********  CAMERA ********/
 #foto{

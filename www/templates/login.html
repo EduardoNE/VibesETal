@@ -1,25 +1,24 @@
 <ion-modal-view id="login">
-  <ion-header-bar class="bar-vibe">
+  <ion-header-bar class="bar-vibe" ng-if="voltar">
     <div class="title header-item"><img src='img/topo.png'></div>
     <button ng-if="voltar" ng-click="closeLogin()" class="button button-stable icon-left ion-chevron-down">
     </button>
   </ion-header-bar>
   <ion-content id="login">
 
-    <div ng-if="!voltar">
-
-      <div class="col">
-        <div class="item-text-wrap">
-          <button class="button button-block button-positive icon-left ion-social-facebook" ng-click="doLogin()" type="submit">Entrar com Facebook</button>
-        </div>
+		<div class="logo-vibes" ng-if="!voltar">
+			<img src="img/logo-vt.png">
+		</div>
+      <div class="vibes-login col" ng-if="!voltar">
+          <button class="button button-block button-positive icon-left ion-social-facebook" ng-click="doLogin()" type="submit">ENTRAR</button>
+          <p>
+          	POLÍTICA DE PRIVACIDADE
+          </p>
       </div>
-
-    </div>
 
     <div ng-if="voltar">
 
       <div class="list">
-
 
         <div class="row">
 
@@ -43,7 +42,7 @@
     </div>
 
   </ion-content>
-<ion-footer-bar class="bar-assertive" ng-if="voltar">
-    <button class="button button-full button-assertive" ng-click="logout()">LOGOUT</button>
-</ion-footer-bar>
+	<ion-footer-bar class="bar-assertive" ng-if="voltar">
+	    <button class="button button-full button-assertive" ng-click="logout()">LOGOUT</button>
+	</ion-footer-bar>
 </ion-modal-view>
