@@ -18,13 +18,14 @@
 }
 
 #time-line .btn-context{
-	right: 10px;
-    min-width: 18px;
-    padding: 0;
-    font-size: 24px
+	right: 20px;
+	min-width: 18px;
+	padding: 5px 0;
+	font-size: 24px;
 }
 #time-line .btn-context:before{
-    font-size: 24px
+    font-size: 24px;
+    font-weight: bold;
 }
 
 
@@ -55,8 +56,8 @@
 }
 #photo .button-royal{
 	box-shadow: none;
-	background: #662d91;
-	border-color: #662d91;
+	background: #892566;
+	border-color: #892566;
 	color:#fff;
 }
 
@@ -70,8 +71,8 @@
 }
 
 #admTabAction{
-	background: #662d91;
-	border-color: #662d91;
+	background: #892566;
+	border-color: #892566;
 	color:#fff;
 }
 #admTabAction a.tab-item{
@@ -167,14 +168,33 @@ ion-modal-view#login ion-content#login {
 }
 #login ion-footer-bar.bar-assertive button{
 	margin: 0px;
-	font-size: 16px
+	font-size: 16px;
+	font-weight: bold;
+	min-height: 40px;
+}
+
+.n-diamantes-p {
+	padding-top: 50px;
 }
 
 #login .bar-vibe button{
-	background: #662d91;
-	border-color: #662d91;
+	background: transparent;
+	border: 0;
 	color:#fff;
-	font-size: 36px
+	font-size: 36px;
+}
+
+#login .img-perfil {
+	border-radius:50%;
+	width: 150px;
+}
+
+h2.branco, h3.branco {
+	color: #fff;
+}
+
+.logo-ne {
+	margin-top: 40px;
 }
 
 ion-content#login{
@@ -185,11 +205,7 @@ ion-content#login .logo-vibes{
 	text-align: center;
 }
 ion-content#login .logo-vibes img{
-	width: 80%;
-	text-align: center
-}
-ion-content#login .logo-vibes img{
-	width: 80%;
+	width: 100%;
 	text-align: center
 }
 ion-content#login .vibes-login{
@@ -205,6 +221,9 @@ ion-content#login .vibes-login button{
 	background: #3b5998;
 	border-color: #3b5998;
 	opacity: 1;
+}
+.logo-ne img {
+	max-width: 210px;
 }
 
 /********  CAMERA ********/
@@ -271,9 +290,18 @@ ion-content#login .vibes-login button{
 
 .post-pos{
 	padding: 5px 10px;
-	background: #662d91;
+	background: #892566;
 	border-radius: 50%;
 	color:#fff;
+}
+
+.card .item {
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.card .item:last-child {
+	margin-bottom: 0;
 }
 
 /******* Lista comentarios ******/
@@ -313,16 +341,16 @@ ion-content#login .vibes-login button{
 }
 
 #time-line .button-royal{
-	border-color: #662d91;
-	background: #662d91;
+	border-color: #892566;
+	background: #892566;
     color: #fff;
 }
 
 .footer-home .button{
 	padding: 5px 8px;
 	opacity: 1;
-	background: #662d91;
-	border-color: #662d91;
+	background: #892566;
+	border-color: #892566;
 }
 .footer-home .tabs{
 	padding-top:0px;
@@ -348,7 +376,6 @@ ion-content#login .vibes-login button{
 	background: -ms-linear-gradient(top,  #ad2b61 0%,#822467 100%); /* IE10+ */
 	background: linear-gradient(to bottom,  #ad2b61 0%,#822467 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ad2b61', endColorstr='#822467',GradientType=0 ); /* IE6-9 */
-	color:#ffcc33;
 }
 
 .header-item img{
@@ -379,7 +406,7 @@ ion-content#login .vibes-login button{
  	color:#000;
  }
  #tab-menu img{
- 	width: 50%;
+ 	width: 100%;
  }
  #tab-menu .active a{
  	background: #ad2b61; /* Old browsers */

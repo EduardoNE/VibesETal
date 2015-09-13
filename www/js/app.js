@@ -39,7 +39,7 @@ angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.servi
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
-    .state('app', {
+  .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
@@ -67,16 +67,16 @@ angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.servi
     }
   })
 
-    .state('app.home', {
-      url: '/home',
-      views: {
-        'menuContent': {
-          cache: false,
-          templateUrl: 'templates/home.html',
-          controller: 'HomeCtrl'
-        }
+  .state('app.home', {
+    url: '/home',
+    views: {
+      'menuContent': {
+        cache: false,
+        templateUrl: 'templates/home.html',
+        controller: 'HomeCtrl'
       }
-    })
+    }
+  })
 
     .state('app.UserPosts', {
       url: '/UserPosts/:id',

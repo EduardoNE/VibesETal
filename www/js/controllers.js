@@ -498,7 +498,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			$scope.captureVideo = function() {
 				var options = {
 					limit: 3,
-					duration: 15
+					duration: 20
 				};
 
 				$cordovaCapture.captureVideo(options).then(function(data) {
@@ -864,7 +864,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			mimeType: null
 		};
 		$scope.subheader = "has-subheader";
-		file.upload(image.data, options, function(sucesso) {
+		file.upload(image.data, options, function(sucesso) { 
 
 			console.log('s', sucesso);
 			$scope.subheader = "";
@@ -879,15 +879,21 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 					post_id: sucesso.response
 				}
 			};
-			JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/post", infos,
-				function(data) {
-					carregar();
-				},
-				function(err) {
-					console.error(err);
-					$ionicLoading.hide();
-					$cordovaToast.showShortCenter('Sem conexão com a internet.');
-				});
+			if(sucesso.response != "false"){
+				JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/post", infos,
+					function(data) {
+						console.log("update post", data);
+						carregar();
+					},
+					function(err) {
+						console.error(err);
+						$ionicLoading.hide();
+						$cordovaToast.showShortCenter('Sem conexão com a internet.');
+					});
+			} else {
+				$ionicLoading.hide();
+				$cordovaToast.showShortCenter('Tempo de video excede limite estabelecido.');
+			}
 		}, function(err) {
 			console.log('e', err)
 			$ionicLoading.hide();

@@ -6,43 +6,48 @@
   </ion-header-bar>
   <ion-content id="login">
 
-		<div class="logo-vibes" ng-if="!voltar">
-			<img src="img/logo-vt.png">
-		</div>
-      <div class="vibes-login col" ng-if="!voltar">
-          <button class="button button-block button-positive icon-left ion-social-facebook" ng-click="doLogin()" type="submit">ENTRAR</button>
-          <p>
-          	POLÍTICA DE PRIVACIDADE
-          </p>
-      </div>
+    <div class="logo-vibes padding" ng-if="!voltar">
+      <img src="img/logo-vt.png">
+    </div>
+
+    <div class="vibes-login col" ng-if="!voltar">
+        <button class="button button-block button-positive icon-left ion-social-facebook" ng-click="doLogin()" type="submit">ENTRAR</button>
+        <div class="logo-ne">
+          <img src="img/logo-ne.png">
+        </div>
+    </div>
+    
 
     <div ng-if="voltar">
 
-      <div class="list">
+      <div class="list n-diamantes-p">
 
         <div class="row">
 
            <div class="col col-center text-center">
-              <img ng-src="http://graph.facebook.com/{{User.user_slug}}/picture?width=200&height=200" style="border-radius:50%;" on-hold="updateUser()">
+              <img ng-src="http://graph.facebook.com/{{User.user_slug}}/picture?width=200&height=200" class="img-perfil" on-hold="updateUser()">
            </div>
+
         </div>
+
         <div>
-          <h2 class="text-center">{{User.user_name}}</h2>
+          <h2 class="text-center branco">{{User.user_name}}</h2>
         </div>
 
         <div class="row text-center">
           <div class="col">
-            <h3>
+            <h3 class="branco">
               <i class="fa fa-diamond"></i> {{User.user_diamonds}}
             </h3>
           </div>
         </div>
+
       </div>
 
     </div>
 
   </ion-content>
-	<ion-footer-bar class="bar-assertive" ng-if="voltar">
-	    <button class="button button-full button-assertive" ng-click="logout()">LOGOUT</button>
-	</ion-footer-bar>
+  <ion-footer-bar class="bar-assertive" ng-if="voltar">
+      <button class="button button-full button-assertive" ng-click="logout()">SAIR</button>
+  </ion-footer-bar>
 </ion-modal-view>
