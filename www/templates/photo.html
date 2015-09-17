@@ -1,9 +1,9 @@
 <ion-view cache-view='false' view-title="<img src='img/topo.png'>" id="photo">
   <ion-content>
     <div class="list card">
-    	<div class="col col-50 col-offset-25 col-center">
-	        <video ng-if="image.type == 'video' " ng-src="{{image.data}}" class="centerme" controls="controls" style="width:100%"></video>
-	        <img   ng-if="image.type == 'image' " ng-src="{{image.data}}" class='eduardinho'>
+    	<div class="col" id="canvasImage">
+	        <video ng-if="image.type == 'video' " ng-src="{{image.data}}" class="centerme" controls="controls" style="width:100%" preload="true"></video>
+	        <canvas id="myCanvas" ng-if="image.type == 'image' " width="300" height="150" style="border:1px solid #d3d3d3;">Your browser does not support the HTML5 canvas tag.</canvas>
         </div>
     </div>
     <div class="list">
@@ -12,8 +12,7 @@
 	  	</label>
 	</div>
 	<div class="padding">
-		<button class="button button-block button-royal"  ng-click="addToList()" type="submit">Publicar</button>
-		<a class="button button-block button-stable" href="#/app/home" type="submit">Cancelar</a>
+		<button class="button button-block button-royal" ng-click="addToList()" type="submit">Publicar</button>
 	</div>
 
   </ion-content>

@@ -29,10 +29,14 @@
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
+    <script src="js/unveil.js"></script>
+    <script src="js/signature_pad.min.js"></script>
+    <script src="js/ionic.swipecards.js"></script>
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>
     <script src="js/moment.min.js"></script>
+    <script src="js/screenfull.min.js"></script>
     <script type="text/javascript">
         moment.locale("pt-br", {
 		    relativeTime : {
@@ -55,10 +59,13 @@
 
     <script>
         $(document).ready(function(){
+
             $("body").on("click", ".menu-item", function(){
                 $(".menu-item").removeClass('active');
                 $(this).addClass('active');
             })
+
+            $("img").unveil(300);
         })
     </script>
   </head>

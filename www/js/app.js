@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
 
-angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.service.push', 'starter.controllers'])
+angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.service.push', 'starter.controllers', 'ionic.contrib.ui.cards'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -115,6 +115,24 @@ angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.servi
         'menuContent': {
           templateUrl: 'templates/sobre.html',
           controller: 'SobreCtrl'
+        }
+      }
+    })
+    .state('app.brothers', {
+      url: '/brothers',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/brothers.html',
+          controller: 'BrothersCtrl'
+        }
+      }
+    })
+    .state('app.brotherPage', {
+      url: '/brotherPage/:id',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/brotherPage.html',
+          controller: 'BrotherPageCtrl'
         }
       }
     })

@@ -1,0 +1,12 @@
+<ion-view view-title="<img src='img/topo.png'>" id="brothers" class="internas">
+  <ion-content>
+
+      <div class="list" ng-repeat="brother in brothers">
+
+		    <a class="item item-avatar" href="#/app/brotherPage/{{brother.user_id}}">
+		      <img src="{{ brother.user_image }}">
+		      <h2>{{ brother.user_name }}</h2>
+		    </a>
+		</div>
+  </ion-content>
+</ion-view>

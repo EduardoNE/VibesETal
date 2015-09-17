@@ -1,0 +1,54 @@
+
+<ion-view cache-view='false' view-title="<img src='img/topo.png'>">
+
+<ion-content id="brothersPage">
+
+
+<div ng-if="!hasPost">
+    <h3 class="no-post-title"><i class="fa fa-refresh fa-pulse"></i></h3>
+</div>
+
+<swipe-cards ng-if="hasPost">
+	<swipe-card ng-repeat="item in list" on-destroy="cardDestroyed($index)" on-card-swipe="cardSwiped($index)" id="post_{{ item.post_id }}">
+		  <div class="item item-avatar item-button-right">
+			    <img ng-src="{{item.user_image}}">
+			    <a class="button button-icon icon ion-ios-arrow-down btn-context" style="color:#886aea" ng-if="User.user_adm == 1" ng-click="options(item);"></a>
+			    <h2>{{item.user_name}}</h2>
+			    <p>{{item.post_time}}</p>
+			</div>
+			<div class="midia-post">
+			    <img ng-if="item.post_type == 'video' " ng-src="{{item.videoImage}}" class='eduardinho' ng-click="openVideoPlayer(item.post_file, item.post_id)" / >
+			    <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' />
+			</div>
+
+			<div class="descricao padding" ng-bind-html="item.post_description">
+			</div>
+
+			<div class="row">
+			    <div class="col col-33">
+			        <button class="button button-block button-royal btn_like" ng-if="!item.liked" ng-click="likePost('{{item.post_id}}')">
+			            <i class="fa fa-diamond"></i> <span>{{item.likes}}</span>
+			        </button>
+			        <button class="button button-block button-positive btn_like" ng-if="item.liked"><i class="fa fa-diamond"></i> {{item.likes}} </button>
+			    </div>
+
+			    <div class="col col-33">
+			        <button class="button button-block button-royal btn_comment" ng-click="commentPost('{{item.post_id}}')">
+			            <i class="fa fa-comment"></i> <span>{{item.comments}}</span>
+			        </button>
+			    </div>
+
+			    <div class="col col-33">
+			        <button class="button button-block button-royal btn_share" ng-click='share("{{item.post_description}}","http://bastidor.com.br/vibesetal/content/{{item.post_file}}", "{{item.post_id}}")'>
+			            <i class="fa fa-share"></i> <span>{{item.share}}</span>
+			        </button>
+			    </div>
+
+			</div>
+	</swipe-card>
+</swipe-cards>
+
+
+</ion-content>
+
+</ion-view>

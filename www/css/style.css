@@ -325,6 +325,28 @@ ion-content#login .vibes-login button{
 	padding-top:0px;
 }
 
+/********* Brothers ********/
+
+#brothers .list{
+	margin-bottom: 0px;
+}
+#brothers .list .item{
+	border-bottom: 0px;
+}
+
+#brothers .list .item h2{
+	padding-top: 10px;
+	font-size: 16px
+}
+
+#brothersPage .list{
+	padding-right:0px;
+}
+
+#brothersPage .no-post-title{
+	padding-top:20px;
+	text-align: center
+}
 
 /******* EDUARDINHO ~ revisar ******/
 
