@@ -846,6 +846,10 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 	    img.src = url;
 	}
 
+	$scope.changeColor = function(r, g, b){
+		signaturePad.penColor = "rgb("+r+", "+g+", "+b+")";
+	}
+
 	var start = function() {
 		image = (RAM.get());
 		RAM.set([]);

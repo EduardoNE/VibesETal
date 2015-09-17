@@ -1,11 +1,23 @@
 <ion-view cache-view='false' view-title="<img src='img/topo.png'>" id="photo">
-  <ion-content>
-    <div class="list card">
-    	<div class="col" id="canvasImage">
-	        <video ng-if="image.type == 'video' " ng-src="{{image.data}}" class="centerme" controls="controls" style="width:100%" preload="true"></video>
-	        <canvas id="myCanvas" ng-if="image.type == 'image' " width="300" height="150" style="border:1px solid #d3d3d3;">Your browser does not support the HTML5 canvas tag.</canvas>
-        </div>
-    </div>
+  <ion-content scroll="false">
+    <video ng-if="image.type == 'video' " ng-src="{{image.data}}" class="centerme" controls="controls" style="width:100%" preload="true"></video>
+    <canvas id="myCanvas" ng-if="image.type == 'image' " width="300" height="150">
+    	Your browser does not support the HTML5 canvas tag.
+    </canvas>
+  	<div class="tabs tabs-icon-only">
+		<a class="tab-item" style="width:50px;height:50px;border-radius:100%;background:#00a8ff" ng-click="changeColor(0, 168, 255)">
+		<i class="icon ion-home"></i>
+		</a>
+		<a class="tab-item" style="width:50px;height:50px;border-radius:100%;background:#00ff12" ng-click="changeColor(0, 255, 18)">
+		<i class="icon ion-star"></i>
+		</a>
+		<a class="tab-item" style="width:50px;height:50px;border-radius:100%;background:#ffe400" ng-click="changeColor(255, 228, 0)">
+		<i class="icon ion-gear-a"></i>
+		</a>
+		<a class="tab-item" style="width:50px;height:50px;border-radius:100%;background:#ea00ff" ng-click="changeColor(234, 0, 255)">
+		<i class="icon ion-gear-a"></i>
+		</a>
+	</div>
     <div class="list">
     	<label class="item item-input">
 	    	<input type="text" ng-model="desc.str" placeholder="Descrição">
