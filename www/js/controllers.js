@@ -828,13 +828,15 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
 .controller('UploadCtrl', function($scope, $stateParams, RAM, file, JustDo, $state, $cordovaToast, $ionicLoading, $ionicHistory) {
 	var signaturePad = null;
-
+	var increase = 10;
 	function convertImgToBase64(url, callback, outputFormat) {
 	    var img = new Image();
 	    img.crossOrigin = 'Anonymous';
 	    img.onload = function() {
 	        var canvas = document.getElementById("myCanvas"); //document.createElement('CANVAS');
 	        signaturePad = new SignaturePad(canvas);
+	        signaturePad.minWidth = increase;
+    		signaturePad.maxWidth = increase;
 	        var ctx = canvas.getContext('2d');
 	        canvas.height = this.height;
 	        canvas.width = this.width;
@@ -848,6 +850,17 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
 	$scope.changeColor = function(r, g, b){
 		signaturePad.penColor = "rgb("+r+", "+g+", "+b+")";
+	}
+	$scope.increaseRadius = function(){
+		increase += 5;
+		signaturePad.minWidth = increase;
+	}
+
+	$scope.decreaseRadius = function(){
+		increase -= 5;
+		if(increase <= 5)
+			increase = 5;
+		signaturePad.minWidth = increase;
 	}
 
 	var start = function() {

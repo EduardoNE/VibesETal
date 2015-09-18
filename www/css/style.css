@@ -28,7 +28,13 @@
     font-weight: bold;
 }
 
-
+.rotate90{ 
+	/*
+	transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	-ms-transform: rotate(90deg);
+	*/
+}
 
 /*  Botão de foto  */
 
