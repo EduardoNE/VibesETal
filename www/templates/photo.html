@@ -1,24 +1,37 @@
 <ion-view cache-view='false' view-title="<img src='img/topo.png'>" id="photo">
-  <ion-content scroll="false">
+  <ion-content> <!--scroll="false"-->
     <video ng-if="image.type == 'video' " ng-src="{{image.data}}" class="centerme" controls="controls" style="width:100%" preload="true"></video>
-    <canvas id="myCanvas" ng-if="image.type == 'image' " width="300" height="150">
+    <canvas id="myCanvas" ng-if="image.type == 'image' " class="rotate90" width="300" height="150">
     	Your browser does not support the HTML5 canvas tag.
     </canvas>
-  	<div class="tabs tabs-icon-only">
-		<a class="tab-item" style="width:50px;height:50px;border-radius:100%;background:#00a8ff" ng-click="changeColor(0, 168, 255)">
+  	<div class="tabs tabs-icon-only" style="position:static;background:none;border:none">
+		<a style="width:50px;height:50px;border-radius:100%;background:#00a8ff; color:#00a8ff;margin: 5px 10px 10px 10px" ng-click="changeColor(0, 168, 255)">
 		<i class="icon ion-home"></i>
 		</a>
-		<a class="tab-item" style="width:50px;height:50px;border-radius:100%;background:#00ff12" ng-click="changeColor(0, 255, 18)">
+		<a style="width:50px;height:50px;border-radius:100%;background:#00ff12; color:#00ff12;margin: 5px 10px 10px 10px" ng-click="changeColor(0, 255, 18)">
 		<i class="icon ion-star"></i>
 		</a>
-		<a class="tab-item" style="width:50px;height:50px;border-radius:100%;background:#ffe400" ng-click="changeColor(255, 228, 0)">
+		<a style="width:50px;height:50px;border-radius:100%;background:#ffe400; color:#ffe400;margin: 5px 10px 10px 10px" ng-click="changeColor(255, 228, 0)">
 		<i class="icon ion-gear-a"></i>
 		</a>
-		<a class="tab-item" style="width:50px;height:50px;border-radius:100%;background:#ea00ff" ng-click="changeColor(234, 0, 255)">
+		<a style="width:50px;height:50px;border-radius:100%;background:#ea00ff; color:#ea00ff;margin: 5px 10px 10px 10px" ng-click="changeColor(234, 0, 255)">
 		<i class="icon ion-gear-a"></i>
 		</a>
 	</div>
+	<button href="#" ng-click="increaseRadius()"><i class="fa fa-chevron-up"></i></button>
+	<button href="#" ng-click="decreaseRadius()"><i class="fa fa-chevron-down"></i></button>
     <div class="list">
+    	
+	<script type="text/javascript" src="colorpicker.js"></script> 
+	<script type="text/javascript"> 
+		ColorPicker( document.getElementById('slide'), document.getElementById('picker'), function(hex, hsv, rgb) { 
+			desc.str = rgb; 
+		}); 
+	</script>
+	<button href="#" ng-click="increaseRadius()"><i class="fa fa-chevron-up"></i></button>
+	<button href="#" ng-click="decreaseRadius()"><i class="fa fa-chevron-down"></i></button>
+	</div>
+	<div class="list">
     	<label class="item item-input">
 	    	<input type="text" ng-model="desc.str" placeholder="Descrição">
 	  	</label>
