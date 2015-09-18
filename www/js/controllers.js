@@ -867,18 +867,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 		signaturePad.minWidth = increase;
 	}
 
-	$scope.increaseRadius = function(){
-		increase += 5;
-		signaturePad.minWidth = increase;
-	}
-
-	$scope.decreaseRadius = function(){
-		increase -= 5;
-		if(increase <= 5)
-			increase = 5;
-		signaturePad.minWidth = increase;
-	}
-
 	var start = function() {
 		image = (RAM.get());
 		RAM.set([]);
