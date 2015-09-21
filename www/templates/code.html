@@ -1,0 +1,33 @@
+<ion-view view-title="<img src='img/topo.png'>" id="code" class="internas">
+  <ion-content>
+
+		<div class="list n-diamantes-p">
+
+	        <div class="row">
+
+	           <div class="col col-center text-center">
+	              <img ng-src="http://graph.facebook.com/{{User.user_slug}}/picture?width=200&height=200" class="img-perfil">
+	           </div>
+
+	        </div>
+
+	        <div>
+	          <h2 class="text-center">{{User.user_name}}</h2>
+	        </div>
+
+	        <div class="row text-center">
+	          <div class="col">
+	            <h3>
+	              <i class="fa fa-diamond"></i> {{User.user_diamonds}}
+	            </h3>
+	          </div>
+	        </div>
+
+	        <div class="col col-center text-center" id="qrcode">
+
+	        </div>
+
+        </div>
+
+  </ion-content>
+</ion-view>

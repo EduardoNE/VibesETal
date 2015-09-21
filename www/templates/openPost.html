@@ -1,0 +1,52 @@
+<ion-modal-view id="open_post" class="open_post">
+<ion-header-bar class="bar-vibe">
+    <div class="title header-item"><img src='img/topo.png'></div>
+    <button ng-click="closePost()" class="button button-stable icon-left  ion-ios-arrow-down">
+    </button>
+  </ion-header-bar>
+<ion-content>
+
+	<div id="post_{{ item.post_id }}">
+		  <div class="item item-avatar item-button-right">
+			    <img ng-src="{{item.user_image}}">
+			    <a class="button button-icon icon ion-ios-arrow-down btn-context" style="color:#886aea" ng-if="User.user_adm == 1" ng-click="options(item);"></a>
+			    <h2>{{item.user_name}}</h2>
+			    <p>{{item.post_time}}</p>
+			</div>
+			<div class="midia-post">
+			    <img ng-if="item.post_type == 'video' " ng-src="{{item.videoImage}}" class='eduardinho open_image' ng-click="openVideoPlayer(item.post_id)" / >
+			    <video style='width:100%;height:100%;display:none' class="open_video" ng-if="item.post_type == 'video' " autoplay='autoplay' controls ng-src="{{ item.post_file }}"></video>
+			    <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' />
+			</div>
+
+			<div class="descricao padding" ng-bind-html="item.post_description">
+			</div>
+
+			<!--<div class="row">
+
+			    <div class="col col-33">
+			        <button class="button button-block button-royal btn_like" ng-if="!item.liked" ng-click="likePost('{{item.post_id}}')">
+			            <i class="fa fa-diamond"></i> <span>{{item.likes}}</span>
+			        </button>
+			        <button class="button button-block button-positive btn_like" ng-if="item.liked"><i class="fa fa-diamond"></i> {{item.likes}} </button>
+			    </div>
+
+			    <div class="col col-33">
+			        <button class="button button-block button-royal btn_comment" ng-click="commentPost('{{item.post_id}}')">
+			            <i class="fa fa-comment"></i> <span>{{item.comments}}</span>
+			        </button>
+			    </div>
+
+			    <div class="col col-33">
+			        <button class="button button-block button-royal btn_share" ng-click='share("{{item.post_description}}","http://bastidor.com.br/vibesetal/content/{{item.post_file}}", "{{item.post_id}}")'>
+			            <i class="fa fa-share"></i> <span>{{item.share}}</span>
+			        </button>
+			    </div>
+
+			</div>-->
+	</div>
+
+
+</ion-content>
+
+</ion-modal-view>

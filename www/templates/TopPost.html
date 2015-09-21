@@ -1,7 +1,7 @@
 <ion-view cache-view='false' view-title="<img src='img/topo.png'>">
   <ion-content id="time-line">
   	<div ng-if="list.length == 0">Sem resultados para exibir.</div>
-	<div class="list" ng-repeat="item in list">
+	<div class="list" ng-repeat="item in list" ng-click="openPost(item)">
 
 	    <div class="item item-avatar">
 	      	<img ng-if="item.post_type == 'video' " ng-src="{{item.videoImage}}" class='eduardinho' ng-click="" / >
@@ -12,11 +12,11 @@
 	      <h2>{{item.user_name}}</h2>
 	      <p>
 	      	<strong>
-	      		<i class="fa fa-diamond"></i> {{item.likes}} | 
+	      		<i class="fa fa-diamond"></i> {{item.likes}} |
 	      	</strong>
 
 	      	<strong>
-	      		<i class="fa fa-comment"></i> {{item.comments}} | 
+	      		<i class="fa fa-comment"></i> {{item.comments}} |
 	      	</strong>
 
 	      	<strong>
