@@ -1946,18 +1946,14 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 	})
 	.controller('CodeCtrl', function($scope, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo) {
 		$ionicPlatform.ready(function() {
-			var qrcode = new QRCode("qrcode", {
-				width: 64,
-			    height: 64,
-			    colorDark : "#000000",
-			    colorLight : "#ffffff",
-			    correctLevel : QRCode.CorrectLevel.H
-			});
+			var qrcode = new QRCode("qrcode");
 
 			function makeCode () {
 			    var elText = $("#qrcode").html()
 
 			    qrcode.makeCode(elText);
+
+			    $("#qrcode img").css("margin", "auto");
 			}
 
 			makeCode();
