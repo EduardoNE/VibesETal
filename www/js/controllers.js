@@ -827,24 +827,35 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 	})
 
 .controller('UploadCtrl', function($scope, $stateParams, RAM, file, JustDo, $state, $cordovaToast, $ionicLoading, $ionicHistory) {
-	var signaturePad = null;
+	/*var signaturePad = null;
 	var increase = 10;
+
+	function calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
+
+	    var ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
+
+	    return { width: srcWidth*ratio, height: srcHeight*ratio };
+	 }
+
+
 	function convertImgToBase64(url, callback, outputFormat) {
 	    var img = new Image();
 	    img.crossOrigin = 'Anonymous';
 	    var increase = 10;
 	    var TO_RADIANS = Math.PI/180;
 	    img.onload = function() {
-	        var canvas = document.getElementById("myCanvas"); //document.createElement('CANVAS');
+	        var canvas = document.getElementById("myCanvas");
 	        signaturePad = new SignaturePad(canvas);
 	        signaturePad.minWidth = increase;
 	        signaturePad.maxWidth = increase;
 	        var ctx = canvas.getContext('2d');
-	        canvas.height = this.height;
-	        canvas.width = this.width;
+	        canvas.height = this.width;
+	        canvas.width = this.height;
+	        ctx.save();
 	        ctx.translate((canvas.width / 2), (canvas.height / 2));
 			ctx.rotate(90 * TO_RADIANS);
 			ctx.drawImage(this, -(this.width/2), -(this.height/2));
+			ctx.restore();
 	        var dataURL = canvas.toDataURL(outputFormat || 'image/png');
 	        callback(dataURL);
 	        canvas = null;
@@ -865,6 +876,21 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 		if(increase <= 5)
 			increase = 5;
 		signaturePad.minWidth = increase;
+	}*/
+
+	function scaleSize(maxW, maxH, currW, currH){
+
+		var ratio = currH / currW;
+
+		if(currW >= maxW && ratio <= 1){
+			currW = maxW;
+			currH = currW * ratio;
+		} else if(currH >= maxH){
+			currH = maxH;
+			currW = currH / ratio;
+		}
+
+		return [currW, currH];
 	}
 
 	var start = function() {
@@ -872,13 +898,23 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 		RAM.set([]);
 		$scope.desc = {};
 		$scope.desc.str = "";
-		$scope.image = image
+		$scope.image = image;
+
+
 		if(image.type == "image"){
+			var maxWidth = $(window).width();
+			var maxHeight = $(window).height;
+			var currW = $("#photo img").width();
+			var currH = $("#photo img").height() - 30;
+			var newSize = scaleSize(currW, currH, maxWidth, maxHeight);
+			$("#photo img").css({width: newSize[0]+"px", height: newSize[1]+"px"});
+			/*
 			convertImgToBase64(image.data, function(base64Img){
 				image.data = base64Img;
 				$scope.image = image;
-		    });
+		    });*/
 		}
+
 	}
 
 	var carregar = function() {
@@ -901,7 +937,48 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 		$ionicLoading.show({
 			template: 'Enviando...'
 		});
-		if($scope.image.type == "image"){
+
+		var options = {
+			fileKey: "post",
+			fileName: image.data,
+			chunkedMode: false,
+			mimeType: null
+		};
+		$scope.subheader = "has-subheader";
+		file.upload($scope.image.data, options, function(sucesso) {
+
+			console.log('s', sucesso);
+			$scope.subheader = "";
+			$scope.uploadProgress = 0;
+			var infos = {
+				post: {
+					post_user_id: $scope.User.user_id,
+					post_description: $scope.desc.str,
+					post_deleted: 0
+				},
+				where: {
+					post_id: sucesso.response
+				}
+			};
+			JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/post", infos,
+				function(data) {
+					carregar();
+				},
+				function(err) {
+					console.error(err);
+					$ionicLoading.hide();
+					$cordovaToast.showShortCenter('Sem conexão com a internet.');
+				});
+		}, function(err) {
+			console.log('e', err)
+			$ionicLoading.hide();
+			$cordovaToast.showShortCenter('Sem conexão com a internet.');
+		}, function(prog) {
+			$scope.uploadProgress = ((prog.loaded / prog.total * 100));
+		});
+
+
+		/*if($scope.image.type == "image"){
 			var data = {
 				post_file: signaturePad.toDataURL(),
 				post_user_id: $scope.User.user_id,
@@ -959,9 +1036,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			}, function(prog) {
 				$scope.uploadProgress = ((prog.loaded / prog.total * 100));
 			});
-		}
-
-
+		}*/
 
 	}
 	start();

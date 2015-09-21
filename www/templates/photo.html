@@ -1,7 +1,8 @@
 <ion-view cache-view='false' view-title="<img src='img/topo.png'>" id="photo">
   <ion-content> <!--scroll="false"-->
     <video ng-if="image.type == 'video' " ng-src="{{image.data}}" class="centerme" controls="controls" style="width:100%" preload="true"></video>
-    <canvas id="myCanvas" ng-if="image.type == 'image' " class="rotate90" width="300" height="150">
+    <img ng-if="image.type == 'image'" ng-src="{{ image.data }}" class="centerme" style="width:100%">
+    <!--<canvas id="myCanvas" ng-if="image.type == 'image' " style="margin:0 auto">
     	Your browser does not support the HTML5 canvas tag.
     </canvas>
   	<div class="tabs tabs-icon-only" style="position:static;background:none;border:none">
@@ -20,17 +21,6 @@
 	</div>
 	<button href="#" ng-click="increaseRadius()"><i class="fa fa-chevron-up"></i></button>
 	<button href="#" ng-click="decreaseRadius()"><i class="fa fa-chevron-down"></i></button>
-    <div class="list">
-    	
-	<script type="text/javascript" src="colorpicker.js"></script> 
-	<script type="text/javascript"> 
-		ColorPicker( document.getElementById('slide'), document.getElementById('picker'), function(hex, hsv, rgb) { 
-			desc.str = rgb; 
-		}); 
-	</script>
-	<button href="#" ng-click="increaseRadius()"><i class="fa fa-chevron-up"></i></button>
-	<button href="#" ng-click="decreaseRadius()"><i class="fa fa-chevron-down"></i></button>
-	</div>
 	<div class="list">
     	<label class="item item-input">
 	    	<input type="text" ng-model="desc.str" placeholder="Descrição">
@@ -38,7 +28,15 @@
 	</div>
 	<div class="padding">
 		<button class="button button-block button-royal" ng-click="addToList()" type="submit">Publicar</button>
-	</div>
-
+	</div>-->
   </ion-content>
+  <ion-footer-bar align-title="left" keyboard-attach class="item item-input-inset">
+		<label class="item-input-wrapper">
+			<i class="icon ion-ios7-search placeholder-icon"></i>
+			<input type="text" ng-model="desc.str" placeholder="Descrição">
+		</label>
+		<button class="button button-royal icon-right ion-chevron-right" ng-click="addToList()">
+			Publicar
+		</button>
+	</ion-footer-bar>
 </ion-view>
