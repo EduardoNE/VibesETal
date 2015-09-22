@@ -642,6 +642,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 				};
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/open_comment", infos,
 					function(data) {
+						console.log("comentarios", data)
 						$scope.post = data.post;
 						$scope.comment_post = data.comment;
 						for (var i in $scope.comment_post)
@@ -1445,8 +1446,12 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			$scope.cardSwiped = function(index) {
 
 				var first = total.shift();
-				$scope.list.push(first);
-				position++;
+				if(first == undefined){
+					$scope.hasPost = false;
+				}else{
+					$scope.list.push(first);
+					position++;
+				}
 
 				if(position == 5){
 					position = 1;

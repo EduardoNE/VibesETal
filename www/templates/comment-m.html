@@ -4,13 +4,13 @@
     <button ng-click="closeComment()" class="button button-stable icon-left  ion-ios-arrow-down">
     </button>
   </ion-header-bar>
-  <ion-content id="login" delegate-handle="commentMain" lazy-scroll>
+  <ion-content id="login" delegate-handle="commentMain" lazy-scroll style="padding-top:0px">
 
 	<ion-list class="comment-desc">
 
 	    <ion-item class="list">
 			<div class="item item-avatar">
-				<img image-lazy-src="{{ post[0].user_image }}" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100">
+				<img ng-src="{{ post[0].user_image }}">
 				<h2>{{ post[0].user_name }}</h2>
 				<p>{{ post[0].post_time }}</p>
 			</div>
