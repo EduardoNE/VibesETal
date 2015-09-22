@@ -1,3 +1,22 @@
+.image-loader-container {
+  margin: 9px;
+  max-width: 81px;
+  max-height: 81px;
+  width: 100%;
+  height: 100%;
+  top: 15px;
+  left: 7.5px;
+  position: absolute;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-content: stretch;
+  align-items: center;
+}
+
+
 /********  HOME  ********/
 #time-line .item{
 	border-width: 0;
@@ -386,7 +405,7 @@ ion-content#login .vibes-login button{
 	font-size: 16px
 }
 
-/********* Brothers ********/
+/********* QrCode ********/
 
 #code{
 	color:#000;
@@ -399,6 +418,23 @@ ion-content#login .vibes-login button{
 #brothersPage .no-post-title{
 	padding-top:20px;
 	text-align: center
+}
+
+/********* Enquete ********/
+#enquete .item-avatar{
+	min-height: 50px;
+	padding-left:60px;
+}
+#enquete .item{
+	border-width: 0;
+	padding-right: 0px;
+}
+#enquete .midia-post h4{
+	padding-left: 15px;
+}
+
+#enquete .enq-selected{
+	background: #f7f7f7;
 }
 
 /******* EDUARDINHO ~ revisar ******/

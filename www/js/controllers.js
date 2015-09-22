@@ -1944,11 +1944,17 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
 		})
 	})
-	.controller('EnqueteCtrl', function($scope, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo) {
+	.controller('EnqueteCtrl', function($scope, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo, $ionicLoading) {
 		$ionicPlatform.ready(function() {
+			$scope.fields = {};
+			$scope.fields.enquete = "";
 			var carregar = function() {
-				JustDo.ItIf("http://bastidor.com.br/vibesetal/json/enquetes",
+				var infos = {
+					user_id: $scope.User.user_id
+				}
+				JustDo.aPost("http://bastidor.com.br/vibesetal/json/enquetes", infos,
 					function(data) {
+						console.log(data);
 						data[0].enquete_time = moment(data[0].enquete_time).fromNow();
 						$scope.enq = data[0];
 					},
@@ -1956,6 +1962,32 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						$cordovaToast.showShortCenter('Sem conexão com a internet.');
 						$scope.$broadcast('scroll.refreshComplete');
 					})
+			}
+
+			$scope.voteEnq = function(){
+				if($scope.fields.enquete == ""){
+					$cordovaToast.showShortCenter('Escolha uma opção antes de votar.');
+				}else{
+					$ionicLoading.show({
+						template: 'Votando...'
+					});
+					var infos = {
+						resp_user_id: $scope.User.user_id,
+						resp_enquete_id: $scope.enq.enquete_id,
+						resp_text: $scope.fields.enquete
+					}
+
+					JustDo.aPost("http://bastidor.com.br/vibesetal/json/enquetes/vote", infos,
+						function(data){
+							$scope.enq.resp_text = $scope.fields.enquete;
+							$ionicLoading.hide();
+						},function(err){
+							$cordovaToast.showShortCenter('Sem conexão com a internet.');
+							$scope.$broadcast('scroll.refreshComplete');
+						})
+				}
+
+
 			}
 
 			carregar();

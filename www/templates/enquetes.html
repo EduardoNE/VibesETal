@@ -1,4 +1,4 @@
-<ion-view view-title="<img src='img/topo.png'>" id="brothers" class="internas">
+<ion-view view-title="<img src='img/topo.png'>" id="enquete" class="internas">
 	<ion-content>
 
 		<div class="list">
@@ -9,46 +9,101 @@
 			</div>
 			<div class="midia-post">
 
-				<label class="item item-radio">
-				    <input type="radio" name="group">
-				    <div class="item-content">
-				      {{ enq.enquete_opt1 }}
-				    </div>
-				    <i class="radio-icon ion-checkmark"></i>
-				  </label>
+				<h4>{{ enq.enquete_pergunta }}</h4>
+				<div  ng-if="enq.resp_text == null">
+					<label class="item item-radio">
+					    <input type="radio" name="enq_value" value="{{ enq.enquete_opt1 }}" ng-model="fields.enquete">
+					    <div class="item-content">
+					      {{ enq.enquete_opt1 }}
+					    </div>
+					    <i class="radio-icon ion-checkmark"></i>
+					  </label>
 
-				<label class="item item-radio">
-				    <input type="radio" name="group">
-				    <div class="item-content">
-				      {{ enq.enquete_opt2 }}
-				    </div>
-				    <i class="radio-icon ion-checkmark"></i>
-				  </label>
+					<label class="item item-radio">
+					    <input type="radio" name="enq_value" value="{{ enq.enquete_opt2 }}" ng-model="fields.enquete">
+					    <div class="item-content">
+					      {{ enq.enquete_opt2 }}
+					    </div>
+					    <i class="radio-icon ion-checkmark"></i>
+					  </label>
 
-				<label class="item item-radio">
-				    <input type="radio" name="group">
-				    <div class="item-content">
-				      {{ enq.enquete_opt3 }}
-				    </div>
-				    <i class="radio-icon ion-checkmark"></i>
-				  </label>
+					<label class="item item-radio">
+					    <input type="radio" name="enq_value" value="{{ enq.enquete_opt3 }}" ng-model="fields.enquete">
+					    <div class="item-content">
+					      {{ enq.enquete_opt3 }}
+					    </div>
+					    <i class="radio-icon ion-checkmark"></i>
+					  </label>
 
-				<label class="item item-radio">
-				    <input type="radio" name="group">
-				    <div class="item-content">
-				      {{ enq.enquete_opt4 }}
-				    </div>
-				    <i class="radio-icon ion-checkmark"></i>
-				  </label>
+					<label class="item item-radio">
+					    <input type="radio" name="enq_value" value="{{ enq.enquete_opt4 }}" ng-model="fields.enquete">
+					    <div class="item-content">
+					      {{ enq.enquete_opt4 }}
+					    </div>
+					    <i class="radio-icon ion-checkmark"></i>
+					  </label>
 
-				<label class="item item-radio">
-				    <input type="radio" name="group">
-				    <div class="item-content">
-				      {{ enq.enquete_resp }}
-				    </div>
-				    <i class="radio-icon ion-checkmark"></i>
-				  </label>
+					<label class="item item-radio">
+					    <input type="radio" name="enq_value" value="{{ enq.enquete_opt5 }}" ng-model="fields.enquete">
+					    <div class="item-content">
+					      {{ enq.enquete_opt5 }}
+					    </div>
+					    <i class="radio-icon ion-checkmark"></i>
+					  </label>
 
+					<button class="button button-full button-positive" ng-click="voteEnq()">
+						Votar
+					</button>
+				</div>
+
+				<div  ng-if="enq.resp_text != null">
+
+					<label class="item item-radio">
+					    <div class="item-content" ng-class=" enq.resp_text == enq.enquete_opt1 ? 'enq-selected' : '' ">
+					      {{ enq.enquete_opt1 }}
+					    </div>
+					    <div ng-if="enq.resp_text == enq.enquete_opt1">
+					    <i class="radio-icon ion-checkmark" style="visibility:visible"></i>
+					    </div>
+					  </label>
+
+					<label class="item item-radio">
+					    <div class="item-content" ng-class=" enq.resp_text == enq.enquete_opt2 ? 'enq-selected' : '' ">
+					      {{ enq.enquete_opt2 }}
+					    </div>
+					    <div ng-if="enq.resp_text == enq.enquete_opt2">
+					    <i class="radio-icon ion-checkmark" style="visibility:visible"></i>
+					    </div>
+					  </label>
+
+					<label class="item item-radio">
+					    <div class="item-content" ng-class=" enq.resp_text == enq.enquete_opt3 ? 'enq-selected' : '' ">
+					      {{ enq.enquete_opt3 }}
+					    </div>
+					    <div ng-if="enq.resp_text == enq.enquete_opt3">
+					    <i class="radio-icon ion-checkmark" style="visibility:visible"></i>
+					    </div>
+					  </label>
+
+					<label class="item item-radio">
+					    <div class="item-content" ng-class=" enq.resp_text == enq.enquete_opt4 ? 'enq-selected' : '' ">
+					      {{ enq.enquete_opt4 }}
+					    </div>
+					    <div ng-if="enq.resp_text == enq.enquete_opt4">
+					    <i class="radio-icon ion-checkmark" style="visibility:visible"></i>
+					    </div>
+					  </label>
+
+					<label class="item item-radio">
+					    <div class="item-content" ng-class=" enq.resp_text == enq.enquete_opt5 ? 'enq-selected' : '' ">
+					      {{ enq.enquete_opt5 }}
+					    </div>
+					    <div ng-if="enq.resp_text == enq.enquete_opt5">
+					    <i class="radio-icon ion-checkmark" style="visibility:visible"></i>
+					    </div>
+					  </label>
+
+				</div>
 
 			</div>
 
