@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service.core', 'ionic.service.push', 'starter.services'])
+angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service.core', 'ionic.service.push', 'starter.services', "ionicLazyLoad"])
 	.controller('AppCtrl', function($scope, $ionicModal, $timeout, $rootScope, $ionicUser, $ionicPush, $ionicPlatform, $cordovaFacebook, Memory, JustDo) {
 		$ionicPlatform.ready(function() {
 			$scope.voltar = false;
@@ -1940,6 +1940,25 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 					});
 			}
 
+
+
+		})
+	})
+	.controller('EnqueteCtrl', function($scope, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo) {
+		$ionicPlatform.ready(function() {
+			var carregar = function() {
+				JustDo.ItIf("http://bastidor.com.br/vibesetal/json/enquetes",
+					function(data) {
+						data[0].enquete_time = moment(data[0].enquete_time).fromNow();
+						$scope.enq = data[0];
+					},
+					function(err) {
+						$cordovaToast.showShortCenter('Sem conexão com a internet.');
+						$scope.$broadcast('scroll.refreshComplete');
+					})
+			}
+
+			carregar();
 
 
 		})

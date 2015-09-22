@@ -109,6 +109,15 @@ angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.servi
         }
       }
     })
+    .state('app.enquetes', {
+      url: '/enquetes',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/enquetes.html',
+          controller: 'EnqueteCtrl'
+        }
+      }
+    })
     .state('app.code', {
       url: '/code',
       views: {

@@ -4,7 +4,7 @@
     <progress max="100" value="{{uploadProgress}}"></progress>
   </div>
 -->
-  <ion-content id="time-line" ng-class=" {{ User.user_adm == 1 ? 'has-footer': '' }} {{subheader}}">
+  <ion-content id="time-line" ng-class=" {{ User.user_adm == 1 ? 'has-footer': '' }} {{subheader}}" lazy-scroll>
 		<ion-refresher
 	    pulling-text="Puxe para atualizar"
 	    on-refresh="refresh()">
@@ -16,14 +16,14 @@
           <div class="item-button-right">
 	        <a class="button button-icon icon ion-ios-arrow-down btn-context" style="color:#886aea" ng-if="User.user_adm == 1" ng-click="options(item);"></a>
 	        <a class="item item-avatar" href="#/app/UserPosts/{{item.post_user_id}}">
-	        	<img ng-src="{{item.user_image}}">
+	        	<img image-lazy-src="{{item.user_image}}" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100">
 	        	<h2>{{item.user_name}}</h2>
 	        	<p>{{item.post_time}}</p>
 	        </a>
 	      </div>
 	      <div class="midia-post">
-	        <img ng-if="item.post_type == 'video' " ng-src="{{item.videoImage}}" class='eduardinho' ng-click="openVideoPlayer(item.post_file, item.post_id)" / >
-	        <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho rotate90' />
+	        <img ng-if="item.post_type == 'video' " image-lazy-src="{{item.videoImage}}" class='eduardinho' ng-click="openVideoPlayer(item.post_file, item.post_id)" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" / >
+	        <img ng-if=" item.post_type == 'image' " image-lazy-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho rotate90' image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" />
 	      </div>
 
 	      <div class="descricao padding" ng-bind-html="item.post_description">

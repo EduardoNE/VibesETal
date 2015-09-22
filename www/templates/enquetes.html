@@ -1,0 +1,58 @@
+<ion-view view-title="<img src='img/topo.png'>" id="brothers" class="internas">
+	<ion-content>
+
+		<div class="list">
+			<div class="item item-avatar item-button-right">
+			    <img ng-src="{{enq.user_image}}">
+			    <h2>{{enq.user_name}}</h2>
+			    <p>{{enq.enquete_time}}</p>
+			</div>
+			<div class="midia-post">
+
+				<label class="item item-radio">
+				    <input type="radio" name="group">
+				    <div class="item-content">
+				      {{ enq.enquete_opt1 }}
+				    </div>
+				    <i class="radio-icon ion-checkmark"></i>
+				  </label>
+
+				<label class="item item-radio">
+				    <input type="radio" name="group">
+				    <div class="item-content">
+				      {{ enq.enquete_opt2 }}
+				    </div>
+				    <i class="radio-icon ion-checkmark"></i>
+				  </label>
+
+				<label class="item item-radio">
+				    <input type="radio" name="group">
+				    <div class="item-content">
+				      {{ enq.enquete_opt3 }}
+				    </div>
+				    <i class="radio-icon ion-checkmark"></i>
+				  </label>
+
+				<label class="item item-radio">
+				    <input type="radio" name="group">
+				    <div class="item-content">
+				      {{ enq.enquete_opt4 }}
+				    </div>
+				    <i class="radio-icon ion-checkmark"></i>
+				  </label>
+
+				<label class="item item-radio">
+				    <input type="radio" name="group">
+				    <div class="item-content">
+				      {{ enq.enquete_resp }}
+				    </div>
+				    <i class="radio-icon ion-checkmark"></i>
+				  </label>
+
+
+			</div>
+
+
+		</div>
+	</ion-content>
+</ion-view>
