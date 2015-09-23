@@ -22,8 +22,9 @@
 	        </a>
 	      </div>
 	      <div class="midia-post">
-	        <img ng-if="item.post_type == 'video' " image-lazy-src="{{item.videoImage}}" class='eduardinho' ng-click="openVideoPlayer(item.post_file, item.post_id)" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" / >
-	        <img ng-if=" item.post_type == 'image' " image-lazy-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho rotate90' image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" />
+	        <img ng-if="item.post_type == 'video' " ng-src="{{item.videoImage}}" class='eduardinho' ng-click="openVideoPlayer(item.post_file, item.post_id)" / >
+	        <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' />
+	        <iframe ng-if="item.post_type == 'vimeo'" ng-src="{{'https://player.vimeo.com/video/'+item.post_file}}" class='eduardinho' frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 	      </div>
 
 	      <div class="descricao padding" ng-bind-html="item.post_description">

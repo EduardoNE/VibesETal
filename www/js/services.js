@@ -57,19 +57,96 @@ starter.factory('JustDo', function($http){
 });
 
 starter.factory('file', function($cordovaFileTransfer){
+    
     //var collections = [];
-    return{
+    //http://bastidor.com.br/vibesetal/json/upload/post
+
+    return {
         upload: function(filePath,options,success,fail,progress){
           $cordovaFileTransfer.upload('http://bastidor.com.br/vibesetal/json/upload/post', filePath, options)
             .then(function(result) {
-                success(result);
+                success(JSON.parse(result.response));
             }, function(err) {
                 fail(err);
             }, function (data) {
               progress(data);
             });
         }
-      };
+    };
+});
+
+starter.factory('Vimeo', function($http,$cordovaFileTransfer){
+    /*** Change ***/
+    var _AccessToken      = 'f61ab97596447fa339ec2366b7cfc6ea';
+    var _ClientIdentifier = '09b8566319a71227e1ef51de2656122867b795bb';
+    var _ClientSecrets    = 'f61ab97596447fa339ec2366b7cfc6ea';
+
+    /*** Do Not Change ***/
+    var _Headers          = { 'Authorization': 'bearer '+_AccessToken} ;
+    var _GotToken         = null;
+    var _GotUser          = null;
+
+
+    return{
+        GetToken: function(){
+            var requestData = {};
+            $http.post("https://api.vimeo.com", requestData, { headers: _Headers })
+            .success(function(responseData) {
+                _GotToken = responseData;
+                console.log('GetToken.ResponseData',responseData)
+            })
+            .error(function(err) {
+                console.error(err)
+            })
+        },
+        GetUser: function(){
+            var requestData = {};
+            $http.post("https://api.vimeo.com/me", requestData, { headers: _Headers })
+            .success(function(responseData) {
+                _GotUser = responseData;
+                console.log('GetUser.ResponseData',responseData)
+            })
+            .error(function(err) {
+                console.error(err)
+            })
+        },
+        GetUploadTicket: function(success,error){
+            var requestData = {};
+            $http.post("https://api.vimeo.com/me/videos", requestData, { headers: _Headers })
+            .success(function(responseData) {
+                return success(responseData);
+            })
+            .error(function(err) {
+                return error(err)
+            })
+        },
+        upload: function(video, success, error){
+            video = 'http://bastidor.com.br/vibesetal/content/' + video;
+            console.log('videoUrl',video);
+            var requestData = {
+                'type': 'pull',
+                'link': video
+            };
+
+            $http.post("https://api.vimeo.com/me/videos", requestData, { headers: _Headers })
+            .success(function(responseData) {
+                return success(responseData);
+            })
+            .error(function(err) {
+                return error(err)
+            })
+        },
+        Data: function(){
+            return {
+                'AccessToken'      : _AccessToken,
+                'ClientIdentifier' : _ClientIdentifier,
+                'ClientSecrets'    : _ClientSecrets,
+                'Headers'          : _Headers,
+                'GotToken'         : _GotToken,
+                'GotUser'          : _GotUser
+            }
+        }
+    };
 });
 
 

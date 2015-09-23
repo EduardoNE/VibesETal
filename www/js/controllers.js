@@ -127,7 +127,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			};
 		})
 	})
-	.controller('HomeCtrl', function($scope, $state, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $ionicActionSheet, $timeout, $ionicModal, $ionicScrollDelegate, $ionicLoading, $ionicPopup, $ionicHistory) {
+	.controller('HomeCtrl', function($scope, $state, Vimeo, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $ionicActionSheet, $timeout, $ionicModal, $ionicScrollDelegate, $ionicLoading, $ionicPopup, $ionicHistory) {
 
 		$scope.list = [];
 		var pageforscroll = 1;
@@ -412,14 +412,13 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 							post_deleted: 0
 						},
 						where: {
-							post_id: sucesso.response
+							post_id: sucesso.id
 						}
 					};
 					JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/post", infos,
 						function(data) {
 							console.log(data);
 							carregar();
-
 						},
 						function(err) {
 
@@ -503,11 +502,20 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
 				$cordovaCapture.captureVideo(options).then(function(data) {
 					console.log("Video", data);
-					RAM.set({
-						'data': data[0].fullPath,
-						'type': 'video'
+
+					Vimeo.GetUploadTicket(function(success){
+
+						RAM.set({
+							'data': data[0].fullPath,
+							'upload_link_secure': success.upload_link_secure,
+							'type': 'video'
+						});
+
+						$state.go("app.upload");
+
+					},function(error){
+						console.log('error getting an upload Ticket');
 					});
-					$state.go("app.upload");
 					//addToList(data[0].fullPath, data[0].name, "video", new Date().getTime(), data[0].type);
 				}, function(err) {
 					// error
@@ -827,7 +835,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 		});
 	})
 
-	.controller('UploadCtrl', function($scope, $stateParams, RAM, file, JustDo, $state, $cordovaToast, $ionicLoading, $ionicHistory) {
+	.controller('UploadCtrl', function($scope, $stateParams, RAM, file, JustDo, $state, $cordovaToast, $ionicLoading, $ionicHistory, Vimeo) {
 		/*var signaturePad = null;
 		var increase = 10;
 
@@ -909,11 +917,11 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 				var currH = $("#photo img").height() - 30;
 				var newSize = scaleSize(currW, currH, maxWidth, maxHeight);
 				$("#photo img").css({width: newSize[0]+"px", height: newSize[1]+"px"});
-				/*
-				convertImgToBase64(image.data, function(base64Img){
+				
+				/* convertImgToBase64(image.data, function(base64Img){
 					image.data = base64Img;
 					$scope.image = image;
-			    });*/
+			    }); */
 			}
 
 		}
@@ -945,23 +953,31 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 				chunkedMode: false,
 				mimeType: null
 			};
+
 			$scope.subheader = "has-subheader";
 			file.upload($scope.image.data, options, function(sucesso) {
 
 				console.log('s', sucesso);
 				$scope.subheader = "";
 				$scope.uploadProgress = 0;
-				var infos = {
-					post: {
-						post_user_id: $scope.User.user_id,
-						post_description: $scope.desc.str,
-						post_deleted: 0
-					},
-					where: {
-						post_id: sucesso.response
-					}
-				};
-				JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/post", infos,
+				var infos = {};
+
+				if(image.type == "video"){
+					console.log("sucesso",sucesso)
+				VimeoData = Vimeo.upload(sucesso.filename , function(success){
+					infos = {
+						post: {
+							post_user_id: $scope.User.user_id,
+							post_description: $scope.desc.str,
+							post_file: success.uri.replace("/videos/", ""),
+							post_type: 'vimeo',
+							post_deleted: 0
+						},
+						where: {
+							post_id: sucesso.id
+						}
+					};
+					JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/post", infos,
 					function(data) {
 						carregar();
 					},
@@ -970,6 +986,35 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						$ionicLoading.hide();
 						$cordovaToast.showShortCenter('Sem conexão com a internet.');
 					});
+
+				}, function(error){
+
+						console.error('vimeo _ upload',error);
+						$ionicLoading.hide();
+						$cordovaToast.showShortCenter('Sem conexão com a internet.');
+					
+				});
+				} else { 
+					infos = {
+						post: {
+							post_user_id: $scope.User.user_id,
+							post_description: $scope.desc.str,
+							post_deleted: 0
+						},
+						where: {
+							post_id: sucesso.id
+						}
+					};
+					JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/post", infos,
+					function(data) {
+						carregar();
+					},
+					function(err) {
+						console.error(err);
+						$ionicLoading.hide();
+						$cordovaToast.showShortCenter('Sem conexão com a internet.');
+					});
+				}
 			}, function(err) {
 				console.log('e', err)
 				$ionicLoading.hide();
@@ -977,8 +1022,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			}, function(prog) {
 				$scope.uploadProgress = ((prog.loaded / prog.total * 100));
 			});
-
-
 			/*if($scope.image.type == "image"){
 				var data = {
 					post_file: signaturePad.toDataURL(),
@@ -1018,7 +1061,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 							post_deleted: 0
 						},
 						where: {
-							post_id: sucesso.response
+							post_id: sucesso
 						}
 					};
 					JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/post", infos,
@@ -2335,7 +2378,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 							post_deleted: 0
 						},
 						where: {
-							post_id: sucesso.response
+							post_id: sucesso.id
 						}
 					};
 					JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/post", infos,
