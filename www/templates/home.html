@@ -22,6 +22,9 @@
 	        </a>
 	      </div>
 	      <div class="midia-post">
+	      	<div ng-if="item.post_stamp != 0" style="position: absolute;right:15px;top: 90px;">
+	      		<img ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_stamp}}" class='eduardinho' / >
+	      	</div>
 	        <img ng-if="item.post_type == 'video' " ng-src="{{item.videoImage}}" class='eduardinho' ng-click="openVideoPlayer(item.post_file, item.post_id)" / >
 	        <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' />
 	        <iframe ng-if="item.post_type == 'vimeo'" ng-src="{{'https://player.vimeo.com/video/'+item.post_file}}" class='eduardinho' frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>

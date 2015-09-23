@@ -410,16 +410,6 @@ ion-content#login .vibes-login button{
 #code{
 	color:#000;
 }
-
-#brothersPage .list{
-	padding-right:0px;
-}
-
-#brothersPage .no-post-title{
-	padding-top:20px;
-	text-align: center
-}
-
 /********* Enquete ********/
 #enquete .item-avatar{
 	min-height: 50px;
@@ -439,9 +429,50 @@ ion-content#login .vibes-login button{
 
 /********* Brother swipe ********/
 
+#brothersPage{
+	background: #000000;
+}
+
+#brothersPage .bar{
+	background: transparent;
+	border-top:none;
+}
+
+#brothersPage .midia-post{
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+#brothersPage .midia-post img{
+    vertical-align: middle;
+}
+#brothersPage .midia-post{
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
 #brothersPage .item-avatar{
 	min-height: 50px;
 	padding-left:60px;
+}
+
+#brothersPage .list{
+	padding-right:0px;
+}
+
+#brothersPage .no-post-title{
+	padding-top:20px;
+	text-align: center
+}
+
+#brothersPage .bar{
+	height: 55px;
+	padding: 0px 5px;
+}
+#brothersPage .bar button{
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
 
 /******* EDUARDINHO ~ revisar ******/

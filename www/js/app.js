@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
 
-angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.service.push', 'starter.controllers', 'ionic.contrib.ui.cards'])
+angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.service.push', 'starter.controllers', 'ionic.contrib.ui.cards', 'ngIOS9UIWebViewPatch'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

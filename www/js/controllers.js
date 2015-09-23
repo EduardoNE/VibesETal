@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service.core', 'ionic.service.push', 'starter.services', "ionicLazyLoad"])
+angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service.core', 'ionic.service.push', 'starter.services', "ionicLazyLoad", 'ngIOS9UIWebViewPatch'])
 	.controller('AppCtrl', function($scope, $ionicModal, $timeout, $rootScope, $ionicUser, $ionicPush, $ionicPlatform, $cordovaFacebook, Memory, JustDo) {
 		$ionicPlatform.ready(function() {
 			$scope.voltar = false;
@@ -917,7 +917,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 				var currH = $("#photo img").height() - 30;
 				var newSize = scaleSize(currW, currH, maxWidth, maxHeight);
 				$("#photo img").css({width: newSize[0]+"px", height: newSize[1]+"px"});
-				
+
 				/* convertImgToBase64(image.data, function(base64Img){
 					image.data = base64Img;
 					$scope.image = image;
@@ -992,9 +992,9 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						console.error('vimeo _ upload',error);
 						$ionicLoading.hide();
 						$cordovaToast.showShortCenter('Sem conexão com a internet.');
-					
+
 				});
-				} else { 
+				} else {
 					infos = {
 						post: {
 							post_user_id: $scope.User.user_id,
@@ -1430,7 +1430,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			$scope.hasPost = false;
 			var countCards = 0;
 			var total = new Array();
-			$scope.list = new Array();
 			var position = 1;
 			var canSwipe = false;
 
@@ -1446,7 +1445,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
 			JustDo.aPost("http://bastidor.com.br/vibesetal/json/brothers/select", data,
 				function(data){
-					console.log("inicio", data)
 					if(data[0]){
 						$scope.hasPost = true;
 						for(var i in data){
@@ -1462,8 +1460,9 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 							}
 						}
 						var first = total.shift();
-						$scope.list.push(first);
+						$scope.list = first;
 						$ionicLoading.hide();
+
 					}else{
 						$ionicLoading.hide();
 						var alertPopup = $ionicPopup.alert({
@@ -1486,13 +1485,12 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 				$("#brothersPage #post_" + id + " .midia-post").html("<video style='width:100%;height:100%' autoplay='autoplay' controls src='http://bastidor.com.br/vibesetal/content/" + video + "'></video>");
 			}
 
-			$scope.cardSwiped = function(index) {
-
+			$scope.cardSwiped = function() {
 				var first = total.shift();
 				if(first == undefined){
-					$scope.hasPost = false;
+					$ionicHistory.goBack();
 				}else{
-					$scope.list.push(first);
+					$scope.list = first;
 					position++;
 				}
 
@@ -1520,19 +1518,9 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						function(err){
 							$cordovaToast.showShortCenter('Sem conexão com a internet.');
 						})
-					}else{
-						$scope.hasPost = false;
 					}
-
 				}
-
-
 			};
-
-			$scope.cardDestroyed = function(index) {
-				$scope.list.splice(index, 1);
-			};
-
 
 			$scope.options = function(item) {
 				// Show the action sheet

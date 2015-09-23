@@ -6,7 +6,7 @@
   </ion-header-bar>
 <ion-content>
 
-	<div id="post_{{ item.post_id }}">
+	<div id="post_{{ item.post_id }}" style="margin-top:0px">
 		  <div class="item item-avatar item-button-right">
 			    <img ng-src="{{item.user_image}}">
 			    <a class="button button-icon icon ion-ios-arrow-down btn-context" style="color:#886aea" ng-if="User.user_adm == 1" ng-click="options(item);"></a>
@@ -14,6 +14,9 @@
 			    <p>{{item.post_time}}</p>
 			</div>
 			<div class="midia-post">
+				<div ng-if="item.post_stamp != 0" style="position: absolute;right:15px;top: 90px;">
+		      		<img ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_stamp}}" class='eduardinho' / >
+		      	</div>
 			    <img ng-if="item.post_type == 'video' " ng-src="{{item.videoImage}}" class='eduardinho open_image' ng-click="openVideoPlayer(item.post_id)" / >
 			    <video style='width:100%;height:100%;display:none' class="open_video" ng-if="item.post_type == 'video' " controls ng-src="{{ item.post_file }}"></video>
 			    <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' />

@@ -1,54 +1,63 @@
 
-<ion-view cache-view='false' view-title="<img src='img/topo.png'>">
+<ion-view cache-view='false' id="brothersPage">
 
-<ion-content id="brothersPage">
+	<ion-content>
 
+		<div ng-if="hasPost">
+			<div id="post_{{ list.post_id }}" ng-click="cardSwiped()" lazy-scroll>
+				<div class="midia-post">
+					<div ng-if="list.post_stamp != 0" style="position: absolute;right:15px;top: 15px;">
+			      		<img ng-src="{{'http://bastidor.com.br/vibesetal/content/'+list.post_stamp}}" class='eduardinho' / >
+			      	</div>
+				    <img ng-if="list.post_type == 'video' " ng-src="{{list.videoImage}}" class='eduardinho' ng-click="openVideoPlayer(list.post_file, list.post_id)" / >
+				    <img ng-if=" list.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+list.post_file}}" class='eduardinho' />
+				    <iframe ng-if="item.post_type == 'vimeo'" ng-src="{{'https://player.vimeo.com/video/'+item.post_file}}" class='eduardinho' frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+				</div>
+				<!--<div class="row">
+				    <div class="col col-33">
+				        <button class="button button-block button-royal btn_like" ng-if="!list.liked" ng-click="likePost('{{list.post_id}}')">
+				            <i class="fa fa-diamond"></i> <span>{{list.likes}}</span>
+				        </button>
+				        <button class="button button-block button-positive btn_like" ng-if="list.liked"><i class="fa fa-diamond"></i> {{list.likes}} </button>
+				    </div>
 
-<div ng-if="!hasPost">
-    <h3 class="no-post-title"><i class="fa fa-refresh fa-pulse"></i></h3>
-</div>
+				    <div class="col col-33">
+				        <button class="button button-block button-royal btn_comment" ng-click="commentPost('{{list.post_id}}')">
+				            <i class="fa fa-comment"></i> <span>{{list.comments}}</span>
+				        </button>
+				    </div>
 
-<swipe-cards ng-if="hasPost">
-	<swipe-card ng-repeat="item in list" on-destroy="cardDestroyed($index)" on-card-swipe="cardSwiped($index)" id="post_{{ item.post_id }}" lazy-scroll>
-		  <div class="item item-avatar item-button-right">
-			    <img image-lazy-src="{{item.user_image}}" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100">
-			    <a class="button button-icon icon ion-ios-arrow-down btn-context" style="color:#886aea" ng-if="User.user_adm == 1" ng-click="options(item);"></a>
-			    <h2>{{item.user_name}}</h2>
-			    <p>{{item.post_time}}</p>
+				    <div class="col col-33">
+				        <button class="button button-block button-royal btn_share" ng-click='share("{{list.post_description}}","http://bastidor.com.br/vibesetal/content/{{list.post_file}}", "{{list.post_id}}")'>
+				            <i class="fa fa-share"></i> <span>{{list.share}}</span>
+				        </button>
+				    </div>
+
+				</div>-->
 			</div>
-			<div class="midia-post">
-			    <img ng-if="item.post_type == 'video' " image-lazy-src="{{item.videoImage}}" class='eduardinho' ng-click="openVideoPlayer(item.post_file, item.post_id)" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" / >
-			    <img ng-if=" item.post_type == 'image' " image-lazy-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" />
-			</div>
+		</div>
+	</ion-content>
+	<div class="bar bar-footer bar-dark">
+		<div class="row">
+		    <div class="col col-33">
+		        <button class="button button-block button-royal btn_like" ng-if="!list.liked" ng-click="likePost('{{list.post_id}}')">
+		            <i class="fa fa-diamond"></i> <span>{{list.likes}}</span>
+		        </button>
+		        <button class="button button-block button-positive btn_like" ng-if="list.liked"><i class="fa fa-diamond"></i> {{list.likes}} </button>
+		    </div>
 
-			<div class="descricao padding" ng-bind-html="item.post_description">
-			</div>
+		    <div class="col col-33">
+		        <button class="button button-block button-royal btn_comment" ng-click="commentPost('{{list.post_id}}')">
+		            <i class="fa fa-comment"></i> <span>{{list.comments}}</span>
+		        </button>
+		    </div>
 
-			<div class="row">
-			    <div class="col col-33">
-			        <button class="button button-block button-royal btn_like" ng-if="!item.liked" ng-click="likePost('{{item.post_id}}')">
-			            <i class="fa fa-diamond"></i> <span>{{item.likes}}</span>
-			        </button>
-			        <button class="button button-block button-positive btn_like" ng-if="item.liked"><i class="fa fa-diamond"></i> {{item.likes}} </button>
-			    </div>
+		    <div class="col col-33">
+		        <button class="button button-block button-royal btn_share" ng-click='share("{{list.post_description}}","http://bastidor.com.br/vibesetal/content/{{list.post_file}}", "{{list.post_id}}")'>
+		            <i class="fa fa-share"></i> <span>{{list.share}}</span>
+		        </button>
+		    </div>
 
-			    <div class="col col-33">
-			        <button class="button button-block button-royal btn_comment" ng-click="commentPost('{{item.post_id}}')">
-			            <i class="fa fa-comment"></i> <span>{{item.comments}}</span>
-			        </button>
-			    </div>
-
-			    <div class="col col-33">
-			        <button class="button button-block button-royal btn_share" ng-click='share("{{item.post_description}}","http://bastidor.com.br/vibesetal/content/{{item.post_file}}", "{{item.post_id}}")'>
-			            <i class="fa fa-share"></i> <span>{{item.share}}</span>
-			        </button>
-			    </div>
-
-			</div>
-	</swipe-card>
-</swipe-cards>
-
-
-</ion-content>
-
+		</div>
+	</div>
 </ion-view>

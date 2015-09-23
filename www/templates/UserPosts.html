@@ -20,6 +20,9 @@
 	        <p>{{item.post_time}}</p>
 	      </div>
 	      <div class="midia-post">
+	      	<div ng-if="item.post_stamp != 0" style="position: absolute;right:15px;top: 90px;">
+	      		<img ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_stamp}}" class='eduardinho' / >
+	      	</div>
 	        <img ng-if="item.post_type == 'video' " image-lazy-src="{{item.videoImage}}" class='eduardinho' ng-click="openVideoPlayer(item.post_file, item.post_id)" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" / >
 	        <img ng-if=" item.post_type == 'image' " image-lazy-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" />
 	      </div>
