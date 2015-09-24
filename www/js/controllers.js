@@ -224,7 +224,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						data[i].liked = false;
 
 					if (data[i].post_type == "vimeo") {
-						var prop = Calc.proportional.width(data[i].post_width);
+						var prop = Calc.proportional.width(data[i].post_width,20);
 						data[i].post_height = data[i].post_height * prop;
 					}
 				}
@@ -831,56 +831,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 	})
 
 	.controller('UploadCtrl', function($scope, $stateParams, RAM, file, JustDo, $state, $cordovaToast, $ionicLoading, $ionicHistory, Vimeo) {
-		/*var signaturePad = null;
-		var increase = 10;
-
-		function calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
-
-		    var ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
-
-		    return { width: srcWidth*ratio, height: srcHeight*ratio };
-		 }
-
-
-		function convertImgToBase64(url, callback, outputFormat) {
-		    var img = new Image();
-		    img.crossOrigin = 'Anonymous';
-		    var increase = 10;
-		    var TO_RADIANS = Math.PI/180;
-		    img.onload = function() {
-		        var canvas = document.getElementById("myCanvas");
-		        signaturePad = new SignaturePad(canvas);
-		        signaturePad.minWidth = increase;
-		        signaturePad.maxWidth = increase;
-		        var ctx = canvas.getContext('2d');
-		        canvas.height = this.width;
-		        canvas.width = this.height;
-		        ctx.save();
-		        ctx.translate((canvas.width / 2), (canvas.height / 2));
-				ctx.rotate(90 * TO_RADIANS);
-				ctx.drawImage(this, -(this.width/2), -(this.height/2));
-				ctx.restore();
-		        var dataURL = canvas.toDataURL(outputFormat || 'image/png');
-		        callback(dataURL);
-		        canvas = null;
-		    };
-		    img.src = url;
-		}
-
-		$scope.changeColor = function(r, g, b){
-			signaturePad.penColor = "rgb("+r+", "+g+", "+b+")";
-		}
-		$scope.increaseRadius = function(){
-			increase += 5;
-			signaturePad.minWidth = increase;
-		}
-
-		$scope.decreaseRadius = function(){
-			increase -= 5;
-			if(increase <= 5)
-				increase = 5;
-			signaturePad.minWidth = increase;
-		}*/
 
 		function scaleSize(maxW, maxH, currW, currH){
 
@@ -1176,9 +1126,30 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 		})
 	})
 
-	.controller('BrotherPageCtrl', function($scope, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo, $ionicLoading, $ionicPopup, $ionicHistory, $ionicSwipeCardDelegate, $ionicModal, file, Memory, RAM, $ionicActionSheet, $cordovaSocialSharing, $ionicScrollDelegate) {
+	.controller('BrotherPageCtrl', function($scope, Calc, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo, $ionicLoading, $ionicPopup, $ionicHistory, $ionicSwipeCardDelegate, $ionicModal, file, Memory, RAM, $ionicActionSheet, $cordovaSocialSharing, $ionicScrollDelegate) {
 
 		$ionicPlatform.ready(function() {
+			var checkVideo = function(data) {
+				var likes = Memory.get('likes');
+				if (likes == 0) {
+					likes = [];
+					Memory.set('likes', likes);
+				}
+
+				for (var i = 0; i < data.length; i++) {
+
+					if (likes.indexOf(data[i].post_id) > -1)
+						data[i].liked = true;
+					else
+						data[i].liked = false;
+
+					if (data[i].post_type == "vimeo") {
+						var prop = Calc.proportional.width(data[i].post_width,0);
+						data[i].post_height = data[i].post_height * prop;
+					}
+				}
+				return data;
+			}
 			$ionicLoading.show({
 				content: 'Loading',
 				animation: 'fade-in',
@@ -1214,6 +1185,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 			JustDo.aPost("http://bastidor.com.br/vibesetal/json/brothers/select", data,
 				function(data){
 					if(data[0]){
+						data = checkVideo(data);
 						$scope.hasPost = true;
 						for(var i in data){
 							if(data[i]){
@@ -1274,7 +1246,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 							post_id: last.post_id
 						}
 						JustDo.aPost("http://bastidor.com.br/vibesetal/json/brothers/select", data, function(data){
-							if(data[0]){
+							if(data[0]){ data = checkVideo(data);
 								for(var i in data){
 									data[i].post_time = moment(data[i].post_time).fromNow();
 									if (likes.indexOf(data[i].post_id) > -1)

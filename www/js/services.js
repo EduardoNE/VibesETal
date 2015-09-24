@@ -14,11 +14,11 @@ starter.factory('Memory', ['$window', function($window) {
 starter.factory('Calc', function($window) {
     return {
         proportional: {
-            width: function(width) {
-                return ($window.innerWidth - 20)/width;
+            width: function(width,remove) {
+                return ($window.innerWidth - remove)/width;
             },
-            height: function(height) {
-                return ($window.innerHeight)/height;
+            height: function(height,remove) {
+                return ($window.innerHeight - remove)/height;
             }
         }
     }

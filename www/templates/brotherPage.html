@@ -6,34 +6,18 @@
 		<div ng-if="hasPost">
 			<div id="post_{{ list.post_id }}" ng-click="cardSwiped()" lazy-scroll>
 				<div class="midia-post">
+				
 					<div ng-if="list.post_stamp != 0" style="position: absolute;right:15px;top: 15px;">
 			      		<img ng-src="{{'http://bastidor.com.br/vibesetal/content/'+list.post_stamp}}" class='eduardinho' / >
 			      	</div>
+
 				    <img ng-if="list.post_type == 'video' " ng-src="{{list.videoImage}}" class='eduardinho' ng-click="openVideoPlayer(list.post_file, list.post_id)" / >
+
 				    <img ng-if=" list.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+list.post_file}}" class='eduardinho' />
-				    <iframe data-tap-disabled="true" ng-if="list.post_type == 'vimeo'" height="{{ list.post_height }}" width="{{ list.post_width }}" ng-src="{{'https://player.vimeo.com/video/'+list.post_file+'?portrait=0&title=0&byline=0&badge=0&autoplay=1'}}" class='eduardinho' frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+				    
+				    <iframe data-tap-disabled="true" ng-if="list.post_type == 'vimeo'" height="{{ list.post_height }}" width="{{ list.post_width }}" ng-src="{{'https://player.vimeo.com/video/'+list.post_file+'?portrait=0&title=0&byline=0&badge=0&autoplay=1&autoplay=1&loop=1'}}" class='eduardinho' frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+
 				</div>
-				<!--<div class="row">
-				    <div class="col col-33">
-				        <button class="button button-block button-royal btn_like" ng-if="!list.liked" ng-click="likePost('{{list.post_id}}')">
-				            <i class="fa fa-diamond"></i> <span>{{list.likes}}</span>
-				        </button>
-				        <button class="button button-block button-positive btn_like" ng-if="list.liked"><i class="fa fa-diamond"></i> {{list.likes}} </button>
-				    </div>
-
-				    <div class="col col-33">
-				        <button class="button button-block button-royal btn_comment" ng-click="commentPost('{{list.post_id}}')">
-				            <i class="fa fa-comment"></i> <span>{{list.comments}}</span>
-				        </button>
-				    </div>
-
-				    <div class="col col-33">
-				        <button class="button button-block button-royal btn_share" ng-click='share("{{list.post_description}}","http://bastidor.com.br/vibesetal/content/{{list.post_file}}", "{{list.post_id}}")'>
-				            <i class="fa fa-share"></i> <span>{{list.share}}</span>
-				        </button>
-				    </div>
-
-				</div>-->
 			</div>
 		</div>
 	</ion-content>
