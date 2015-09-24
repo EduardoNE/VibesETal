@@ -5,6 +5,7 @@
 
 	    <div class="item item-avatar">
 	      	<img ng-if="item.post_type == 'video' " image-lazy-src="{{item.videoImage}}" class='eduardinho' ng-click="" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" / >
+	      	<img ng-if="item.post_type == 'vimeo' " image-lazy-src="{{item.post_enctype}}" class='eduardinho' ng-click="" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" / >
 	        <img ng-if=" item.post_type == 'image' " image-lazy-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" />
 	        <h2 class="pull-right post-pos" style="margin-right:10px;">
 				{{item.position + 1}}

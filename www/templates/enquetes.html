@@ -10,6 +10,7 @@
 			<div class="midia-post">
 
 				<h4>{{ enq.enquete_pergunta }}</h4>
+				<img ng-src="{{'http://bastidor.com.br/vibesetal/content/'+enq.enquete_image}}" class='eduardinho' />
 				<div  ng-if="enq.resp_text == null">
 					<label class="item item-radio">
 					    <input type="radio" name="enq_value" value="{{ enq.enquete_opt1 }}" ng-model="fields.enquete">
