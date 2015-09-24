@@ -4,7 +4,7 @@
     <progress max="100" value="{{uploadProgress}}"></progress>
   </div>
 -->
-  <ion-content id="time-line" ng-class=" {{ User.user_adm == 1 ? 'has-footer': '' }} {{subheader}}" lazy-scroll>
+  <ion-content id="time-line" ng-class=" {{ User.user_adm == 1 ? 'has-footer': '' }} {{subheader}}" scroll="true" overflow-scroll="true" lazy-scroll>
 		<ion-refresher
 	    pulling-text="Puxe para atualizar"
 	    on-refresh="refresh()">
@@ -25,7 +25,7 @@
 	      	</div>
 	        <img ng-if="item.post_type == 'video' " image-lazy-src="{{item.videoImage}}" class='eduardinho' ng-click="openVideoPlayer(item.post_file, item.post_id)" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" / >
 	        <img ng-if=" item.post_type == 'image' " image-lazy-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" />
-	        <iframe ng-if="item.post_type == 'vimeo'" height="{{ item.post_height }}" ng-src="{{'https://player.vimeo.com/video/'+item.post_file+'?portrait=0&title=0&byline=0&badge=0'}}" class='eduardinho' frameborder="0" autoplay="1" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+	        <iframe data-tap-disabled="true" ng-if="item.post_type == 'vimeo'" height="{{ item.post_height }}" ng-src="{{'https://player.vimeo.com/video/'+item.post_file+'?portrait=0&title=0&byline=0&badge=0'}}" class='eduardinho' frameborder="0" autoplay="1" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 	      </div>
 
 	      <div class="descricao padding" ng-bind-html="item.post_description">
