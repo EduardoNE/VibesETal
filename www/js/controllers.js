@@ -971,7 +971,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 							post_description: $scope.desc.str,
 							post_file: success.uri.replace("/videos/", ""),
 							post_type: 'vimeo',
-							post_deleted: 0
+							post_deleted: 2
 						},
 						where: {
 							post_id: sucesso.id
