@@ -4,7 +4,7 @@
     <button ng-click="closePost()" class="button button-stable icon-left  ion-ios-arrow-down">
     </button>
   </ion-header-bar>
-<ion-content class="has-header" has-boucing="false" scroll="true" overflow-scroll="true">
+<ion-content  scroll="true" overflow-scroll="true">
 
 	<div class="list card" id="post_{{ item.post_id }}">
 		  <div class="item item-avatar item-button-right">
@@ -20,7 +20,7 @@
 			    <img ng-if="item.post_type == 'video' " ng-src="{{item.videoImage}}" class='eduardinho open_image' ng-click="openVideoPlayer(item.post_id)" / >
 			    <video style='width:100%;height:100%;display:none' class="open_video" ng-if="item.post_type == 'video' " controls ng-src="{{ item.post_file }}"></video>
 			    <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' />
-			    <iframe data-tap-disabled="true" ng-if="item.post_type == 'vimeo'" height="{{ item.post_height }}" ng-src="{{'https://player.vimeo.com/video/'+item.post_file+'?portrait=0&title=0&byline=0&badge=0'}}" class='eduardinho' frameborder="0" autoplay="1" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+			    <iframe ng-if="item.post_type == 'vimeo'" height="{{ item.post_height }}" ng-src="{{'https://player.vimeo.com/video/'+item.post_file+'?portrait=0&title=0&byline=0&badge=0'}}" class='eduardinho' frameborder="0" autoplay="1" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 			</div>
 
 			<div class="descricao padding" ng-bind-html="item.post_description">

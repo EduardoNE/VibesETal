@@ -25,7 +25,7 @@
 	      	</div>
 	        <img ng-if="item.post_type == 'video' " image-lazy-src="{{item.videoImage}}" class='eduardinho' ng-click="openVideoPlayer(item.post_file, item.post_id)" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" / >
 	        <img ng-if=" item.post_type == 'image' " image-lazy-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" />
-	        <iframe data-tap-disabled="true" ng-if="item.post_type == 'vimeo'" height="{{ item.post_height }}" ng-src="{{'https://player.vimeo.com/video/'+item.post_file+'?portrait=0&title=0&byline=0&badge=0'}}" class='eduardinho' frameborder="0" autoplay="1" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+	        <iframe ng-if="item.post_type == 'vimeo'" height="{{ item.post_height }}" ng-src="{{'https://player.vimeo.com/video/'+item.post_file+'?portrait=0&title=0&byline=0&badge=0'}}" class='eduardinho' frameborder="0" autoplay="1" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 	      </div>
 
 	      <div class="descricao padding" ng-bind-html="item.post_description">

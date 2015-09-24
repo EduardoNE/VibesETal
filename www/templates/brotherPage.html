@@ -14,9 +14,9 @@
 				    <img ng-if="list.post_type == 'video' " ng-src="{{list.videoImage}}" class='eduardinho' ng-click="openVideoPlayer(list.post_file, list.post_id)" / >
 
 				    <img ng-if=" list.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+list.post_file}}" class='eduardinho' />
-				    
-				    <iframe data-tap-disabled="true" ng-if="list.post_type == 'vimeo'" height="{{ list.post_height }}" width="{{ list.post_width }}" ng-src="{{'https://player.vimeo.com/video/'+list.post_file+'?portrait=0&title=0&byline=0&badge=0&autoplay=1&autoplay=1&loop=1'}}" class='eduardinho' frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 
+				    
+				    <iframe data-tap-disabled="true" ng-if="list.post_type == 'vimeo'" height="{{ list.post_height }}" width="{{ list.post_width }}" ng-src="{{'https://player.vimeo.com/video/'+list.post_file+'?portrait=0&title=0&byline=0&badge=0&autoplay=1&loop=1'}}" class='eduardinho' frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 				</div>
 			</div>
 		</div>
