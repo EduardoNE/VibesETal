@@ -1,5 +1,5 @@
 <ion-view cache-view='false' view-title="<img src='img/topo.png'>" id="photo">
-  <ion-content lazy-scroll> <!--scroll="false"-->
+  <ion-content has-boucing="false" lazy-scroll> <!--scroll="false"-->
     <video ng-if="image.type == 'video' " ng-src="{{image.data}}" class="centerme" controls="controls" style="width:100%" preload="true"></video>
     <img ng-if="image.type == 'image'" image-lazy-src="{{ image.data }}" class="centerme" style="width:100%" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100">
     <!--<canvas id="myCanvas" ng-if="image.type == 'image' " style="margin:0 auto">

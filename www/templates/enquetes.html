@@ -1,7 +1,7 @@
 <ion-view view-title="<img src='img/topo.png'>" id="enquete" class="internas">
-	<ion-content>
+	<ion-content has-boucing="false">
 
-		<div class="list">
+		<div class="list card">
 			<div class="item item-avatar item-button-right">
 			    <img ng-src="{{enq.user_image}}">
 			    <h2>{{enq.user_name}}</h2>
@@ -9,43 +9,26 @@
 			</div>
 			<div class="midia-post">
 
-				<h4>{{ enq.enquete_pergunta }}</h4>
+				<h4 ng-bind-html="enq.enquete_pergunta"></h4>
 				<img ng-src="{{'http://bastidor.com.br/vibesetal/content/'+enq.enquete_image}}" class='eduardinho' />
 				<div  ng-if="enq.resp_text == null">
-					<label class="item item-radio">
-					    <input type="radio" name="enq_value" value="{{ enq.enquete_opt1 }}" ng-model="fields.enquete">
-					    <div class="item-content" ng-bind-html="enq.enquete_opt1">
-					    </div>
-					    <i class="radio-icon ion-checkmark"></i>
-					  </label>
 
-					<label class="item item-radio">
-					    <input type="radio" name="enq_value" value="{{ enq.enquete_opt2 }}" ng-model="fields.enquete">
-					    <div class="item-content" ng-bind-html="enq.enquete_opt2">
-					    </div>
-					    <i class="radio-icon ion-checkmark"></i>
-					  </label>
 
-					<label class="item item-radio">
-					    <input type="radio" name="enq_value" value="{{ enq.enquete_opt3 }}" ng-model="fields.enquete">
-					    <div class="item-content" ng-bind-html="enq.enquete_opt3">
-					    </div>
-					    <i class="radio-icon ion-checkmark"></i>
-					  </label>
-
-					<label class="item item-radio">
-					    <input type="radio" name="enq_value" value="{{ enq.enquete_opt4 }}" ng-model="fields.enquete">
-					    <div class="item-content" ng-bind-html="enq.enquete_opt4">
-					    </div>
-					    <i class="radio-icon ion-checkmark"></i>
-					  </label>
-
-					<label class="item item-radio">
-					    <input type="radio" name="enq_value" value="{{ enq.enquete_opt5 }}" ng-model="fields.enquete">
-					    <div class="item-content" ng-bind-html="enq.enquete_opt5">
-					    </div>
-					    <i class="radio-icon ion-checkmark"></i>
-					  </label>
+					<ion-radio-fix ng-model="fields.enquete" ng-value="{{ enq.enquete_opt1 }}" value="{{ enq.enquete_opt1 }}">
+						{{ enq.enquete_opt1 }}
+					</ion-radio-fix>
+					<ion-radio-fix ng-model="fields.enquete" ng-value="{{ enq.enquete_opt2 }}" value="{{ enq.enquete_opt2 }}">
+						{{ enq.enquete_opt2 }}
+					</ion-radio-fix>
+					<ion-radio-fix ng-model="fields.enquete" ng-value="{{ enq.enquete_opt3 }}" value="{{ enq.enquete_opt3 }}">
+						{{ enq.enquete_opt3 }}
+					</ion-radio-fix>
+					<ion-radio-fix ng-model="fields.enquete" ng-value="{{ enq.enquete_opt4 }}" value="{{ enq.enquete_opt4 }}">
+						{{ enq.enquete_opt4 }}
+					</ion-radio-fix>
+					<ion-radio-fix ng-model="fields.enquete" ng-value="{{ enq.enquete_opt5 }}" value="{{ enq.enquete_opt5 }}">
+						{{ enq.enquete_opt5 }}
+					</ion-radio-fix>
 
 					<button class="button button-full button-positive" ng-click="voteEnq()">
 						Votar
