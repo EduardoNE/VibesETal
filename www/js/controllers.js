@@ -2,6 +2,8 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
     .controller('AppCtrl', function($scope, $cordovaGoogleAnalytics, $ionicModal, $timeout, $rootScope, $ionicUser, $ionicPush, $ionicPlatform, $cordovaFacebook, Memory, JustDo) {
         $ionicPlatform.ready(function() {
 
+
+
             $cordovaGoogleAnalytics.startTrackerWithId('UA-68118729-1');
 
             $scope.voltar = false;
@@ -103,6 +105,17 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
             // Open the login modal
             $scope.login = function() {
                 $scope.modal.show();
+                var qrcode = new QRCode("qrcode");
+
+            function makeCode() {
+                var elText = $("#qrcode").html()
+
+                qrcode.makeCode(elText);
+
+                $("#qrcode img").css("margin", "auto");
+            }
+
+            makeCode();
             };
             $scope.logout = function() {
                 $scope.User = {};

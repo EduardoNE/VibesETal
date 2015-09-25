@@ -1,3 +1,19 @@
+@font-face {
+font-family: 'Visby';
+	src: url(‘../fonts/VisbyCF-Medium.otf’);
+	font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Visby';
+    src: url(../fonts/VisbyCF-Bold.otf);
+    font-weight: bold;
+}
+
+h1, h2, h3, p, a {
+	font-family: 'Visby';
+}
+
 .item-radio input:checked + .radio-content .item-content {
 /* style the item content when its checked */
 background: #f7f7f7;
@@ -54,6 +70,7 @@ visibility: visible;
 #time-line .item{
 	border-width: 0;
 	padding-right: 0px;
+	background: transparent;
 }
 
 #time-line .descricao{
@@ -63,6 +80,7 @@ visibility: visible;
 #time-line .item-avatar{
 	min-height: 50px;
 	padding-left:60px;
+	background: transparent;
 }
 
 #time-line .foto-icon{
@@ -199,15 +217,7 @@ ion-modal-view#login ion-content#login {
 }
 
 #login .bar-vibe{
-	background: #ad2b61; /* Old browsers */
-	background: -moz-linear-gradient(top,  #ad2b61 0%, #822467 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ad2b61), color-stop(100%,#822467)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  #ad2b61 0%,#822467 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  #ad2b61 0%,#822467 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  #ad2b61 0%,#822467 100%); /* IE10+ */
-	background: linear-gradient(to bottom,  #ad2b61 0%,#822467 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ad2b61', endColorstr='#822467',GradientType=0 ); /* IE6-9 */
-
+	background: transparent;
 }
 
 #login .card, #login .list{
@@ -242,7 +252,7 @@ ion-modal-view#login ion-content#login {
 #login .bar-vibe button{
 	background: transparent;
 	border: 0;
-	color:#fff;
+	color:#892566;
 	font-size: 36px;
 }
 
@@ -252,7 +262,7 @@ ion-modal-view#login ion-content#login {
 }
 
 h2.branco, h3.branco {
-	color: #fff;
+	color: #000;
 }
 
 .logo-ne {
@@ -609,23 +619,36 @@ ion-content#login .vibes-login button{
 	height: 50px;
 }
 
- #open-menu{
- 	color:#fff;
- }
+#open-menu{
+	color:#892566;
+}
+
+#tab-menu {
+	background: #000;
+}
+
+#tab-menu .bar-header {
+	border-bottom: 0;
+}
 
  #tab-menu .title{
- 	color:#fff;
+ 	color:#892566;
+	background: #000;
  }
 
  #tab-menu .list .item:first-child{
  	text-align: center;
+ 	border-top: 0;
  }
  #tab-menu .list .item{
  	color:#fff;
- 	background: #000
+ 	background-color: #000;
+ 	border-top: 1px solid #333;
+ 	border-bottom: 1px solid #333;
  }
  #tab-menu .item-content{
- 	color:#000;
+ 	color:#892566;
+ 	background: #000;
  }
  #tab-menu img{
  	width: 100%;
