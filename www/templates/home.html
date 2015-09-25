@@ -47,7 +47,12 @@
 	           </button>
 	        </div>
 
-	        <div class="col col-33">
+	        <div class="col col-33" ng-if="item.post_type == 'vimeo'">
+	          <button class="button button-block button-royal btn_share" ng-click='share("{{item.post_description}}", "{{item.post_enctype}}", "{{item.post_id}}")'>
+	            <i class="fa fa-share"></i> <span>{{item.share}}</span>
+	          </button>
+	        </div>
+	        <div class="col col-33" ng-if="item.post_type == 'image'">
 	          <button class="button button-block button-royal btn_share" ng-click='share("{{item.post_description}}","http://bastidor.com.br/vibesetal/content/{{item.post_file}}", "{{item.post_id}}")'>
 	            <i class="fa fa-share"></i> <span>{{item.share}}</span>
 	          </button>

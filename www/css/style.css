@@ -443,6 +443,11 @@ ion-content#login .vibes-login button{
 #code{
 	color:#000;
 }
+
+#code .img-perfil{
+	border-radius: 50%;
+}
+
 /********* Enquete ********/
 #enquete .item-avatar{
 	min-height: 50px;
@@ -491,6 +496,12 @@ ion-content#login .vibes-login button{
 #brothersPage .bar button{
 	margin-top: 0px;
 	margin-bottom: 0px;
+}
+
+/********* Sobre ********/
+
+#sobre .box-image{
+	padding: 10px;
 }
 
 /******* EDUARDINHO ~ revisar ******/
