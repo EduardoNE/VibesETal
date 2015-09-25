@@ -1746,7 +1746,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
             carregar();
         })
     })
-    .controller('UserPostsCtrl', function($stateParams, $scope, $state, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $ionicActionSheet, $timeout, $ionicModal, $ionicScrollDelegate, $ionicLoading, $ionicPopup, $ionicHistory) {
+    .controller('UserPostsCtrl', function($stateParams, $scope, $state, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $ionicActionSheet, $timeout, $ionicModal, $ionicScrollDelegate, $ionicLoading, $ionicPopup, $ionicHistory, Calc) {
 
         $scope.list = [];
         var pageforscroll = 1;
@@ -1845,14 +1845,9 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
                     else
                         data[i].liked = false;
 
-                    if (data[i].post_type == "video") {
-                        if (data[i].post_file.indexOf("https://") == -1 && data[i].post_file.indexOf("http://") == -1)
-                            var url = "http://bastidor.com.br/vibesetal/content/" + data[i].post_file;
-                        else
-                            var url = data[i].post_file;
-                        $sce.trustAsResourceUrl(url);
-                        data[i].post_file = url;
-                        console.log("video found", data[i].post_file);
+                    if (data[i].post_type == "vimeo") {
+                        var prop = Calc.proportional.width(data[i].post_width, 20);
+                        data[i].post_height = data[i].post_height * prop;
                     }
                 }
                 return data;
