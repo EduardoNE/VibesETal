@@ -1239,7 +1239,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 					position = 1;
 					var last = total[total.length-1]
 					if(last){
-						console.log("2")
 						$scope.hasPost = true;
 						var data = {
 							post_user_id: $stateParams.id,
@@ -1255,7 +1254,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 										data[i].liked = false;
 									total.push(data[i]);
 								}
-								console.log("3")
 							}
 						},
 						function(err){
@@ -1263,90 +1261,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						})
 					}
 				}
-			};
-
-			$scope.options = function(item) {
-				// Show the action sheet
-				var hideSheet = $ionicActionSheet.show({
-					buttons: [{
-						text: '<b>Editar</b>'
-					}],
-					destructiveText: '<b>Excluir</b>',
-					titleText: 'O que deseja fazer?',
-					cancelText: 'Cancelar',
-					cancel: function() {
-						console.log("cancel", item);
-						return true;
-					},
-					destructiveButtonClicked: function() {
-
-						console.log("destructiveButtonClicked", item);
-						var infos = {
-							post: {
-								post_deleted: 1
-							},
-							where: {
-								post_id: item.post_id
-							}
-						};
-
-						JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/post", infos,
-							function(data) {
-								console.log(data);
-								$cordovaToast.show('Feito!', 'long', 'center');
-								carregar();
-							},
-							function(err) {
-								console.error(err);
-							});
-						return true;
-					},
-					buttonClicked: function(index) {
-						$scope.post = {}
-						$scope.post.post_description = item.post_description;
-						// An elaborate, custom popup
-						var myPopup = $ionicPopup.show({
-							template: '<input type="text" ng-model="post.post_description" ng-value="' + item.post_description + '">',
-							title: 'Editar descrição',
-							//subTitle: 'Please use normal things',
-							scope: $scope,
-							buttons: [{
-								text: 'Cancelar'
-							}, {
-								text: '<b>Salvar</b>',
-								type: 'button-positive',
-								onTap: function(e) {
-
-									return $scope.post.post_description;
-
-								}
-							}]
-						});
-
-						myPopup.then(function(description) {
-							var infos = {
-								post: {
-									post_description: description
-								},
-								where: {
-									post_id: item.post_id
-								}
-							};
-							console.log('Tapped!', infos);
-
-							JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/post", infos,
-								function(data) {
-									console.log(data);
-									$cordovaToast.show('Feito!', 'long', 'center');
-									carregar();
-								},
-								function(err) {
-									console.error(err);
-								});
-						});
-						return true;
-					}
-				});
 			};
 
 			$scope.closeComment = function() {
@@ -1359,8 +1273,9 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 				});
 				$scope.comment_post = [];
 				var infos = {
-					comment_post_id: post
+					comment_post_id: $scope.list.post_id
 				};
+				console.log("infos", infos)
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/open_comment", infos,
 					function(data) {
 						$scope.post = data.post;
@@ -1500,8 +1415,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 							user.user_diamonds = data.diamonds;
 							Memory.set('login', user);
 							$ionicLoading.hide();
-							var comments = $("#post_" + post + " .btn_comment span").html();
-							$("#post_" + post + " .btn_comment span").html(parseInt(comments) + 1);
+							$scope.list.comments++;
 						},
 						function(err) {
 							console.error(err);
@@ -1543,7 +1457,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
 			var sharePost = function(post_id) {
 				var data = {
-					share_post_id: post_id,
+					share_post_id: $scope.list.post_id,
 					share_user_id: $scope.User.user_id
 				};
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/share", data,
@@ -1562,8 +1476,12 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 					});
 			}
 
-			$scope.share = function(msg, file, id) {
+			$scope.share = function() {
 				var link = "http://vibesetal.com.br";
+
+				var msg = $scope.list.post_description;
+				var file = "http://bastidor.com.br/vibesetal/content/"+$scope.list.post_file;
+				var id = $scope.list.post_id;
 
 				// Show the action sheet
 				var hideSheet = $ionicActionSheet.show({
@@ -1593,14 +1511,12 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 									.then(function(result) {
 										console.log(result);
 										$cordovaToast.show('Feito!', 'short', 'center');
-										var shares = $("#post_" + id + " .btn_share span").html();
-										$("#post_" + id + " .btn_share span").html(parseInt(shares) + 1);
+										$scope.list.share++;
 										sharePost(id);
 									}, function(err) {
 										console.log(err);
 										$cordovaToast.show('Erro ao compartilhar...', 'short', 'center');
-										var shares = $("#post_" + id + " .btn_share span").html();
-										//$("#post_"+id+" .btn_share span").html(parseInt(shares) - 1);
+										$scope.list.share--;
 									});
 
 								break;
@@ -1611,14 +1527,12 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 									.then(function(result) {
 										console.log(result);
 										$cordovaToast.show('Feito!', 'short', 'center');
-										var shares = $("#post_" + id + " .btn_share span").html();
-										$("#post_" + id + " .btn_share span").html(parseInt(shares) + 1);
+										$scope.list.share++;
 										sharePost(id);
 									}, function(err) {
 										console.log(err);
 										$cordovaToast.show('Erro ao compartilhar...', 'short', 'center');
-										var shares = $("#post_" + id + " .btn_share span").html();
-										//$("#post_"+id+" .btn_share span").html(parseInt(shares) - 1);
+										$scope.list.share--;
 									});
 
 								break;
@@ -1629,14 +1543,12 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 									.then(function(result) {
 										console.log(result);
 										$cordovaToast.show('Feito!', 'short', 'center');
-										var shares = $("#post_" + id + " .btn_share span").html();
-										$("#post_" + id + " .btn_share span").html(parseInt(shares) + 1);
+										$scope.list.share++;
 										sharePost(id);
 									}, function(err) {
 										console.log(err);
 										$cordovaToast.show('Erro ao compartilhar...', 'short', 'center');
-										var shares = $("#post_" + id + " .btn_share span").html();
-										//$("#post_"+id+" .btn_share span").html(parseInt(shares) - 1);
+										$scope.list.share--;
 									});
 
 								break;
@@ -1647,14 +1559,12 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 									.then(function(result) {
 										console.log(result);
 										$cordovaToast.show('Feito!', 'short', 'center');
-										var shares = $("#post_" + id + " .btn_share span").html();
-										$("#post_" + id + " .btn_share span").html(parseInt(shares) + 1);
+										$scope.list.share++;
 										sharePost(id);
 									}, function(err) {
 										console.log(err);
 										$cordovaToast.show('Erro ao compartilhar...', 'short', 'center');
-										var shares = $("#post_" + id + " .btn_share span").html();
-										//$("#post_"+id+" .btn_share span").html(parseInt(shares) - 1);
+										$scope.list.share--;
 									});
 
 								break;
@@ -1665,14 +1575,12 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 									.then(function(result) {
 										console.log(result);
 										$cordovaToast.show('Feito!', 'short', 'center');
-										var shares = $("#post_" + id + " .btn_share span").html();
-										$("#post_" + id + " .btn_share span").html(parseInt(shares) + 1);
+										$scope.list.share++;
 										sharePost(id);
 									}, function(err) {
 										console.log(err);
 										$cordovaToast.show('Erro ao compartilhar...', 'short', 'center');
-										var shares = $("#post_" + id + " .btn_share span").html();
-										//$("#post_"+id+" .btn_share span").html(parseInt(shares) - 1);
+										$scope.list.share--;
 									});
 						}
 						return true;
@@ -1682,14 +1590,13 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
 			$scope.likePost = function(post_id) {
 				var data = {
-					like_post_id: post_id,
+					like_post_id: $scope.list.post_id,
 					like_user_id: $scope.User.user_id
 				};
 
-				$("#post_" + post_id + " .btn_like").removeClass('button-royal');
-				$("#post_" + post_id + " .btn_like").addClass('button-positive');
-				var likes = $("#post_" + post_id + " .btn_like span").html();
-				$("#post_" + post_id + " .btn_like span").html(parseInt(likes) + 1);
+				$("#post_option_" + $scope.list.post_id + " .btn_like").removeClass('button-royal');
+				$("#post_option_" + $scope.list.post_id + " .btn_like").addClass('button-positive');
+				$scope.list.likes++;
 				JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/like", data,
 					function(records) {
 						var user = Memory.get('login');
@@ -1707,13 +1614,12 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 						var likes = Memory.get('likes');
 						likes.push(post_id);
 						Memory.set('likes', likes);
-
 					},
 					function(err) {
-						$("#post_" + post_id + " .btn_like").removeClass('button-positive')
-						$("#post_" + post_id + " .btn_like").addClass('button-royal')
-						var likes = $("#post_" + post + " .btn_like span").html();
-						$("#post_" + post + " .btn_like span").html(parseInt(likes) - 1);
+						$("#post_option_" + post_id + " .btn_like").removeClass('button-positive')
+						$("#post_option_" + post_id + " .btn_like").addClass('button-royal')
+						var likes = $("#post_option_" + post + " .btn_like span").html();
+						$("#post_option_" + post + " .btn_like span").html(parseInt(likes) - 1);
 						$cordovaToast.show('Erro ao curtir...', 'short', 'center');
 
 					});

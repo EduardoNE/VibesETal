@@ -6,7 +6,7 @@
 		<div ng-if="hasPost">
 			<div id="post_{{ list.post_id }}" ng-click="cardSwiped()" lazy-scroll>
 				<div class="midia-post">
-				
+
 					<div ng-if="list.post_stamp != 0" style="position: absolute;right:15px;top: 15px;">
 			      		<img ng-src="{{'http://bastidor.com.br/vibesetal/content/'+list.post_stamp}}" class='eduardinho' / >
 			      	</div>
@@ -19,11 +19,12 @@
 				    	<div style="position: absolute; top:0px; right:0px; left:0px; bottom:75px;" ng-click="cardSwiped()"></div>
 				    	<iframe data-tap-disabled="true" height="{{ list.post_height }}" width="{{ list.post_width }}" ng-src="{{'https://player.vimeo.com/video/'+list.post_file+'?portrait=0&title=0&byline=0&badge=0&autoplay=1&loop=1'}}" class='eduardinho' frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 				    </div>
+
 				</div>
 			</div>
 		</div>
 	</ion-content>
-	<div class="bar bar-footer bar-dark">
+	<div class="bar bar-footer bar-dark" id="post_option_{{ list.post_id }}">
 		<div class="row">
 		    <div class="col col-33">
 		        <button class="button button-block button-royal btn_like" ng-if="!list.liked" ng-click="likePost('{{list.post_id}}')">
@@ -39,7 +40,7 @@
 		    </div>
 
 		    <div class="col col-33">
-		        <button class="button button-block button-royal btn_share" ng-click='share("{{list.post_description}}","http://bastidor.com.br/vibesetal/content/{{list.post_file}}", "{{list.post_id}}")'>
+		        <button class="button button-block button-royal btn_share" ng-click='share()'>
 		            <i class="fa fa-share"></i> <span>{{list.share}}</span>
 		        </button>
 		    </div>
