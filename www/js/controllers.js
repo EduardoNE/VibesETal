@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service.core', 'ionic.service.push', 'starter.services', "ionicLazyLoad", 'ngIOS9UIWebViewPatch'])
+angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ionic.service.core', 'ionic.service.push', 'starter.services', "ionicLazyLoad", 'ngIOS9UIWebViewPatch'])
     .controller('AppCtrl', function($scope, $cordovaGoogleAnalytics, $ionicModal, $timeout, $rootScope, $ionicUser, $ionicPush, $ionicPlatform, $cordovaFacebook, Memory, JustDo) {
         $ionicPlatform.ready(function() {
 
@@ -640,6 +640,14 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
             };
 
             $scope.commentPost = function(post) {
+            	var isIPad = ionic.Platform.isIPad();
+                if(isIPad){
+                	var margin = 25;
+                }else{
+                	var margin = 0;
+                }
+
+                $(".comment-desc .list").css("marginTop", margin+"px")
                 $ionicLoading.show({
                     template: 'Carregando...'
                 });
@@ -649,7 +657,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
                 };
                 JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/open_comment", infos,
                     function(data) {
-                        console.log("comentarios", data)
                         $scope.post = data.post;
                         $scope.comment_post = data.comment;
                         for (var i in $scope.comment_post)
@@ -663,7 +670,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
                         $ionicLoading.hide();
 
                         if (data.comment.length > 0) {
-                            if (data.comment.length == 9) {
+                            if (data.comment.length >= 9) {
                                 $scope.noMoreCommentsAvailable = true;
                             } else {
                                 $scope.noMoreCommentsAvailable = false;
@@ -708,7 +715,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
                         JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/comment", infos,
                             function(data) {
                                 $cordovaToast.show('Comentário excluido com sucesso!', 'long', 'center');
-                                $("#comment_" + item.comment_id).parent().fadeOut()
+                                $("#comment_" + item.comment_id).fadeOut()
                                 var comments = $("#post_" + item.comment_post_id + " .btn_comment span").html();
                                 $("#post_" + item.comment_post_id + " .btn_comment span").html(parseInt(comments) - 1);
                             },
@@ -1079,6 +1086,12 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
                     likes = [];
                     Memory.set('likes', likes);
                 }
+                var isIPad = ionic.Platform.isIPad();
+                if(isIPad){
+                	var remove = 80;
+                }else{
+                	var remove = 0;
+                }
 
                 for (var i = 0; i < data.length; i++) {
 
@@ -1088,7 +1101,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
                         data[i].liked = false;
 
                     if (data[i].post_type == "vimeo") {
-                        var prop = Calc.proportional.width(data[i].post_width, 0);
+                        var prop = Calc.proportional.width(data[i].post_width, remove);
                         data[i].post_height = data[i].post_height * prop;
                     }
                 }
@@ -1214,6 +1227,14 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
             }
 
             $scope.commentPost = function(post) {
+            	var isIPad = ionic.Platform.isIPad();
+                if(isIPad){
+                	var margin = 25;
+                }else{
+                	var margin = 0;
+                }
+
+                $(".comment-desc .list").css("marginTop", margin+"px")
                 $ionicLoading.show({
                     template: 'Carregando...'
                 });
@@ -1237,7 +1258,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
                         $ionicLoading.hide();
 
                         if (data.comment.length > 0) {
-                            if (data.comment.length == 9) {
+                            if (data.comment.length >= 9) {
                                 $scope.noMoreCommentsAvailable = true;
                             } else {
                                 $scope.noMoreCommentsAvailable = false;
@@ -1282,7 +1303,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
                         JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/comment", infos,
                             function(data) {
                                 $cordovaToast.show('Comentário excluido com sucesso!', 'long', 'center');
-                                $("#comment_" + item.comment_id).parent().fadeOut()
+                                $("#comment_" + item.comment_id).fadeOut()
                                 var comments = $("#post_" + item.comment_post_id + " .btn_comment span").html();
                                 $("#post_" + item.comment_post_id + " .btn_comment span").html(parseInt(comments) - 1);
                             },
@@ -2194,6 +2215,14 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
             };
 
             $scope.commentPost = function(post) {
+            	var isIPad = ionic.Platform.isIPad();
+                if(isIPad){
+                	var margin = 25;
+                }else{
+                	var margin = 0;
+                }
+
+                $(".comment-desc .list").css("marginTop", margin+"px")
                 $ionicLoading.show({
                     template: 'Carregando...'
                 });
@@ -2216,7 +2245,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
                         $ionicLoading.hide();
 
                         if (data.comment.length > 0) {
-                            if (data.comment.length == 9) {
+                            if (data.comment.length >= 9) {
                                 $scope.noMoreCommentsAvailable = true;
                             } else {
                                 $scope.noMoreCommentsAvailable = false;
@@ -2261,7 +2290,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
                         JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/comment", infos,
                             function(data) {
                                 $cordovaToast.show('Comentário excluido com sucesso!', 'long', 'center');
-                                $("#comment_" + item.comment_id).parent().fadeOut()
+                                $("#comment_" + item.comment_id).fadeOut()
                                 var comments = $("#post_" + item.comment_post_id + " .btn_comment span").html();
                                 $("#post_" + item.comment_post_id + " .btn_comment span").html(parseInt(comments) - 1);
                             },

@@ -80,6 +80,10 @@ visibility: visible;
     font-weight: bold;
 }
 
+#time-line .list .row button{
+	margin: 0px;
+}
+
 .rotate90{
 	/*
 	transform: rotate(90deg);
@@ -402,6 +406,10 @@ ion-content#login .vibes-login button{
 	border-top: none
 }
 
+#open_post .list .row button{
+	margin: 0px;
+}
+
 
 /******* Lista comentarios ******/
 .comment-desc .list{
@@ -504,6 +512,26 @@ ion-content#login .vibes-login button{
 	padding: 10px;
 }
 
+/********* Top Posts ********/
+
+#top-posts .list{
+	margin-bottom: 0px;
+}
+#top-posts .item{
+	border-bottom:none;
+	border-color: #e9e9e9;
+}
+
+/********* Top Users ********/
+
+#top-users .list{
+	margin-bottom: 0px;
+}
+#top-users .item{
+	border-bottom:none;
+	border-color: #e9e9e9;
+}
+
 /******* EDUARDINHO ~ revisar ******/
 
 .right{
@@ -520,8 +548,19 @@ ion-content#login .vibes-login button{
 
 #time-line .button-royal{
 	border-color: #892566;
-	background: #892566;
-    color: #fff;
+	background: transparent;
+    color: #892566;
+}
+
+#time-line{
+	background: url("../img/bg-vt.jpg") center;
+	background-size: cover;
+}
+
+#time-line .button-positive{
+	background: rgba(133, 36, 103, 0.3);
+	border-color: #852467;
+	color: #852467;
 }
 
 .footer-home .button{
@@ -545,16 +584,21 @@ ion-content#login .vibes-login button{
 .eduardinho{
 	width: 100%;
 }
+
 .bar.bar-stable{
-	background: #ad2b61; /* Old browsers */
-	background: -moz-linear-gradient(top,  #ad2b61 0%, #822467 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ad2b61), color-stop(100%,#822467)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  #ad2b61 0%,#822467 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  #ad2b61 0%,#822467 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  #ad2b61 0%,#822467 100%); /* IE10+ */
-	background: linear-gradient(to bottom,  #ad2b61 0%,#822467 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ad2b61', endColorstr='#822467',GradientType=0 ); /* IE6-9 */
+	background: transparent;
 }
+/*
+.bar.bar-stable{
+	background: #ad2b61;
+	background: -moz-linear-gradient(top,  #ad2b61 0%, #822467 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ad2b61), color-stop(100%,#822467));
+	background: -webkit-linear-gradient(top,  #ad2b61 0%,#822467 100%);
+	background: -o-linear-gradient(top,  #ad2b61 0%,#822467 100%);
+	background: -ms-linear-gradient(top,  #ad2b61 0%,#822467 100%);
+	background: linear-gradient(to bottom,  #ad2b61 0%,#822467 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ad2b61', endColorstr='#822467',GradientType=0 );
+}*/
 
 .header-item img{
 	height:80%;

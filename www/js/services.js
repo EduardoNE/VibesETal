@@ -30,7 +30,7 @@ starter.factory('RAM', function(){
         get: function(){
             return RAM;
         },
-        set: function(data){ 
+        set: function(data){
             RAM  = data;
         }
     };
@@ -61,7 +61,7 @@ starter.factory('JustDo', function($http){
                 .then(function(resp){
 
                         success(resp.data);
-                    
+
                 }, function(err) {
                     fail(err);
                 });
@@ -71,7 +71,7 @@ starter.factory('JustDo', function($http){
 });
 
 starter.factory('file', function($cordovaFileTransfer){
-    
+
     //var collections = [];
     //http://bastidor.com.br/vibesetal/json/upload/post
 

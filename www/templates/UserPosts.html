@@ -11,7 +11,7 @@
 	  </ion-refresher>
       <ion-list>
 
-        <ion-item class="list card" ng-repeat="item in list" id="post_{{ item.post_id }}">
+        <ion-item class="list" ng-repeat="item in list" id="post_{{ item.post_id }}">
 
           <div class="item item-avatar item-button-right">
 	        <img image-lazy-src="{{item.user_image}}" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100">
@@ -28,7 +28,7 @@
 	        <iframe ng-if="item.post_type == 'vimeo'" height="{{ item.post_height }}" ng-src="{{'https://player.vimeo.com/video/'+item.post_file+'?portrait=0&title=0&byline=0&badge=0'}}" class='eduardinho' frameborder="0" autoplay="1" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 	      </div>
 
-	      <div class="descricao padding" ng-bind-html="item.post_description">
+	      <div class="descricao padding" ng-if="item.post_description != ''" ng-bind-html="item.post_description">
 	      </div>
 
 	      <div class="row">

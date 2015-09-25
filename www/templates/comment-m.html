@@ -20,8 +20,8 @@
 		    </div>
 		</ion-item>
 
-		<ion-item class="list" ng-repeat="item in comment_post">
-		    <div class="item item-avatar" ng-if="item.comment_user_id == User.user_id || User.user_adm == 1" id="comment_{{ item.comment_id }}" on-hold="commentContextual(item)">
+		<ion-item class="list" ng-repeat="item in comment_post" id="comment_{{ item.comment_id }}">
+		    <div class="item item-avatar" ng-if="item.comment_user_id == User.user_id || User.user_adm == 1" on-hold="commentContextual(item)">
 		      <img image-lazy-src="{{ item.user_image }}" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100">
 		      <p class="pull-right">{{ item.comment_date }}</p>
 		      <h2>{{ item.user_name }}</h2>
