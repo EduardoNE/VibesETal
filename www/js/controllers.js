@@ -1,6 +1,9 @@
 angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service.core', 'ionic.service.push', 'starter.services', "ionicLazyLoad", 'ngIOS9UIWebViewPatch'])
-    .controller('AppCtrl', function($scope, $ionicModal, $timeout, $rootScope, $ionicUser, $ionicPush, $ionicPlatform, $cordovaFacebook, Memory, JustDo) {
+    .controller('AppCtrl', function($scope, $cordovaGoogleAnalytics, $ionicModal, $timeout, $rootScope, $ionicUser, $ionicPush, $ionicPlatform, $cordovaFacebook, Memory, JustDo) {
         $ionicPlatform.ready(function() {
+
+            $cordovaGoogleAnalytics.startTrackerWithId('UA-68118729-1');
+
             $scope.voltar = false;
             // Form data for the login modal
             $scope.loginData = {};
@@ -16,6 +19,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
                     modal.show();
                 else {
                     $scope.User = Memory.get('login');
+                    $cordovaGoogleAnalytics.setUserId($scope.User.user_id);
                     $scope.voltar = true;
                 }
             });
@@ -127,7 +131,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
             };
         })
     })
-    .controller('HomeCtrl', function($scope, Calc, $state, Vimeo, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $ionicActionSheet, $timeout, $ionicModal, $ionicScrollDelegate, $ionicLoading, $ionicPopup, $ionicHistory) {
+    .controller('HomeCtrl', function($scope, $cordovaGoogleAnalytics, Calc, $state, Vimeo, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $ionicActionSheet, $timeout, $ionicModal, $ionicScrollDelegate, $ionicLoading, $ionicPopup, $ionicHistory) {
 
         $scope.list = [];
         var pageforscroll = 1;
@@ -142,7 +146,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
         }).then(function(modal) {
             $scope.comment = modal;
         });
-        $ionicPlatform.ready(function() {
+        $ionicPlatform.ready(function() { $cordovaGoogleAnalytics.trackView('Home');
 
             var carregar = function() {
                 JustDo.ItIf("http://bastidor.com.br/vibesetal/json/posts",
@@ -830,7 +834,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
         });
     })
 
-.controller('UploadCtrl', function($scope, $stateParams, RAM, file, JustDo, $state, $cordovaToast, $ionicLoading, $ionicHistory, Vimeo) {
+.controller('UploadCtrl', function($scope, $cordovaGoogleAnalytics, $stateParams, RAM, file, JustDo, $state, $cordovaToast, $ionicLoading, $ionicHistory, Vimeo) {
 
     function scaleSize(maxW, maxH, currW, currH) {
 
@@ -847,7 +851,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
         return [currW, currH];
     }
 
-    var start = function() {
+    var start = function() { $cordovaGoogleAnalytics.trackView('Upload Screen');
         image = (RAM.get());
         RAM.set([]);
         $scope.desc = {};
@@ -866,10 +870,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
                 height: newSize[1] + "px"
             });
 
-            /* convertImgToBase64(image.data, function(base64Img){
-					image.data = base64Img;
-					$scope.image = image;
-			    }); */
         }
 
     }
@@ -970,65 +970,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
         }, function(prog) {
             $scope.uploadProgress = ((prog.loaded / prog.total * 100));
         });
-        /*if($scope.image.type == "image"){
-        	var data = {
-        		post_file: signaturePad.toDataURL(),
-        		post_user_id: $scope.User.user_id,
-        		post_description: $scope.desc.str,
-        		post_deleted: 0,
-        		post_type: "image"
-        	}
-
-        	JustDo.aPost('http://bastidor.com.br/vibesetal/json/upload/post', data,
-        		function(data) {
-        			console.log("finish", data)
-        			carregar();
-        		},
-        		function(err) {
-        			console.error(err);
-        			$ionicLoading.hide();
-        			$cordovaToast.showShortCenter('Sem conexão com a internet.');
-        		});
-        }else{
-        	var options = {
-        		fileKey: "post",
-        		fileName: image.data,
-        		chunkedMode: false,
-        		mimeType: null
-        	};
-        	$scope.subheader = "has-subheader";
-        	file.upload($scope.image.data, options, function(sucesso) {
-
-        		console.log('s', sucesso);
-        		$scope.subheader = "";
-        		$scope.uploadProgress = 0;
-        		var infos = {
-        			post: {
-        				post_user_id: $scope.User.user_id,
-        				post_description: $scope.desc.str,
-        				post_deleted: 0
-        			},
-        			where: {
-        				post_id: sucesso
-        			}
-        		};
-        		JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/post", infos,
-        			function(data) {
-        				carregar();
-        			},
-        			function(err) {
-        				console.error(err);
-        				$ionicLoading.hide();
-        				$cordovaToast.showShortCenter('Sem conexão com a internet.');
-        			});
-        	}, function(err) {
-        		console.log('e', err)
-        		$ionicLoading.hide();
-        		$cordovaToast.showShortCenter('Sem conexão com a internet.');
-        	}, function(prog) {
-        		$scope.uploadProgress = ((prog.loaded / prog.total * 100));
-        	});
-        }*/
 
     }
     start();
@@ -1039,7 +980,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
 })
 
-.controller('TopPostCtrl', function($scope, $stateParams, $ionicPlatform, JustDo, $sce, $cordovaToast, $ionicModal, $ionicLoading, $ionicScrollDelegate, $ionicActionSheet) {
+.controller('TopPostCtrl', function($scope, $cordovaGoogleAnalytics, $stateParams, $ionicPlatform, JustDo, $sce, $cordovaToast, $ionicModal, $ionicLoading, $ionicScrollDelegate, $ionicActionSheet) {
     $scope.fields = [];
     $scope.noMoreItemsAvailable = false;
     $scope.noMoreCommentsAvailable = true;
@@ -1071,7 +1012,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
             return data;
         }
 
-        var carregar = function() {
+        var carregar = function() { $cordovaGoogleAnalytics.trackView('Top Post Screen');
             JustDo.ItIf("http://bastidor.com.br/vibesetal/json/posts/best",
                 function(data) {
                     var records = [];
@@ -1102,9 +1043,9 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
     })
 })
 
-.controller('TopUsersCtrl', function($scope, $stateParams, $ionicPlatform, JustDo, $cordovaToast) {
+.controller('TopUsersCtrl', function($scope, $cordovaGoogleAnalytics, $stateParams, $ionicPlatform, JustDo, $cordovaToast) {
         $ionicPlatform.ready(function() {
-            var carregar = function() {
+            var carregar = function() {$cordovaGoogleAnalytics.trackView('Top User Screen');
                 JustDo.ItIf("http://bastidor.com.br/vibesetal/json/user/best",
                     function(data) {
                         $scope.list = data.records;
@@ -1118,8 +1059,8 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
             carregar();
         })
     })
-    .controller('BrothersCtrl', function($scope, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo) {
-        $ionicPlatform.ready(function() {
+    .controller('BrothersCtrl', function($scope, $cordovaGoogleAnalytics, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo) {
+        $ionicPlatform.ready(function() {$cordovaGoogleAnalytics.trackView('Brothers Screen');
             JustDo.ItIf("http://bastidor.com.br/vibesetal/json/brothers", function(data) {
                     $scope.brothers = data;
                 },
@@ -1129,7 +1070,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
         })
     })
 
-.controller('BrotherPageCtrl', function($scope, Calc, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo, $ionicLoading, $ionicPopup, $ionicHistory, $ionicSwipeCardDelegate, $ionicModal, file, Memory, RAM, $ionicActionSheet, $cordovaSocialSharing, $ionicScrollDelegate) {
+.controller('BrotherPageCtrl', function($scope, $cordovaGoogleAnalytics, Calc, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo, $ionicLoading, $ionicPopup, $ionicHistory, $ionicSwipeCardDelegate, $ionicModal, file, Memory, RAM, $ionicActionSheet, $cordovaSocialSharing, $ionicScrollDelegate) {
 
         $ionicPlatform.ready(function() {
             var checkVideo = function(data) {
@@ -1188,6 +1129,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
             JustDo.aPost("http://bastidor.com.br/vibesetal/json/brothers/select", data,
                 function(data) {
                     if (data[0]) {
+                        $cordovaGoogleAnalytics.trackView(data[0].user_name + ' Screen');
                         data = checkVideo(data);
                         $scope.hasPost = true;
                         for (var i in data) {
@@ -1633,11 +1575,11 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
         })
     })
-    .controller('EnqueteCtrl', function($scope, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo, $ionicLoading, $ionicPopup) {
+    .controller('EnqueteCtrl', function($scope, $cordovaGoogleAnalytics, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo, $ionicLoading, $ionicPopup) {
         $ionicPlatform.ready(function() {
             $scope.fields = {};
             $scope.fields.enquete = "";
-            var carregar = function() {
+            var carregar = function() { $cordovaGoogleAnalytics.trackView('Enquete Screen');
                 var infos = {
                     user_id: $scope.User.user_id
                 }
@@ -1696,8 +1638,8 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
         })
     })
-    .controller('CodeCtrl', function($scope, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo) {
-        $ionicPlatform.ready(function() {
+    .controller('CodeCtrl', function($scope, $cordovaGoogleAnalytics, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo) {
+        $ionicPlatform.ready(function() { $cordovaGoogleAnalytics.trackView('Code Screen');
             var qrcode = new QRCode("qrcode");
 
             function makeCode() {
@@ -1713,9 +1655,9 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
 
         })
     })
-    .controller('SobreCtrl', function($scope, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo) {
+    .controller('SobreCtrl', function($scope, $cordovaGoogleAnalytics, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo) {
         $ionicPlatform.ready(function() {
-            var carregar = function() {
+            var carregar = function() { $cordovaGoogleAnalytics.trackView('Sobre Screen');
                 JustDo.ItIf("http://bastidor.com.br/vibesetal/json/sobre",
                     function(data) {
                         console.log('sobre', data)
@@ -1746,7 +1688,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
             carregar();
         })
     })
-    .controller('UserPostsCtrl', function($stateParams, $scope, $state, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $ionicActionSheet, $timeout, $ionicModal, $ionicScrollDelegate, $ionicLoading, $ionicPopup, $ionicHistory, Calc) {
+    .controller('UserPostsCtrl', function($stateParams, $cordovaGoogleAnalytics, $scope, $state, $ionicPlatform, $cordovaCapture, $cordovaCamera, $cordovaSocialSharing, $cordovaToast, $cordovaFileTransfer, $cordovaFile, $sce, JustDo, file, Memory, RAM, $ionicActionSheet, $timeout, $ionicModal, $ionicScrollDelegate, $ionicLoading, $ionicPopup, $ionicHistory, Calc) {
 
         $scope.list = [];
         var pageforscroll = 1;
@@ -1761,7 +1703,7 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
         }).then(function(modal) {
             $scope.comment = modal;
         });
-        $ionicPlatform.ready(function() {
+        $ionicPlatform.ready(function() { $cordovaGoogleAnalytics.trackView('User Posts Screen');
 
             var carregar = function() {
                 JustDo.aPost("http://bastidor.com.br/vibesetal/json/user/posts", {
@@ -2407,7 +2349,6 @@ angular.module('starter.controllers', ['ngCordova', 'ngSanitize', 'ionic.service
                             $cordovaToast.showShortCenter('Sem conexão com a internet.');
                         });
                 }
-
             }
 
             $scope.loadMoreComment = function(post) {
