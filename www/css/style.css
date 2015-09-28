@@ -147,14 +147,32 @@ visibility: visible;
 	background-color: rgba(0, 0, 0, 0.9);
 }
 
+/*  Tela de postar midia  */
+
+#photo{
+	background: url("../img/bg-vt.jpg") center;
+	background-size: cover;
+}
+#photo .bar-vibe{
+	background: transparent;
+}
+#photo .item{
+	background: transparent;
+}
 #photo .card{
 	box-shadow: none
 }
 #photo .button-royal{
 	box-shadow: none;
+	background: transparent;
+	border-color: #892566;
+	color:#892566;
+}
+#photo .button-royal:hover, #photo .button-royal:active, #photo .button-royal:visited, #photo .button-royal:focus{
+	box-shadow: none;
 	background: #892566;
 	border-color: #892566;
-	color:#fff;
+	color:#ffffff;
 }
 
 /* Login direito*/
@@ -451,24 +469,27 @@ ion-content#login .vibes-login button{
 
 
 /******* Lista comentarios ******/
-.comment-desc .list{
+#comment-desc .list{
 	padding-top:0px;
 	border-top: 0px;
 	padding-right:0px;
+	background: transparent;
 }
-.comment-desc .list p{
+#comment-desc .list p{
 	white-space: normal;
 }
-.comment-desc .list .item-avatar{
+#comment-desc .list .item-avatar{
 	border-bottom: none;
 	border-right: none;
 	border-top: none;
 	padding-right:10px;
 	padding-left:60px;
+	background: transparent;
 }
-.comment-desc .list:first-child .item-body{
+#comment-desc .list:first-child .item-body{
 	padding-left:60px;
 	padding-top:0px;
+	background: transparent;
 }
 
 /********* Brothers ********/
@@ -569,6 +590,34 @@ ion-content#login .vibes-login button{
 #brothersPage .bar button{
 	margin-top: 0px;
 	margin-bottom: 0px;
+}
+
+#brothersPage .button-positive{
+	background: rgba(133, 36, 103, 0.3);
+	border-color: #852467;
+	color: #852467;
+}
+
+#brothersPage .button-royal{
+	border-color: #892566;
+	background: transparent;
+    color: #892566;
+}
+
+.brotherPop .button-royal{
+	border-color: #892566;
+	background: transparent;
+    color: #892566;
+}
+
+.brotherPop .button-royal:hover, .brotherPop .button-royal:active, .brotherPop .button-royal:visited, .brotherPop .button-royal:focus{
+	border-color: #892566;
+	background: #892566;
+    color: #ffffff;
+}
+
+.brotherPop .popup-body{
+	text-align: center
 }
 
 /********* Sobre ********/

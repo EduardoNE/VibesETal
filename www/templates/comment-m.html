@@ -5,8 +5,11 @@
     </button>
   </ion-header-bar>
   <ion-content id="login" delegate-handle="commentMain" lazy-scroll style="padding-top:0px">
-
-	<ion-list class="comment-desc">
+	<ion-refresher
+	    pulling-text="Puxe para atualizar"
+	    on-refresh="refreshComment(post[0].post_id)">
+	  </ion-refresher>
+	<ion-list id="comment-desc">
 
 	    <ion-item class="list">
 			<div class="item item-avatar">
@@ -21,13 +24,13 @@
 		</ion-item>
 
 		<ion-item class="list" ng-repeat="item in comment_post" id="comment_{{ item.comment_id }}">
-		    <div class="item item-avatar" ng-if="item.comment_user_id == User.user_id || User.user_adm == 1" on-hold="commentContextual(item)">
+		    <div class="item item-avatar" ng-if="item.comment_user_id == User.user_id || User.user_adm == 1" on-hold="commentContextual(item.comment_text, item.comment_id, item.comment_post_id)" style="background-color:transparent">
 		      <img image-lazy-src="http://graph.facebook.com/{{item.user_slug}}/picture?width=40&height=40" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100">
 		      <p class="pull-right">{{ item.comment_date }}</p>
 		      <h2>{{ item.user_name }}</h2>
 		      <p class="comment_desc">{{ item.comment_text }}</p>
 		    </div>
-		    <div class="item item-avatar" ng-if="item.comment_user_id != User.user_id && User.user_adm == 0">
+		    <div class="item item-avatar" ng-if="item.comment_user_id != User.user_id && User.user_adm == 0" style="background-color:transparent">
 		      <img image-lazy-src="http://graph.facebook.com/{{item.user_slug}}/picture?width=40&height=40" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100">
 		      <p class="pull-right">{{ item.comment_date }}</p>
 		      <h2>{{ item.user_name }}</h2>

@@ -661,6 +661,43 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
 
             };
 
+            $scope.refreshComment = function(post){
+            	var infos = {
+                    comment_post_id: post
+                };
+                JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/open_comment", infos,
+                    function(data) {
+                        $scope.post = data.post;
+                        $scope.comment_post = data.comment;
+                        for (var i in $scope.comment_post)
+                            $scope.comment_post[i].comment_date = moment($scope.comment_post[i].comment_date).fromNow();
+                        $scope.post[0].post_time = moment($scope.post[0].post_time).fromNow();
+                        $scope.comment.show();
+                        $ionicScrollDelegate.$getByHandle("commentMain").scrollTop({
+                            shouldAnimate: true
+                        });
+                        $scope.commentforscroll = 1;
+                        $ionicLoading.hide();
+
+                        if (data.comment.length > 0) {
+                            if (data.comment.length >= 9) {
+                                $scope.noMoreCommentsAvailable = true;
+                            } else {
+                                $scope.noMoreCommentsAvailable = false;
+                            }
+
+                        } else {
+                            $scope.noMoreCommentsAvailable = false;
+                        }
+
+                    },
+                    function(err) {
+                        console.error(err);
+                        $ionicLoading.hide();
+                        $cordovaToast.showShortCenter('Sem conexão com a internet.');
+                    });
+            }
+
             $scope.commentPost = function(post) {
             	var isIPad = ionic.Platform.isIPad();
                 if(isIPad){
@@ -710,8 +747,9 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
                     });
             }
 
-            $scope.commentContextual = function(item) {
-                $scope.commentEdit = item;
+            $scope.commentContextual = function(comment_text, comment_id, post_id) {
+            	$scope.fieldCom = {};
+            	$scope.fieldCom.com_text = comment_text;
                 // Show the action sheet
                 var hideSheet = $ionicActionSheet.show({
                     buttons: [{
@@ -730,16 +768,16 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
                                 comment_deleted: 1
                             },
                             where: {
-                                comment_id: item.comment_id
+                                comment_id: comment_id
                             }
                         };
 
                         JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/comment", infos,
                             function(data) {
                                 $cordovaToast.show('Comentário excluido com sucesso!', 'long', 'center');
-                                $("#comment_" + item.comment_id).fadeOut()
-                                var comments = $("#post_" + item.comment_post_id + " .btn_comment span").html();
-                                $("#post_" + item.comment_post_id + " .btn_comment span").html(parseInt(comments) - 1);
+                                $("#comment_" + comment_id).fadeOut()
+                                var comments = $("#post_" + post_id + " .btn_comment span").html();
+                                $("#post_" + post_id + " .btn_comment span").html(parseInt(comments) - 1);
                             },
                             function(err) {
                                 console.error(err);
@@ -749,39 +787,46 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
                     buttonClicked: function(index) {
                         // An elaborate, custom popup
                         var commentPopUp = $ionicPopup.show({
-                            template: '<input type="text" ng-model="commentEdit.comment_text" value="' + item.comment_text + '">',
+                            template: '<input type="text" ng-model="fieldCom.com_text" value="' + comment_text + '">',
                             title: 'Editar comentário',
                             //subTitle: 'Please use normal things',
                             scope: $scope,
                             buttons: [{
-                                text: 'Cancelar'
+                                text: 'Cancelar',
+                                onTap: function(e){
+                                	return false;
+                                }
                             }, {
                                 text: '<b>Salvar</b>',
                                 type: 'button-positive',
                                 onTap: function(e) {
-                                    return $scope.commentEdit.comment_text;
+                                    return $scope.fieldCom.com_text;
                                 }
                             }]
                         });
 
                         commentPopUp.then(function(text) {
-                            var infos = {
-                                comment: {
-                                    comment_text: text
-                                },
-                                where: {
-                                    comment_id: item.comment_id
-                                }
-                            };
+                        	if(text && text != ""){
+                        		var infos = {
+	                                comment: {
+	                                    comment_text: text
+	                                },
+	                                where: {
+	                                    comment_id: comment_id
+	                                }
+	                            };
 
-                            JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/comment", infos,
-                                function(data) {
-                                    $cordovaToast.show('Comentário editado com sucesso!', 'long', 'center');
-                                    $("#comment_" + item.comment_id + " .comment_desc").html($scope.commentPost.comment_text)
-                                },
-                                function(err) {
-                                    console.error(err);
-                                });
+	                            JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/comment", infos,
+	                                function(data) {
+	                                    $cordovaToast.show('Comentário editado com sucesso!', 'long', 'center');
+	                                    $("#comment_" + comment_id + " .comment_desc").html($scope.fieldCom.com_text)
+	                                },
+	                                function(err) {
+	                                    console.error(err);
+	                                });
+                        	}else{
+                        	}
+
                         });
                         return true;
                     }
@@ -1199,8 +1244,10 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
                     } else {
                         $ionicLoading.hide();
                         var alertPopup = $ionicPopup.alert({
-                            title: 'Oops!',
-                            template: 'Parace que esse brother não tem nenhum post!'
+                        	cssClass: 'brotherPop',
+                            title: 'Como assim!?',
+                            template: 'Não tem post nenhum aqui!!!',
+                            okType: 'button-royal'
                         });
                         alertPopup.then(function(res) {
                             $ionicHistory.goBack();
@@ -1261,6 +1308,43 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
                 $scope.comment.hide();
             }
 
+            $scope.refreshComment = function(post){
+            	var infos = {
+                    comment_post_id: post
+                };
+                JustDo.aPost("http://bastidor.com.br/vibesetal/json/post/open_comment", infos,
+                    function(data) {
+                        $scope.post = data.post;
+                        $scope.comment_post = data.comment;
+                        for (var i in $scope.comment_post)
+                            $scope.comment_post[i].comment_date = moment($scope.comment_post[i].comment_date).fromNow();
+                        $scope.post[0].post_time = moment($scope.post[0].post_time).fromNow();
+                        $scope.comment.show();
+                        $ionicScrollDelegate.$getByHandle("commentMain").scrollTop({
+                            shouldAnimate: true
+                        });
+                        $scope.commentforscroll = 1;
+                        $ionicLoading.hide();
+
+                        if (data.comment.length > 0) {
+                            if (data.comment.length >= 9) {
+                                $scope.noMoreCommentsAvailable = true;
+                            } else {
+                                $scope.noMoreCommentsAvailable = false;
+                            }
+
+                        } else {
+                            $scope.noMoreCommentsAvailable = false;
+                        }
+
+                    },
+                    function(err) {
+                        console.error(err);
+                        $ionicLoading.hide();
+                        $cordovaToast.showShortCenter('Sem conexão com a internet.');
+                    });
+            }
+
             $scope.commentPost = function(post) {
             	var isIPad = ionic.Platform.isIPad();
                 if(isIPad){
@@ -1311,8 +1395,9 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
                     });
             }
 
-            $scope.commentContextual = function(item) {
-                $scope.commentEdit = item;
+            $scope.commentContextual = function(comment_text, comment_id, post_id) {
+            	$scope.fieldCom = {};
+            	$scope.fieldCom.com_text = comment_text;
                 // Show the action sheet
                 var hideSheet = $ionicActionSheet.show({
                     buttons: [{
@@ -1331,16 +1416,16 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
                                 comment_deleted: 1
                             },
                             where: {
-                                comment_id: item.comment_id
+                                comment_id: comment_id
                             }
                         };
 
                         JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/comment", infos,
                             function(data) {
                                 $cordovaToast.show('Comentário excluido com sucesso!', 'long', 'center');
-                                $("#comment_" + item.comment_id).fadeOut()
-                                var comments = $("#post_" + item.comment_post_id + " .btn_comment span").html();
-                                $("#post_" + item.comment_post_id + " .btn_comment span").html(parseInt(comments) - 1);
+                                $("#comment_" + comment_id).fadeOut()
+                                var comments = $("#post_" + post_id + " .btn_comment span").html();
+                                $("#post_" + post_id + " .btn_comment span").html(parseInt(comments) - 1);
                             },
                             function(err) {
                                 console.error(err);
@@ -1350,39 +1435,46 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
                     buttonClicked: function(index) {
                         // An elaborate, custom popup
                         var commentPopUp = $ionicPopup.show({
-                            template: '<input type="text" ng-model="commentEdit.comment_text" value="' + item.comment_text + '">',
+                            template: '<input type="text" ng-model="fieldCom.com_text" value="' + comment_text + '">',
                             title: 'Editar comentário',
                             //subTitle: 'Please use normal things',
                             scope: $scope,
                             buttons: [{
-                                text: 'Cancelar'
+                                text: 'Cancelar',
+                                onTap: function(e){
+                                	return false;
+                                }
                             }, {
                                 text: '<b>Salvar</b>',
                                 type: 'button-positive',
                                 onTap: function(e) {
-                                    return $scope.commentEdit.comment_text;
+                                    return $scope.fieldCom.com_text;
                                 }
                             }]
                         });
 
                         commentPopUp.then(function(text) {
-                            var infos = {
-                                comment: {
-                                    comment_text: text
-                                },
-                                where: {
-                                    comment_id: item.comment_id
-                                }
-                            };
+                        	if(text && text != ""){
+                        		var infos = {
+	                                comment: {
+	                                    comment_text: text
+	                                },
+	                                where: {
+	                                    comment_id: comment_id
+	                                }
+	                            };
 
-                            JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/comment", infos,
-                                function(data) {
-                                    $cordovaToast.show('Comentário editado com sucesso!', 'long', 'center');
-                                    $("#comment_" + item.comment_id + " .comment_desc").html($scope.commentPost.comment_text)
-                                },
-                                function(err) {
-                                    console.error(err);
-                                });
+	                            JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/comment", infos,
+	                                function(data) {
+	                                    $cordovaToast.show('Comentário editado com sucesso!', 'long', 'center');
+	                                    $("#comment_" + comment_id + " .comment_desc").html($scope.fieldCom.com_text)
+	                                },
+	                                function(err) {
+	                                    console.error(err);
+	                                });
+                        	}else{
+                        	}
+
                         });
                         return true;
                     }
@@ -2285,8 +2377,9 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
                     });
             }
 
-            $scope.commentContextual = function(item) {
-                $scope.commentEdit = item;
+            $scope.commentContextual = function(comment_text, comment_id, post_id) {
+            	$scope.fieldCom = {};
+            	$scope.fieldCom.com_text = comment_text;
                 // Show the action sheet
                 var hideSheet = $ionicActionSheet.show({
                     buttons: [{
@@ -2305,16 +2398,16 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
                                 comment_deleted: 1
                             },
                             where: {
-                                comment_id: item.comment_id
+                                comment_id: comment_id
                             }
                         };
 
                         JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/comment", infos,
                             function(data) {
                                 $cordovaToast.show('Comentário excluido com sucesso!', 'long', 'center');
-                                $("#comment_" + item.comment_id).fadeOut()
-                                var comments = $("#post_" + item.comment_post_id + " .btn_comment span").html();
-                                $("#post_" + item.comment_post_id + " .btn_comment span").html(parseInt(comments) - 1);
+                                $("#comment_" + comment_id).fadeOut()
+                                var comments = $("#post_" + post_id + " .btn_comment span").html();
+                                $("#post_" + post_id + " .btn_comment span").html(parseInt(comments) - 1);
                             },
                             function(err) {
                                 console.error(err);
@@ -2324,39 +2417,46 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
                     buttonClicked: function(index) {
                         // An elaborate, custom popup
                         var commentPopUp = $ionicPopup.show({
-                            template: '<input type="text" ng-model="commentEdit.comment_text" value="' + item.comment_text + '">',
+                            template: '<input type="text" ng-model="fieldCom.com_text" value="' + comment_text + '">',
                             title: 'Editar comentário',
                             //subTitle: 'Please use normal things',
                             scope: $scope,
                             buttons: [{
-                                text: 'Cancelar'
+                                text: 'Cancelar',
+                                onTap: function(e){
+                                	return false;
+                                }
                             }, {
                                 text: '<b>Salvar</b>',
                                 type: 'button-positive',
                                 onTap: function(e) {
-                                    return $scope.commentEdit.comment_text;
+                                    return $scope.fieldCom.com_text;
                                 }
                             }]
                         });
 
                         commentPopUp.then(function(text) {
-                            var infos = {
-                                comment: {
-                                    comment_text: text
-                                },
-                                where: {
-                                    comment_id: item.comment_id
-                                }
-                            };
+                        	if(text && text != ""){
+                        		var infos = {
+	                                comment: {
+	                                    comment_text: text
+	                                },
+	                                where: {
+	                                    comment_id: comment_id
+	                                }
+	                            };
 
-                            JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/comment", infos,
-                                function(data) {
-                                    $cordovaToast.show('Comentário editado com sucesso!', 'long', 'center');
-                                    $("#comment_" + item.comment_id + " .comment_desc").html($scope.commentPost.comment_text)
-                                },
-                                function(err) {
-                                    console.error(err);
-                                });
+	                            JustDo.aPost("http://bastidor.com.br/vibesetal/json/update/comment", infos,
+	                                function(data) {
+	                                    $cordovaToast.show('Comentário editado com sucesso!', 'long', 'center');
+	                                    $("#comment_" + comment_id + " .comment_desc").html($scope.fieldCom.com_text)
+	                                },
+	                                function(err) {
+	                                    console.error(err);
+	                                });
+                        	}else{
+                        	}
+
                         });
                         return true;
                     }
