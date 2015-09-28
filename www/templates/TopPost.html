@@ -1,5 +1,5 @@
-<ion-view cache-view='false' view-title="<img src='img/topo.png'>">
-  <ion-content id="top-posts" has-boucing="false" lazy-scroll>
+<ion-view cache-view='false' view-title="<img src='img/topo.png'>" id="top-posts">
+  <ion-content has-boucing="false" lazy-scroll>
   	<div ng-if="list.length == 0">Sem resultados para exibir.</div>
 	<div class="list" ng-repeat="item in list" ng-click="openPost(item)">
 

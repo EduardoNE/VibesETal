@@ -1,10 +1,10 @@
-<ion-view cache-view='false' view-title="<img src='img/topo.png'>">
+<ion-view cache-view='false' view-title="<img src='img/topo.png'>" id="time-line">
 <!--
   <div class="bar bar-subheader" ng-if=" subheader!= ''">
     <progress max="100" value="{{uploadProgress}}"></progress>
   </div>
 -->
-  <ion-content id="time-line" ng-class=" {{ User.user_adm == 1 ? 'has-footer': '' }} {{subheader}}" scroll="true" overflow-scroll="true" lazy-scroll>
+  <ion-content ng-class=" {{ User.user_adm == 1 ? 'has-footer': '' }} {{subheader}}" scroll="true" overflow-scroll="true" lazy-scroll>
 		<ion-refresher
 	    pulling-text="Puxe para atualizar"
 	    on-refresh="refresh()">
@@ -14,7 +14,7 @@
         <ion-item class="list" ng-repeat="item in list" id="post_{{ item.post_id }}">
 
           <div class="item item-avatar item-button-right">
-	        <img image-lazy-src="{{item.user_image}}" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100">
+	        <img image-lazy-src="http://graph.facebook.com/{{item.user_slug}}/picture?width=40&height=40" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100">
 	        <a class="button button-icon icon ion-ios-arrow-down btn-context" style="color:#886aea" ng-if="User.user_adm == 1" ng-click="options(item);"></a>
 	        <h2>{{item.user_name}}</h2>
 	        <p>{{item.post_time}}</p>
@@ -24,7 +24,7 @@
 	      		<img ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_stamp}}" class='eduardinho' / >
 	      	</div>
 	        <img ng-if="item.post_type == 'video' " image-lazy-src="{{item.videoImage}}" class='eduardinho' ng-click="openVideoPlayer(item.post_file, item.post_id)" image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" / >
-	        <img ng-if=" item.post_type == 'image' " image-lazy-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" />
+	        <img ng-if=" item.post_type == 'image' " ng-src="{{'http://bastidor.com.br/vibesetal/content/'+item.post_file}}" class='eduardinho' image-lazy-loader="lines" image-lazy-distance-from-bottom-to-load="100" />
 	        <iframe ng-if="item.post_type == 'vimeo'" height="{{ item.post_height }}" ng-src="{{'https://player.vimeo.com/video/'+item.post_file+'?portrait=0&title=0&byline=0&badge=0'}}" class='eduardinho' frameborder="0" autoplay="1" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 	      </div>
 

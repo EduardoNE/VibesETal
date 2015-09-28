@@ -67,6 +67,18 @@ visibility: visible;
 
 
 /********  HOME  ********/
+#time-line{
+	background: url("../img/bg-vt.jpg") center;
+	background-size: cover;
+}
+
+#time-line .bar-vibe{
+	background: transparent;
+}
+#time-line .bar button{
+	color:#892566;
+}
+
 #time-line .item{
 	border-width: 0;
 	padding-right: 0px;
@@ -102,12 +114,16 @@ visibility: visible;
 	margin: 0px;
 }
 
-.rotate90{
-	/*
-	transform: rotate(90deg);
-	-webkit-transform: rotate(90deg);
-	-ms-transform: rotate(90deg);
-	*/
+#time-line .button-positive{
+	background: rgba(133, 36, 103, 0.3);
+	border-color: #852467;
+	color: #852467;
+}
+
+#time-line .button-royal{
+	border-color: #892566;
+	background: transparent;
+    color: #892566;
 }
 
 /*  Botão de foto  */
@@ -174,9 +190,11 @@ ion-modal-view#login{
 #login{
 	background: #fff;
 }
+
 #login .bar-vibe{
 	height: 70px;
 }
+
 #login .bar-vibe .title, #login .bar-vibe .button{
 	margin-top: 20px;
 }
@@ -193,6 +211,7 @@ ion-modal-view#login ion-content#login {
 	margin: 10px 10px;
 	border-radius: 5px;
 }
+
 #login textarea, input[type="text"], input[type="password"],input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"],input[type="search"], input[type="tel"], input[type="color"]{
 	color: #000;
 }
@@ -376,26 +395,35 @@ ion-content#login .vibes-login button{
 	margin-bottom: 0;
 }
 
+/******* Open post top 10 ******/
+
 #open_post{
 	width:100%;
 	height:100%;
 	top:0;
 	left:0;
 	right:0;
-	bottom:0
+	bottom:0;
+	background: url("../img/bg-vt.jpg") center;
+	background-size: cover;
 }
+
+/*#open_post .bar-vibe{
+	background: #ad2b61;
+	background: -moz-linear-gradient(top,  #ad2b61 0%, #822467 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ad2b61), color-stop(100%,#822467));
+	background: -webkit-linear-gradient(top,  #ad2b61 0%,#822467 100%);
+	background: -o-linear-gradient(top,  #ad2b61 0%,#822467 100%);
+	background: -ms-linear-gradient(top,  #ad2b61 0%,#822467 100%);
+	background: linear-gradient(to bottom,  #ad2b61 0%,#822467 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ad2b61', endColorstr='#822467',GradientType=0 );
+
+}*/
 
 #open_post .bar-vibe{
-	background: #ad2b61; /* Old browsers */
-	background: -moz-linear-gradient(top,  #ad2b61 0%, #822467 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ad2b61), color-stop(100%,#822467)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  #ad2b61 0%,#822467 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  #ad2b61 0%,#822467 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  #ad2b61 0%,#822467 100%); /* IE10+ */
-	background: linear-gradient(to bottom,  #ad2b61 0%,#822467 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ad2b61', endColorstr='#822467',GradientType=0 ); /* IE6-9 */
-
+	background: transparent;
 }
+
 #open_post .bar-vibe{
 	height: 70px;
 }
@@ -408,12 +436,13 @@ ion-content#login .vibes-login button{
 #open_post .bar-vibe button{
 	background: transparent;
 	border: 0;
-	color:#fff;
+	color:#892566;
 	font-size: 36px;
 }
 
 #open_post .item-avatar{
-	border-top: none
+	border-top: none;
+	background: transparent;
 }
 
 #open_post .list .row button{
@@ -444,11 +473,23 @@ ion-content#login .vibes-login button{
 
 /********* Brothers ********/
 
+#brothers{
+	background: url("../img/bg-vt.jpg") center;
+	background-size: cover;
+}
+
+#brothers .bar-vibe{
+	background: transparent;
+}
+
 #brothers .list{
 	margin-bottom: 0px;
 }
-#brothers .list .item{
+
+#brothers .item{
 	border-bottom: 0px;
+	border-color:#eeeeee;
+	background: transparent;
 }
 
 #brothers .list .item h2{
@@ -467,6 +508,16 @@ ion-content#login .vibes-login button{
 }
 
 /********* Enquete ********/
+
+#enquete{
+	background: url("../img/bg-vt.jpg") center;
+	background-size: cover;
+}
+
+#enquete .bar-vibe{
+	background: transparent;
+}
+
 #enquete .item-avatar{
 	min-height: 50px;
 	padding-left:60px;
@@ -484,9 +535,13 @@ ion-content#login .vibes-login button{
 }
 
 /********* Brother swipe ********/
-
 #brothersPage{
-	background: #000000;
+	background: url("../img/bg-vt.jpg") center;
+	background-size: cover;
+}
+
+#brothersPage .bar-vibe{
+	background: transparent;
 }
 
 #brothersPage .bar{
@@ -524,22 +579,42 @@ ion-content#login .vibes-login button{
 
 /********* Top Posts ********/
 
+#top-posts{
+	background: url("../img/bg-vt.jpg") center;
+	background-size: cover;
+}
+
+#top-posts .bar-vibe{
+	background: transparent;
+}
+
 #top-posts .list{
 	margin-bottom: 0px;
 }
 #top-posts .item{
 	border-bottom:none;
-	border-color: #e9e9e9;
+	border-color:#eeeeee;
+	background: transparent;
 }
 
 /********* Top Users ********/
+
+#top-users{
+	background: url("../img/bg-vt.jpg") center;
+	background-size: cover;
+}
+
+#top-users .bar-vibe{
+	background: transparent;
+}
 
 #top-users .list{
 	margin-bottom: 0px;
 }
 #top-users .item{
 	border-bottom:none;
-	border-color: #e9e9e9;
+	border-color:#eeeeee;
+	background: transparent;
 }
 
 /******* EDUARDINHO ~ revisar ******/
@@ -554,23 +629,6 @@ ion-content#login .vibes-login button{
 	position: absolute ;
 	left:0 ;
 	bottom: 0px;
-}
-
-#time-line .button-royal{
-	border-color: #892566;
-	background: transparent;
-    color: #892566;
-}
-
-#time-line{
-	background: url("../img/bg-vt.jpg") center;
-	background-size: cover;
-}
-
-#time-line .button-positive{
-	background: rgba(133, 36, 103, 0.3);
-	border-color: #852467;
-	color: #852467;
 }
 
 .footer-home .button{

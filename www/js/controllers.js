@@ -105,17 +105,26 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
             // Open the login modal
             $scope.login = function() {
                 $scope.modal.show();
-                var qrcode = new QRCode("qrcode");
+                if(!$("#qrcode").html()){
+                	//var qrHeight = $window.height
+                	var qrcode = new QRCode("qrcode",{
+                		width: 150,
+    					height: 150
+                	});
 
-            function makeCode() {
-                var elText = $("#qrcode").html()
+		            function makeCode() {
+		                var elText = $("#qrCodeValue").val()
 
-                qrcode.makeCode(elText);
+		                console.log(elText)
 
-                $("#qrcode img").css("margin", "auto");
-            }
+		                qrcode.makeCode(elText);
 
-            makeCode();
+		                $("#qrcode img").css("margin", "auto");
+		            }
+
+		            makeCode();
+                }
+
             };
             $scope.logout = function() {
                 $scope.User = {};
@@ -509,7 +518,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
             $scope.captureVideo = function() {
                 var options = {
                     limit: 3,
-                    duration: 60
+                    duration: 20
                 };
 
                 $cordovaCapture.captureVideo(options).then(function(data) {
@@ -1000,7 +1009,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
 
 })
 
-.controller('TopPostCtrl', function($scope, $cordovaGoogleAnalytics, $stateParams, $ionicPlatform, JustDo, $sce, $cordovaToast, $ionicModal, $ionicLoading, $ionicScrollDelegate, $ionicActionSheet) {
+.controller('TopPostCtrl', function($scope, $cordovaGoogleAnalytics, $stateParams, $ionicPlatform, JustDo, $sce, $cordovaToast, $ionicModal, $ionicLoading, $ionicScrollDelegate, $ionicActionSheet, Calc) {
     $scope.fields = [];
     $scope.noMoreItemsAvailable = false;
     $scope.noMoreCommentsAvailable = true;
@@ -1051,6 +1060,19 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
 
         $scope.openPost = function(post) {
             post.post_time = moment(post.post_time).fromNow();
+
+
+            var isIPad = ionic.Platform.isIPad();
+            if(isIPad){
+            	var remove = 80;
+            }else{
+            	var remove = 0;
+            }
+
+            if (post.post_type == "vimeo") {
+                var prop = Calc.proportional.width(post.post_width, remove);
+                post.post_height = post.post_height * prop;
+            }
             $scope.item = post;
             $scope.post_m.show();
         }
@@ -1674,19 +1696,6 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
     })
     .controller('CodeCtrl', function($scope, $cordovaGoogleAnalytics, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo) {
         $ionicPlatform.ready(function() { $cordovaGoogleAnalytics.trackView('Code Screen');
-            var qrcode = new QRCode("qrcode");
-
-            function makeCode() {
-                var elText = $("#qrcode").html()
-
-                qrcode.makeCode(elText);
-
-                $("#qrcode img").css("margin", "auto");
-            }
-
-            makeCode();
-
-
         })
     })
     .controller('SobreCtrl', function($scope, $cordovaGoogleAnalytics, $stateParams, $ionicPlatform, $cordovaInAppBrowser, $cordovaToast, JustDo) {
@@ -2091,7 +2100,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
             $scope.captureVideo = function() {
                 var options = {
                     limit: 3,
-                    duration: 15
+                    duration: 20
                 };
 
                 $cordovaCapture.captureVideo(options).then(function(data) {
