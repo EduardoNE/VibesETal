@@ -14,11 +14,12 @@
 				<label class="item item-input">
 					<input type="email" ng-model="login.user_email" placeholder="E-mail">
 				</label>
-				<label class="item item-input">
+				<div class="item item-input item-button-right">
 					<input type="password" ng-model="login.user_senha" placeholder="Senha">
-				</label>
-				<button ng-click="forgetPassword()" class="button button-clear">Esqueceu sua senha?</button>
-				<button class="button button-clear padding-right sendLogin" ng-click="subLogin()">
+					<button ng-click="forgetPassword(); $event.stopPropagation();" class="button button-clear" style="color:#892566">Esqueceu?</button>
+				</div>
+				<!--<button ng-click="forgetPassword()" class="button button-clear padding-right">Esqueceu sua senha?</button>-->
+				<button class="button button-block button-clear padding-right sendLogin" ng-click="subLogin()">
 				  ENTRAR
 				</button>
 			</div>
