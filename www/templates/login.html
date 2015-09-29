@@ -1,24 +1,94 @@
 <ion-modal-view id="login">
-  <ion-header-bar class="bar-vibe" ng-if="voltar">
+  <ion-header-bar class="bar-vibe" ng-if="voltar == 2">
     <div class="title header-item"><img src='img/topo.png'></div>
     <button ng-if="voltar" ng-click="closeLogin()" class="button button-stable icon-left ion-chevron-down">
     </button>
   </ion-header-bar>
   <ion-content id="login">
-
-    <div class="logo-vibes padding" ng-if="!voltar">
-      <img src="img/logo-vt.png">
+	<div ng-if="voltar == 1" id="newLogin">
+		<div class="logo-vibes padding">
+	      	<img src="img/logo-vt.png">
+	    </div>
+		<div class="col">
+			<div class="list list-inset">
+				<label class="item item-input">
+					<input type="email" ng-model="login.user_email" placeholder="E-mail">
+				</label>
+				<label class="item item-input">
+					<input type="password" ng-model="login.user_senha" placeholder="Senha">
+				</label>
+				<button ng-click="forgetPassword()" class="button button-clear">Esqueceu sua senha?</button>
+				<button class="button button-clear padding-right sendLogin" ng-click="subLogin()">
+				  ENTRAR
+				</button>
+			</div>
+		</div>
+	    <div class="vibes-login col">
+	    	<p style="text-align:center">---------- OU ----------</p>
+	        <button ng-click="openCad()" class="button button-block button-light icon-left ion-person-add newLogin">CADASTRAR-SE</button>
+	        <!--<button class="button button-block button-positive icon-left ion-social-facebook" ng-click="doLogin()" type="submit">ENTRAR COM O FACEBOOK</button>-->
+	        <div class="logo-ne">
+	        	<img src="img/logo-ne.png">
+	        </div>
+	    </div>
     </div>
 
-    <div class="vibes-login col" ng-if="!voltar">
-        <button class="button button-block button-positive icon-left ion-social-facebook" ng-click="doLogin()" type="submit">ENTRAR</button>
-        <div class="logo-ne">
-          <img src="img/logo-ne.png">
-        </div>
+    <div ng-if="voltar == 3" id="cadUser">
+    	<div class="logo-vibes padding">
+	      	<img src="img/logo-vt.png">
+	    </div>
+    	<div class="col">
+			<div class="list list-inset">
+				<label class="item item-input">
+					<input type="text" ng-model="newUser.nome" placeholder="Nome">
+				</label>
+				<label class="item item-input">
+					<input type="email" ng-model="newUser.email" placeholder="E-mail">
+				</label>
+				<label class="item item-input">
+					<input type="password" ng-model="newUser.senha" placeholder="Senha">
+				</label>
+				<label class="item item-input">
+					<input type="password" ng-model="newUser.c_senha" placeholder="Confirmar senha">
+				</label>
+
+				<button class="button button-block button-light icon-left ion-person-add cadSend" ng-click="newUserSend()">
+				  	CADASTRAR
+				</button>
+
+				<button class="button button-block button-light icon-left ion-arrow-left-c" ng-click="openCad()">
+				  	VOLTAR
+				</button>
+
+			</div>
+		</div>
+    </div>
+
+    <div ng-if="voltar == 4" id="forgetPassword">
+    	<div class="logo-vibes padding">
+	      	<img src="img/logo-vt.png">
+	    </div>
+    	<div class="col">
+			<div class="list list-inset">
+
+				<label class="item item-input">
+					<input type="email" ng-model="newUser.email" placeholder="E-mail">
+				</label>
+
+				<button class="button button-block button-light forgetSend" ng-click="sendUserEmail()">
+				  	ENVIAR
+				</button>
+
+				<button class="button button-block button-light icon-left ion-arrow-left-c" ng-click="openCad()">
+				  	VOLTAR
+				</button>
+
+			</div>
+		</div>
     </div>
 
 
-    <div ng-if="voltar">
+    <div ng-if="voltar == 2">
 
       <div class="list n-diamantes-p">
 
@@ -51,7 +121,7 @@
     </div>
 
   </ion-content>
-  <ion-footer-bar class="bar-assertive" ng-if="voltar">
+  <ion-footer-bar class="bar-assertive" ng-if="voltar == 2">
       <button class="button button-full button-assertive" ng-click="logout()">SAIR</button>
   </ion-footer-bar>
 </ion-modal-view>

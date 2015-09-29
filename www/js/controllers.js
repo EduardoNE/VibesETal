@@ -1,14 +1,38 @@
 angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ionic.service.core', 'ionic.service.push', 'starter.services', "ionicLazyLoad", 'ngIOS9UIWebViewPatch'])
-    .controller('AppCtrl', function($scope, $cordovaGoogleAnalytics, $ionicModal, $timeout, $rootScope, $ionicUser, $ionicPush, $ionicPlatform, $cordovaFacebook, Memory, JustDo) {
+
+    .controller('AppCtrl', function($scope, $cordovaGoogleAnalytics, $ionicModal, $timeout, $rootScope, $ionicUser, $ionicPush, $ionicPlatform, $cordovaFacebook, Memory, JustDo, $location, $cordovaToast, $ionicLoading) {
+
+    	$ionicPlatform.on('resume', function(){
+	        if(Memory.get('login') != "0"){
+
+                JustDo.aPost("http://bastidor.com.br/vibesetal/json/user", {
+                        user_id: $scope.User.user_id
+                    },
+                    function(user) {
+                        Memory.set('login', user[0]);
+                        $scope.User = Memory.get('login');
+                    },
+                    function(err) {
+
+                    });
+			}
+	    });
+
+
         $ionicPlatform.ready(function() {
 
 
 
             $cordovaGoogleAnalytics.startTrackerWithId('UA-68118729-1');
 
-            $scope.voltar = false;
+            $scope.voltar = 1;
             // Form data for the login modal
             $scope.loginData = {};
+            $scope.newUser = {};
+            $scope.newUser.nome = "";
+            $scope.newUser.email = "";
+            $scope.newUser.senha = "";
+            $scope.newUser.c_senha = "";
             $scope.subheader = "";
             $scope.uploadProgress = 0;
             // Create the login modal that we will use later
@@ -17,14 +41,133 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
             }).then(function(modal) {
                 $scope.modal = modal;
                 console.log(Memory.get('login'));
-                if (Memory.get('login') == "0")
+                if (Memory.get('login') == "0"){
+                    $scope.login = {};
+                    $scope.login.user_email = "";
+                    $scope.login.user_senha = "";
                     modal.show();
+                }
                 else {
                     $scope.User = Memory.get('login');
+					$scope.updateUser();
                     $cordovaGoogleAnalytics.setUserId($scope.User.user_id);
-                    $scope.voltar = true;
+                    $scope.voltar = 2;
                 }
             });
+
+            $scope.subLogin = function(){
+            	var infos = {
+            		user_email: $scope.login.user_email,
+            		user_senha: $scope.login.user_senha
+            	}
+
+            	if($scope.login.user_email != "" && $scope.login.user_senha != ""){
+            		$ionicLoading.show({
+	                    template: '<ion-spinner icon="dots" style="color:#ffffff"></ion-spinner>'
+	                });
+
+	            	JustDo.aPost("http://bastidor.com.br/vibesetal/json/login", infos,
+	            		function(data){
+	            			if(data.length > 0){
+	            				$ionicLoading.hide();
+	            				console.log(data[0]);
+		                        Memory.set('login', data[0]);
+		                        identifyUser(pushRegister, data[0].user_name);
+		                        closeLogin();
+		                        $scope.User = Memory.get('login');
+		                        $scope.voltar = 2;
+	            			}else{
+	            				$ionicLoading.hide();
+		                        $cordovaToast.showShortCenter('E-mail ou senha incorretos.');
+		                        $scope.login.user_senha = "";
+	            			}
+	            		},function(err){
+	            			$ionicLoading.hide();
+	            			console.error(err);
+	                        $cordovaToast.showShortCenter('Sem conexão com a internet.');
+	            		})
+            	}else{
+            		$cordovaToast.showShortCenter('E-mail ou senha em branco.');
+            	}
+            }
+
+            $scope.newUserSend = function(){
+            	if($scope.newUser.nome != "" && $scope.newUser.email != "" && $scope.newUser.senha != ""){
+            		if($scope.newUser.senha != "" && $scope.newUser.senha == $scope.newUser.c_senha){
+	            		var infos = {
+		            		user_name: $scope.newUser.nome,
+		            		user_email: $scope.newUser.email,
+		            		user_senha: $scope.newUser.senha
+		            	}
+		            	$ionicLoading.show({
+		                    template: '<ion-spinner icon="dots" style="color:#ffffff"></ion-spinner>'
+		                });
+		            	JustDo.aPost("http://bastidor.com.br/vibesetal/json/user/new", infos,
+		            		function(data){
+		            			if(data[0].user_name != undefined){
+									console.log(data[0]);
+			            			$ionicLoading.hide();
+			            			$scope.newUser.nome = "";
+						            $scope.newUser.email = "";
+						            $scope.newUser.senha = "";
+						            $scope.newUser.c_senha = "";
+			                        Memory.set('login', data[0]);
+			                        identifyUser(pushRegister, data[0].user_name);
+			                        closeLogin();
+			                        $scope.User = Memory.get('login');
+			                        $scope.voltar = 2;
+		            			}else{
+		            				$ionicLoading.hide();
+		            				$cordovaToast.showShortCenter('E-mail informado já esta sendo usado.');
+		            			}
+
+		            		}, function(err){
+		            			$ionicLoading.hide();
+		            			$cordovaToast.showShortCenter('Sem conexão com a internet.');
+		            		})
+	            	}else{
+	            		 $cordovaToast.showShortCenter('Senhas não coincidem.');
+	            	}
+            	}else{
+            		$cordovaToast.showShortCenter('Todos os campos são obrigatórios.');
+            	}
+            }
+
+            $scope.openCad = function (  ) {
+            	$scope.newUser.nome = "";
+	            $scope.newUser.email = "";
+	            $scope.newUser.senha = "";
+	            $scope.newUser.c_senha = "";
+			  	$scope.voltar = ($scope.voltar == 1) ? 3 : 1;
+			};
+
+			$scope.forgetPassword = function(){
+				$scope.voltar = 4;
+			}
+
+			$scope.sendUserEmail = function(){
+
+				if($scope.newUser.email != ""){
+					var infos = {
+						user_email: $scope.newUser.email
+					}
+
+					JustDo.aPost("http://bastidor.com.br/vibesetal/json/user/forget", infos,
+						function(data){
+							$cordovaToast.showShortCenter('Sua senha foi resetada. Foi enviada uma cópia para o seu e-mail.')
+							.then(function(success){
+								$scope.voltar = 4;
+							});
+						}, function(err){
+							console.error(err);
+	                        $cordovaToast.showShortCenter('Sem conexão com a internet.');
+						})
+				}else{
+					$cordovaToast.showShortCenter('E-mail em branco.');
+				}
+
+			}
+
             var identifyUser = function(callback, TheName) {
                 console.log('Ionic User: Identifying with Ionic User service');
                 var user = $ionicUser.get();
@@ -79,7 +222,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
                         //identifyUser(pushRegister, data.name);
                         closeLogin();
                         $scope.User = Memory.get('login');
-                        $scope.voltar = true;
+                        $scope.voltar = 2;
                     },
                     function(err) {
 
@@ -129,7 +272,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
             $scope.logout = function() {
                 $scope.User = {};
                 Memory.set('login', "0");
-                $scope.voltar = false;
+                $scope.voltar = 1;
             };
 
             // Perform the login action when the user submits the login form
@@ -1050,7 +1193,7 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
 
 })
 
-.controller('VideoCtrl', function($scope, $stateParams) {
+.controller('cadUserCtrl', function($scope, $stateParams) {
 
 })
 

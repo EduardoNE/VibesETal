@@ -126,6 +126,29 @@ visibility: visible;
     color: #892566;
 }
 
+/********  Login  ********/
+
+#newLogin .col .sendLogin{
+	border-color: #892566;
+	background: transparent;
+    color: #892566;
+}
+#newLogin .col .newLogin{
+	border-color: #892566;
+	background: #892566;
+    color: #ffffff;
+}
+#cadUser .col .cadSend{
+	border-color: #892566;
+	background: #892566;
+    color: #ffffff;
+}
+#forgetPassword .col .forgetSend{
+	border-color: #892566;
+	background: #892566;
+    color: #ffffff;
+}
+
 /*  Botão de foto  */
 
 .fotografar{
@@ -177,8 +200,9 @@ visibility: visible;
 
 /* Login direito*/
 .login-avatar{
-	max-height: 33px;
-	max-width: 33px;
+	max-height: 50px;
+	max-width: 70px;
+	padding: 0px 5px 15px 30px
 }
 .login-avatar img{
 	border-radius:50%;
@@ -320,8 +344,8 @@ ion-content#login .logo-vibes img{
 ion-content#login .vibes-login{
 	color: #a5a5a5;
 	text-align: center;
-    position: absolute;
-    bottom: 0px;
+    /*position: absolute;*/
+    /*bottom: 0px;*/
 }
 ion-content#login .scroll{
 	height: 100%;

@@ -78,6 +78,16 @@ angular.module('starter', ['ionic','ionic.service.core','ngCordova','ionic.servi
     }
   })
 
+  .state('app.cadastrar', {
+    url: '/cadastrar',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/cadastrar.html',
+        controller: 'cadUserCtrl'
+      }
+    }
+  })
+
     .state('app.UserPosts', {
       url: '/UserPosts/:id',
       views: {
