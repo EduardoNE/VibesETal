@@ -25,6 +25,12 @@ background: #f7f7f7;
 visibility: visible;
 }
 
+.button-purple{
+	border-color: #892566;
+	background: #892566;
+    color: #ffffff;
+}
+
 
 
 
@@ -147,6 +153,10 @@ visibility: visible;
 	border-color: #892566;
 	background: #892566;
     color: #ffffff;
+}
+
+#forgetPassword p{
+	color:#a5a5a5;
 }
 
 /*  Botão de foto  */
@@ -304,6 +314,10 @@ ion-modal-view#login ion-content#login {
 	font-size: 16px;
 	font-weight: bold;
 	min-height: 40px;
+}
+
+#login .ion-locked{
+	color:#892566;
 }
 
 .n-diamantes-p {
@@ -567,16 +581,22 @@ ion-content#login .vibes-login button{
 	min-height: 50px;
 	padding-left:60px;
 }
+
+#enquete .item-content{
+	background-color: transparent;
+}
+
 #enquete .item{
 	border-width: 0;
 	padding-right: 0px;
+	background-color: transparent;
 }
 #enquete .midia-post h4{
 	padding-left: 15px;
 }
 
 #enquete .enq-selected{
-	background: #f7f7f7;
+	background: rgba(133, 36, 103, 0.3);
 }
 
 /********* Brother swipe ********/

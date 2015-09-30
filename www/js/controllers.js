@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ionic.service.core', 'ionic.service.push', 'starter.services', "ionicLazyLoad", 'ngIOS9UIWebViewPatch'])
 
-    .controller('AppCtrl', function($scope, $cordovaGoogleAnalytics, $ionicModal, $timeout, $rootScope, $ionicUser, $ionicPush, $ionicPlatform, $cordovaFacebook, Memory, JustDo, $location, $cordovaToast, $ionicLoading) {
+    .controller('AppCtrl', function($scope, $cordovaGoogleAnalytics, $ionicModal, $timeout, $rootScope, $ionicUser, $ionicPush, $ionicPlatform, $cordovaFacebook, Memory, JustDo, $location, $cordovaToast, $ionicLoading, $ionicPopup, $cordovaCamera, file) {
 
     	$ionicPlatform.on('resume', function(){
 	        if(Memory.get('login') != "0"){
@@ -152,13 +152,32 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
 						user_email: $scope.newUser.email
 					}
 
+					$scope.login.user_email = $scope.newUser.email;
+
+					$scope.newUser.email = "";
+
+					$ionicLoading.show({
+	                    template: '<ion-spinner icon="dots" style="color:#ffffff"></ion-spinner>'
+	                });
+
 					JustDo.aPost("http://bastidor.com.br/vibesetal/json/user/forget", infos,
 						function(data){
-							$cordovaToast.showShortCenter('Sua senha foi resetada. Foi enviada uma cópia para o seu e-mail.')
-							.then(function(success){
-								$scope.voltar = 4;
-							});
+							console.log("email receive", data);
+							if(data != 0){
+								$ionicLoading.hide();
+								$cordovaToast.showShortCenter('Sua senha foi resetada e enviada para o seu e-mail.')
+								.then(function(success){
+									$scope.voltar = 1;
+								}, function(error){
+
+								});
+							}else{
+								$ionicLoading.hide();
+								$cordovaToast.showShortCenter('E-mail informado não existe.');
+							}
+
 						}, function(err){
+							$ionicLoading.hide();
 							console.error(err);
 	                        $cordovaToast.showShortCenter('Sem conexão com a internet.');
 						})
@@ -274,6 +293,160 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
                 Memory.set('login', "0");
                 $scope.voltar = 1;
             };
+
+
+            $scope.editName = function(name) {
+            	$scope.edit = {};
+            	$scope.edit.name = name;
+				  // An elaborate, custom popup
+				  var myPopup = $ionicPopup.show({
+				    template: '<input type="text" ng-model="edit.name" value="'+name+'">',
+				    title: 'Edicão de usuário',
+				    subTitle: 'Nome que irá ser exibido para os outros brothers.',
+				    scope: $scope,
+				    buttons: [
+				      { text: 'Cancelar',
+				      	onTap: function(e){
+				      		return false;
+				      	}
+				      },
+				      {
+				        text: '<b>Salvar</b>',
+				        type: 'button-purple',
+				        onTap: function(e) {
+				          if (!$scope.edit.name) {
+				            e.preventDefault();
+				          } else {
+				            return $scope.edit.name;
+				          }
+				        }
+				      }
+				    ]
+				  });
+				myPopup.then(function(res) {
+					if(res){
+						JustDo.aPost("http://bastidor.com.br/vibesetal/json/user/update", {
+	                        data: {
+	                            user_name: $scope.edit.name
+	                        },
+	                        where: {
+	                            user_id: $scope.User.user_id
+	                        }
+	                    },
+	                    function(user) {
+	                        Memory.set('login', user[0]);
+	                        $scope.User = Memory.get('login');
+	                        $cordovaToast.showShortCenter('Usuário editado com sucesso.');
+	                    },
+	                    function(err) {
+
+	                    });
+					}
+
+				  });
+                $timeout(function() {
+                    myPopup();
+                }, 5000);
+            }
+
+            $scope.changePass = function(){
+            	var inpType = ($("#changePass").attr("type") == "text") ? "password" : "text";
+            	$("#changePass").attr("type", inpType);
+            }
+
+            $scope.editPass = function(pass) {
+            	$scope.edit = {};
+            	$scope.edit.pass = pass;
+				  // An elaborate, custom popup
+				  var myPopup = $ionicPopup.show({
+				    template: '<div class="item item-input item-button-right"><input type="password" id="changePass" ng-model="edit.pass" value="'+pass+'"><button ng-click="changePass()" class="button button-icon icon ion-eye" style="color:#892566"></button></div>',
+				    title: 'Edicão de usuário',
+				    subTitle: 'Senha para acesso ao APP.',
+				    scope: $scope,
+				    buttons: [
+				      { text: 'Cancelar',
+				      	onTap: function(e){
+				      		return false;
+				      	}
+				      },
+				      {
+				        text: '<b>Salvar</b>',
+				        type: 'button-purple',
+				        onTap: function(e) {
+				          if (!$scope.edit.pass) {
+				            e.preventDefault();
+				          } else {
+				            return $scope.edit.pass;
+				          }
+				        }
+				      }
+				    ]
+				  });
+				myPopup.then(function(res) {
+					if(res){
+						JustDo.aPost("http://bastidor.com.br/vibesetal/json/user/update", {
+	                        data: {
+	                            user_senha: $scope.edit.pass
+	                        },
+	                        where: {
+	                            user_id: $scope.User.user_id
+	                        }
+	                    },
+	                    function(user) {
+	                        Memory.set('login', user[0]);
+	                        $scope.User = Memory.get('login');
+	                        $cordovaToast.showShortCenter('Usuário editado com sucesso.');
+	                    },
+	                    function(err) {
+
+	                    });
+					}
+
+				  });
+                $timeout(function() {
+                    myPopup();
+                }, 5000);
+            }
+
+            $scope.editPerfilImage = function() {
+                var options = {
+                    sourceType: 0,
+                    quality: 100,
+                    destinationType: Camera.DestinationType.FILE_URI,
+                    allowEdit: true,
+                    targetWidth: 200,
+      				targetHeight: 200,
+                    mediaType: 0
+                };
+
+                $cordovaCamera.getPicture(options).then(function(data) {
+                    console.log("getRoll", data);
+                    var options = {
+			            fileKey: "post",
+			            fileName: data,
+			            chunkedMode: false,
+			            mimeType: null
+			        };
+
+			        $ionicLoading.show({
+			            template: 'Enviando...'
+			        });
+
+                    file.profile(data, options, $scope.User.user_id, function(sucesso) {
+                    	Memory.set('login', sucesso[0]);
+                        $scope.User = Memory.get('login');
+                        $ionicLoading.hide();
+                        $cordovaToast.showShortCenter('Usuário editado com sucesso.');
+                    }, function(err){
+                    	$ionicLoading.hide();
+                        $cordovaToast.showShortCenter('Sem conexão com a internet.');
+                    })
+                }, function(err) {
+                    // error
+                });
+            }
+
+
 
             // Perform the login action when the user submits the login form
             $scope.doLogin = function() {
@@ -1883,6 +2056,11 @@ angular.module('starter.controllers', ['ionic', 'ngCordova', 'ngSanitize', 'ioni
                         $cordovaToast.showShortCenter('Sem conexão com a internet.');
                         $scope.$broadcast('scroll.refreshComplete');
                     })
+            }
+
+            $scope.changeRadio = function(){
+            	$("#enquete .item-radio").removeClass("enq-selected");
+            	$("#enquete .item .ng-valid-parse").parent().addClass("enq-selected");
             }
 
             $scope.voteEnq = function() {

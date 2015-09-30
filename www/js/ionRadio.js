@@ -1,10 +1,10 @@
 /**
  * ionRadioFix - fixes a bug in iOS 9 UIWebView that breaks the tilde selector in CSS. To
  * use this fix, include it after your Ionic bundle JS.
- * 
+ *
  * Note: due to Angular directive override limitations, you'll need to change any reference
  * to <ion-radio> to <ion-radio-fix> to apply this patched radio button.
- * 
+ *
  * Also, make sure to add the new CSS from the second part of this gist.
  */
 angular.module('ionic').directive('ionRadioFix', function() {

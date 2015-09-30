@@ -76,6 +76,8 @@
 					<input type="email" ng-model="newUser.email" placeholder="E-mail">
 				</label>
 
+				<p>Insira seu e-mail que lhe enviaremos uma nova senha.</p>
+
 				<button class="button button-block button-light forgetSend" ng-click="sendUserEmail()">
 				  	ENVIAR
 				</button>
@@ -96,13 +98,18 @@
         <div class="row">
 
            <div class="col col-center text-center">
-              <img ng-src="http://graph.facebook.com/{{User.user_slug}}/picture?width=200&height=200" class="img-perfil" on-hold="updateUser()">
+              <img src="http://bastidor.com.br/vibesetal/content/{{User.user_image}}" class="img-perfil" on-hold="updateUser()" ng-click="editPerfilImage()">
            </div>
 
         </div>
 
         <div>
-          <h2 class="text-center branco">{{User.user_name}}</h2>
+          <h2 class="text-center branco">
+          <span ng-click="editName(User.user_name)">{{User.user_name}}</span>
+          <button class="button button-icon icon ion-locked" ng-click="editPass(User.user_senha)"></button>
+          </h2>
+
+
         </div>
 
         <div class="row text-center">

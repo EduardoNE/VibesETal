@@ -85,6 +85,15 @@ starter.factory('file', function($cordovaFileTransfer){
             }, function (data) {
               progress(data);
             });
+        },
+        profile: function(filePath,options, user_id ,success,fail,progress){
+          $cordovaFileTransfer.upload('http://bastidor.com.br/vibesetal/json/upload/user?user_id='+user_id, filePath, options)
+            .then(function(result) {
+                success(JSON.parse(result.response));
+            }, function(err) {
+                fail(err);
+            }, function (data) {
+            });
         }
     };
 });

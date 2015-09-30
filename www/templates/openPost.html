@@ -8,7 +8,7 @@
 
 	<div class="list" id="post_{{ item.post_id }}">
 		  <div class="item item-avatar item-button-right">
-			    <img ng-src="http://graph.facebook.com/{{item.user_slug}}/picture?width=40&height=40">
+			    <img ng-src="http://bastidor.com.br/vibesetal/content/{{item.user_image}}">
 			    <a class="button button-icon icon ion-ios-arrow-down btn-context" style="color:#886aea" ng-if="User.user_adm == 1" ng-click="options(item);"></a>
 			    <h2>{{item.user_name}}</h2>
 			    <p>{{item.post_time}}</p>
