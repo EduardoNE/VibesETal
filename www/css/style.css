@@ -215,7 +215,11 @@ visibility: visible;
 	padding: 0px 5px 15px 30px
 }
 .login-avatar img{
+
 	border-radius:50%;
+
+	width:30px;
+	height: 30px !important;
 }
 
 #admTabAction{
@@ -334,6 +338,7 @@ ion-modal-view#login ion-content#login {
 #login .img-perfil {
 	border-radius:50%;
 	width: 150px;
+	height: 150px;
 }
 
 h2.branco, h3.branco {
